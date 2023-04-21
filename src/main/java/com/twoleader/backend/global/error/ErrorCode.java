@@ -1,0 +1,16 @@
+package com.twoleader.backend.global.error;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+/** {주체}_{이유} message 는 동사 명사형으로 마무리 */
+@Getter
+@AllArgsConstructor
+public enum ErrorCode {
+  // Global
+  INTERNAL_SERVER_ERROR(500, "G001", "서버 오류"),
+  ;
+  private final int status;
+  private final String code;
+  private final String message;
+}
