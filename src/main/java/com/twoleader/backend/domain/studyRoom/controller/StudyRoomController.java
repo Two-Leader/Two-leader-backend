@@ -1,6 +1,7 @@
 package com.twoleader.backend.domain.studyRoom.controller;
 
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomDto;
+import com.twoleader.backend.domain.studyRoom.dto.response.FindStudyRoomDto;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,8 +40,8 @@ public class StudyRoomController {
 
     @Operation(summary = "Study Room 모두 조회 요청", description = "모든 Study Room을 조회합니다.",tags = {"StudyRoom Controller"})
     @GetMapping("")
-    public List<StudyRoom> getAllStudyRoom(){
-        List<StudyRoom> studyRooms = studyRoomService.findAllStudyRoom();
+    public List<FindStudyRoomDto> findAllStudyRoom(){
+        List<FindStudyRoomDto> studyRooms = studyRoomService.findAllStudyRoom();
         log.info("getAllStudyRoom [{}]",studyRooms.toString());
         return studyRooms;
     }
