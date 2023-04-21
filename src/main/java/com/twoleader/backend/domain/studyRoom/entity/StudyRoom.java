@@ -24,4 +24,11 @@ public class StudyRoom {
 
     @Column(nullable = false)
     private String room_name;
+
+    public static FindStudyRoomDto toDto(StudyRoom studyRoom){
+        return FindStudyRoomDto.builder()
+                .room_uuid(studyRoom.getRoom_uuid())
+                .room_name(studyRoom.getRoom_name())
+                .build();
+    }
 }
