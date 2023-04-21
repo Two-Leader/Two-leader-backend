@@ -1,7 +1,9 @@
-package com.twoLeader.twoLeader.domain.user.entity;
+package com.twoleader.backend.domain.user.entity;
 
-import com.twoLeader.twoLeader.domain.studyRoom.entity.StudyRoom;
-import jakarta.persistence.*;
+
+import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
+
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -9,7 +11,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
 
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String user_uuid;
 
     @ManyToOne(fetch = FetchType.LAZY)

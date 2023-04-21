@@ -1,9 +1,8 @@
-package com.twoLeader.twoLeader.domain.studyRoom.controller;
+package com.twoleader.backend.domain.studyRoom.controller;
 
-
-import com.twoLeader.twoLeader.domain.studyRoom.dto.request.CreateStudyRoomDto;
-import com.twoLeader.twoLeader.domain.studyRoom.entity.StudyRoom;
-import com.twoLeader.twoLeader.domain.studyRoom.service.StudyRoomService;
+import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomDto;
+import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
+import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;

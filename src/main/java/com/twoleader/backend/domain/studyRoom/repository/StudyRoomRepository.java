@@ -1,6 +1,6 @@
-package com.twoLeader.twoLeader.domain.studyRoom.repository;
+package com.twoleader.backend.domain.studyRoom.repository;
 
-import com.twoLeader.twoLeader.domain.studyRoom.entity.StudyRoom;
+import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

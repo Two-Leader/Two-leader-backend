@@ -1,11 +1,11 @@
-package com.twoLeader.twoLeader.domain.studyRoom.entity;
+package com.twoleader.backend.domain.studyRoom.entity;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -18,7 +18,6 @@ public class StudyRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long room_id;
 
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Builder.Default
     private UUID room_uuid = UUID.randomUUID();
 

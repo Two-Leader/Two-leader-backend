@@ -1,4 +1,4 @@
-package com.twoLeader.twoLeader.global.config;
+package com.twoleader.backend.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
