@@ -11,6 +11,7 @@ public enum ResultCode {
   // 도메인 별로 나눠서 관리(ex: StudyRoom 도메인)
   // studyRoom
   STUDYROOM_REGISTRATION_SUCCESS("S001", "스터디방이 정상적으로 등록되었습니다."),
+  GET_ALL_STUDYROOM("S002","모든 스터디방을 정상적으로 불러왔습니다."),
 
   ;
 
