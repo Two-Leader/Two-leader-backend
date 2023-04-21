@@ -14,5 +14,5 @@ import javax.validation.constraints.NotBlank;
 public class CreateStudyRoomDto {
 
     @NotBlank
-    private String roomName;
+    private String room_name;
 }
