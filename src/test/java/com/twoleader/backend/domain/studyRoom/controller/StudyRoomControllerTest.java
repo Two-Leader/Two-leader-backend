@@ -59,7 +59,7 @@ public class StudyRoomControllerTest {
                 .content(objectMapper.writeValueAsString(studyRoomDto))
                 .characterEncoding("utf-8"))
                 .andExpect(status().isCreated())
-//                .andExpect(content().string(objectMapper.writeValueAsString(entity)))
+                .andExpect(content().string(objectMapper.writeValueAsString(entity)))
                 .andDo(print());
     }
 }
