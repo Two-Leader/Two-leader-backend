@@ -1,7 +1,7 @@
 package com.twoleader.backend.domain.studyRoom.service;
 
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomDto;
-import com.twoleader.backend.domain.studyRoom.dto.response.FindStudyRoomDto;
+import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,7 +76,7 @@ public class StudyRoomServiceTest {
         int index = 0;
 
         //when
-        List<FindStudyRoomDto> findStudyRooms = studyRoomService.findAllStudyRoom();
+        List<GetStudyRoomResponse> findStudyRooms = studyRoomService.findAllStudyRoom();
 
         //then
         assertEquals(studyRooms.size(),findStudyRooms.size());

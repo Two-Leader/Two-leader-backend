@@ -1,7 +1,7 @@
 package com.twoleader.backend.domain.studyRoom.controller;
 
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomDto;
-import com.twoleader.backend.domain.studyRoom.dto.response.FindStudyRoomDto;
+import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
 import com.twoleader.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.twoleader.backend.global.result.ResultCode.GET_ALL_STUDYROOM;
-import static com.twoleader.backend.global.result.ResultCode.STUDYROOM_REGISTRATION_SUCCESS;
+import static com.twoleader.backend.global.result.ResultCode.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/study")
+@RequestMapping("/api/v1/studies")
 @RestController
 public class StudyRoomController {
 
@@ -46,8 +45,8 @@ public class StudyRoomController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
     })
     @GetMapping("")
-    public ResponseEntity<EntityModel<ResultResponse<List<FindStudyRoomDto>>>> getAllStudyRoom(){
-        List<FindStudyRoomDto> studyRooms = studyRoomService.findAllStudyRoom();
-        return ResponseEntity.ok(EntityModel.of(new ResultResponse<>(GET_ALL_STUDYROOM,studyRooms),linkTo(methodOn(StudyRoomController.class).getAllStudyRoom()).withSelfRel()));
+    public ResponseEntity<EntityModel<ResultResponse<List<GetStudyRoomResponse>>>> getAllStudyRoom(){
+        List<GetStudyRoomResponse> studyRooms = studyRoomService.findAllStudyRoom();
+        return ResponseEntity.ok(EntityModel.of(new ResultResponse<>(GET_ALL_STUDYROOM_SUCCESS,studyRooms),linkTo(methodOn(StudyRoomController.class).getAllStudyRoom()).withSelfRel()));
     }
 }
