@@ -1,8 +1,7 @@
 package com.twoleader.backend.domain.studyRoom.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomDto;
+import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
 import com.twoleader.backend.global.result.ResultResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -22,10 +21,8 @@ import static com.twoleader.backend.global.result.ResultCode.STUDYROOM_REGISTRAT
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(StudyRoomController.class)
@@ -47,7 +44,7 @@ public class StudyRoomControllerTest {
     @DisplayName("StudyRoom 생성 Test")
     public void CreateStudyRoomTest() throws Exception {
         //given
-        CreateStudyRoomDto studyRoomDto = CreateStudyRoomDto.builder()
+        CreateStudyRoomRequest studyRoomDto = CreateStudyRoomRequest.builder()
                 .room_name("testStudyRoom")
                 .build();
         EntityModel<ResultResponse<Object>> entity = EntityModel.of(new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS),linkTo(methodOn(StudyRoomController.class).createStudyRoom(studyRoomDto)).withSelfRel());

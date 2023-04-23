@@ -1,6 +1,6 @@
 package com.twoleader.backend.domain.studyRoom.service;
 
-import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomDto;
+import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
@@ -57,7 +57,7 @@ public class StudyRoomServiceTest {
     public void createStudyRoomTest(){
         //given
         StudyRoom studyRoom = studyRooms.get(0);
-        CreateStudyRoomDto createStudyRoomDto = CreateStudyRoomDto.builder().room_name(studyRoom.getRoom_name()).build();
+        CreateStudyRoomRequest createStudyRoomDto = CreateStudyRoomRequest.builder().room_name(studyRoom.getRoom_name()).build();
         given(studyRoomRepository.save(any())).willReturn(studyRoom);
 
         //when

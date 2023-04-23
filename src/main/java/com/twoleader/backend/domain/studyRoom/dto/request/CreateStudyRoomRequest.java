@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateStudyRoomDto {
+public class CreateStudyRoomRequest {
 
     @NotBlank
     private String room_name;

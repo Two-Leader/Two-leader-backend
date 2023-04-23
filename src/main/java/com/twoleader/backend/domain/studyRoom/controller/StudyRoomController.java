@@ -1,6 +1,6 @@
 package com.twoleader.backend.domain.studyRoom.controller;
 
-import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomDto;
+import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
 import com.twoleader.backend.global.result.ResultResponse;
@@ -33,9 +33,9 @@ public class StudyRoomController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
     })
     @PostMapping("")
-    public ResponseEntity<EntityModel<ResultResponse>> createStudyRoom(@Valid @RequestBody CreateStudyRoomDto studyRoomDto) {
-        studyRoomService.createStudyRoom(studyRoomDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(EntityModel.of(new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS),linkTo(methodOn(StudyRoomController.class).createStudyRoom(studyRoomDto)).withSelfRel()));
+    public ResponseEntity<EntityModel<ResultResponse>> createStudyRoom(@Valid @RequestBody CreateStudyRoomRequest request) {
+        studyRoomService.createStudyRoom(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(EntityModel.of(new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS),linkTo(methodOn(StudyRoomController.class).createStudyRoom(request)).withSelfRel()));
     }
 
     @Operation(summary = "Study Room 모두 조회 요청", description = "모든 Study Room을 조회합니다.",tags = {"StudyRoom Controller"})
