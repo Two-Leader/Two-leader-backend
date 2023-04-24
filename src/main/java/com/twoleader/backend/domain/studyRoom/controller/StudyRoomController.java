@@ -28,8 +28,7 @@ public class StudyRoomController {
 
   @Operation(
       summary = "Study Room 생성 요청",
-      description = "Study Room을 생성합니다.",
-      tags = {"StudyRoom Controller"})
+      description = "Study Room을 생성합니다.")
   @ApiResponses({
     @ApiResponse(responseCode = "201", description = "CREATED(성공)"),
     @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
@@ -49,8 +48,7 @@ public class StudyRoomController {
 
   @Operation(
       summary = "Study Room 모두 조회 요청",
-      description = "모든 Study Room을 조회합니다.",
-      tags = {"StudyRoom Controller"})
+      description = "모든 Study Room을 조회합니다.")
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "OK(성공), 스터디가 없을 경우 비어있을 수 있습니다."),
     @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
