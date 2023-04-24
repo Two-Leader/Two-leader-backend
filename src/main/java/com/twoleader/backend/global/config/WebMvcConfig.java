@@ -8,11 +8,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-//    private final LoginUserIdArgumentResolver loginUserIdArgumentResolver;
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE");
-    }
+  //    private final LoginUserIdArgumentResolver loginUserIdArgumentResolver;
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
+    registry
+        .addMapping("/**")
+        .allowedOrigins("http://localhost:3000")
+        .allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE");
+  }
 }

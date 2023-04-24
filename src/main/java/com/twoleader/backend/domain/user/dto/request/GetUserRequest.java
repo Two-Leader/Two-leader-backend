@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @Builder
 public class GetUserRequest {
-    private String user_name;
+  private String user_name;
 }

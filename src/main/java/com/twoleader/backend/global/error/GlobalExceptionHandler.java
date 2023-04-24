@@ -1,13 +1,13 @@
 package com.twoleader.backend.global.error;
 
+import static com.twoleader.backend.global.error.ErrorCode.INPUT_INVALID_VALUE;
+
 import com.twoleader.backend.global.error.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import static com.twoleader.backend.global.error.ErrorCode.INPUT_INVALID_VALUE;
 
 @Slf4j
 @RestControllerAdvice

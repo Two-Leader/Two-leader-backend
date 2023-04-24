@@ -12,14 +12,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    public User createUser(CreateUserRequest userDto) {
-        return userRepository.save(userDto.toEntity());
-    }
+  public User createUser(CreateUserRequest userDto) {
+    return userRepository.save(userDto.toEntity());
+  }
 
-    public GetUserResponse getUser(GetUserRequest request) {
-        User user = userRepository.findUserByUserName(request.getUser_name()).orElseThrow(NotFoundUser::new);
-        return user.toDto();
-    }
+  public GetUserResponse getUser(GetUserRequest request) {
+    User user =
+        userRepository.findUserByUserName(request.getUser_name()).orElseThrow(NotFoundUser::new);
+    return user.toDto();
+  }
 }

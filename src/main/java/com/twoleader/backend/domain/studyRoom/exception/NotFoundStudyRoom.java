@@ -1,7 +1,7 @@
 package com.twoleader.backend.domain.studyRoom.exception;
 
-//import com.techeer.port.voilio.global.error.ErrorCode;
-//import com.techeer.port.voilio.global.error.exception.BusinessException;
+// import com.techeer.port.voilio.global.error.ErrorCode;
+// import com.techeer.port.voilio.global.error.exception.BusinessException;
 
 import com.twoleader.backend.global.error.ErrorCode;
 import com.twoleader.backend.global.error.exception.BusinessException;
