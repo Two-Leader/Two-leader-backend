@@ -10,12 +10,11 @@ import com.twoleader.backend.domain.user.dto.request.GetUserRequest;
 import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import com.twoleader.backend.domain.user.service.UserService;
 import com.twoleader.backend.global.result.ResultResponse;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -28,13 +27,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
   private final UserService userService;
 
-  @Operation(
-          summary = "User 생성 요청",
-          description = "User를 생성합니다.")
+  @Operation(summary = "User 생성 요청", description = "User를 생성합니다.")
   @ApiResponses({
-          @ApiResponse(responseCode = "201", description = "CREATED(성공)"),
-          @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
-          @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
+    @ApiResponse(responseCode = "201", description = "CREATED(성공)"),
+    @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @PostMapping
   public ResponseEntity<EntityModel<ResultResponse>> createUser(
@@ -47,13 +44,11 @@ public class UserController {
                 linkTo(methodOn(UserController.class).createUser(request)).withSelfRel()));
   }
 
-  @Operation(
-          summary = "User 조회 요청",
-          description = "한 User을 조회합니다.")
+  @Operation(summary = "User 조회 요청", description = "한 User을 조회합니다.")
   @ApiResponses({
-          @ApiResponse(responseCode = "200", description = "OK(성공)"),
-          @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
-          @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
+    @ApiResponse(responseCode = "200", description = "OK(성공)"),
+    @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @GetMapping
   public ResponseEntity<EntityModel<ResultResponse<GetUserResponse>>> getUser(
