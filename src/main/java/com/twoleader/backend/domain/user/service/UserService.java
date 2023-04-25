@@ -20,7 +20,7 @@ public class UserService {
 
   public GetUserResponse getUser(GetUserRequest request) {
     User user =
-        userRepository.findUserByUserName(request.getUser_name()).orElseThrow(NotFoundUser::new);
+        userRepository.findUserByUserUuid(request.getUser_uuid()).orElseThrow(NotFoundUser::new);
     return user.toDto();
   }
 }
