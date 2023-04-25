@@ -11,6 +11,7 @@ import lombok.*;
 @Builder
 @Getter
 @ToString(callSuper = true)
+@Table(name="studyRooms")
 public class StudyRoom {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

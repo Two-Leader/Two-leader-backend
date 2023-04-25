@@ -5,18 +5,23 @@ import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import java.util.UUID;
 import javax.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @ToString(callSuper = true)
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "users")
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long user_id;
 
-  @Column(nullable = false)
+//  @GeneratedValue(generator = "uuid2")
+//  @GenericGenerator(name = "uuid2", strategy = "uuid2")
+  @Column(nullable = false, columnDefinition = "BINARY(16)")
   @Builder.Default
   private UUID user_uuid = UUID.randomUUID();
 
