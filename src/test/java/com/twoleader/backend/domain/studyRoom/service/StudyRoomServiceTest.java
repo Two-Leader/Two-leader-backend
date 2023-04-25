@@ -23,11 +23,9 @@ import org.springframework.test.context.ActiveProfiles;
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles(profiles = {"test"})
 public class StudyRoomServiceTest {
-  @Mock
-  private StudyRoomRepository studyRoomRepository;
+  @Mock private StudyRoomRepository studyRoomRepository;
 
-  @InjectMocks
-  private StudyRoomService studyRoomService;
+  @InjectMocks private StudyRoomService studyRoomService;
 
   private List<StudyRoom> studyRooms = new ArrayList<>();
 
