@@ -2,11 +2,9 @@ package com.twoleader.backend.domain.studyRoom.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,12 +26,10 @@ public class StudyRoomRepositoryTest {
   public void setUp() {
 
     studyRooms.add(
-        studyRoomRepository.save(
-            StudyRoom.builder().room_name("TestStudyRoom1").build()));
+        studyRoomRepository.save(StudyRoom.builder().room_name("TestStudyRoom1").build()));
 
     studyRooms.add(
-        studyRoomRepository.save(
-            StudyRoom.builder().room_name("TestStudyRoom2").build()));
+        studyRoomRepository.save(StudyRoom.builder().room_name("TestStudyRoom2").build()));
   }
 
   @Test
