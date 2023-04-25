@@ -28,7 +28,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles(profiles = {"test"})
-// @Import({ReviewMapper.class, UserMapper.class})
 public class StudyRoomControllerTest {
   @Autowired private MockMvc mockMvc;
 

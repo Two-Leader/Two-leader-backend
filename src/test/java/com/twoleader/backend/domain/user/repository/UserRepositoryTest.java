@@ -14,7 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -73,9 +73,8 @@ public class UserRepositoryTest {
             UUID user_uuid = UUID.randomUUID();
 
             //when,then
-            assertThrows(NotFoundUser.class, () -> {
-                User findUser = userRepository.findUserByUserUuid(user_uuid).orElseThrow(NotFoundUser::new);
-            });
+            Optional<User> findUser = userRepository.findUserByUserUuid(user_uuid);
+            assertFalse(findUser.isPresent());
         }
     }
 }
