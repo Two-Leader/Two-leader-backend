@@ -6,6 +6,7 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.exception.NotFoundUser;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import java.util.Optional;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -57,16 +57,15 @@ public class UserRepositoryTest {
       assertEquals(expectUser.getUser_name(), findUser.getUser_name());
     }
 
-
     @Test
     @DisplayName("존재하지 않는 User")
     public void findUserbyUserUuidTestWhenUserNotExist() {
-        //given
-        UUID user_uuid = UUID.randomUUID();
+      // given
+      UUID user_uuid = UUID.randomUUID();
 
-        //when,then
-        Optional<User> findUser = userRepository.findUserByUserUuid(user_uuid);
-        assertFalse(findUser.isPresent());
+      // when,then
+      Optional<User> findUser = userRepository.findUserByUserUuid(user_uuid);
+      assertFalse(findUser.isPresent());
     }
   }
 }
