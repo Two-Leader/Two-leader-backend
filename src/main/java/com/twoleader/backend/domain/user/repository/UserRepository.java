@@ -1,7 +1,6 @@
 package com.twoleader.backend.domain.user.repository;
 
 import com.twoleader.backend.domain.user.entity.User;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,5 +16,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   @Query("SELECT u FROM User u JOIN FETCH u.room WHERE u.room.room_uuid =:room_uuid")
   List<User> findAllByRoom_uuid(@Param("room_uuid") UUID room_uuid);
-
 }

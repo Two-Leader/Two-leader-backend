@@ -28,7 +28,8 @@ public class StudyRoomService {
   }
 
   public GetStudyRoomResponse findStudyRoomByRoom_uuid(UUID room_uuid) {
-    StudyRoom studyRoom = studyRoomRepository.findStudyRoomByRoom_uuid(room_uuid).orElseThrow(NotFoundStudyRoom::new);
+    StudyRoom studyRoom =
+        studyRoomRepository.findStudyRoomByRoom_uuid(room_uuid).orElseThrow(NotFoundStudyRoom::new);
     return studyRoom.toDto();
   }
 }

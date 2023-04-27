@@ -1,13 +1,9 @@
 package com.twoleader.backend.domain.user.dto.request;
 
-import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-import com.twoleader.backend.domain.user.entity.User;
-import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @Setter
 @Getter
