@@ -1,9 +1,14 @@
 package com.twoleader.backend.webRTC.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
+import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
+import com.twoleader.backend.domain.user.entity.User;
+import com.twoleader.backend.domain.user.repository.UserRepository;
+import com.twoleader.backend.domain.user.service.UserService;
 import com.twoleader.backend.webRTC.dto.WebSocketMessage;
 import java.io.IOException;
 import java.util.*;
@@ -23,21 +28,23 @@ public class SignalHandler extends TextWebSocketHandler {
 
   private final StudyRoomService studyRoomService;
   private final StudyRoomRepository studyRoomRepository;
-
+  private final UserService userService;
+  private final UserRepository userRepository;
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   // session id to room mapping
-  private Map<String, Map<String, WebSocketSession>> sessionIdToRoomMap = new HashMap<>();
+//  private Map<String, Map<String, WebSocketSession>> sessionIdToRoomMap = new HashMap<>();
 
+  private Map<UUID,WebSocketSession> userSessions = new HashMap<>();
   // message types, used in signalling:
   // text message
   //    private static final String MSG_TYPE_TEXT = "text";
   // SDP Offer message
-  //    private static final String MSG_TYPE_OFFER = "offer";
+      private static final String MSG_TYPE_OFFER = "offer";
   // SDP Answer message
-  //    private static final String MSG_TYPE_ANSWER = "answer";
+      private static final String MSG_TYPE_ANSWER = "answer";
   // New ICE Candidate message
-  //    private static final String MSG_TYPE_ICE = "ice";
+      private static final String MSG_TYPE_ICE = "ice";
   // join room data message
   private static final String MSG_TYPE_JOIN = "join";
   // leave room data message
@@ -45,8 +52,7 @@ public class SignalHandler extends TextWebSocketHandler {
 
   @Override
   public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) {
-    log.debug("[ws] Session has been closed with status {}", status);
-    sessionIdToRoomMap.remove(session.getId());
+    log.debug("[ws] Session has been closed with status [session : {}, status : {}]", session,status);
   }
 
   @Override
@@ -54,12 +60,13 @@ public class SignalHandler extends TextWebSocketHandler {
     // webSocket has been opened, send a message to the client
     // when data field contains 'true' value, the client starts negotiating
     // to establish peer-to-peer connection, otherwise they wait for a counterpart
+    log.debug("[ws] Session has been Open [session : {}]",session);
+//    List<GetStudyRoomResponse> rooms = studyRoomService.findAllStudyRoom();
     sendMessage(
         session,
         WebSocketMessage.builder()
-            .from("Server")
+            .from(UUID.fromString("Server"))
             .type(MSG_TYPE_JOIN)
-            .data(Boolean.toString(!sessionIdToRoomMap.isEmpty()))
             .build());
   }
 
@@ -70,10 +77,11 @@ public class SignalHandler extends TextWebSocketHandler {
       WebSocketMessage message =
           objectMapper.readValue(textMessage.getPayload(), WebSocketMessage.class);
       log.debug("[ws] Message of {} type from {} received", message.getType(), message.getFrom());
-      String user_uuid = message.getFrom(); // origin of the message
-      String data = message.getData(); // payload
+//      UUID from = message.getFrom(); // origin of the message
+//      UUID data = message.getData(); // payload
+//      UUID room_uuid = message.getRoom_uuid()
 
-      StudyRoom studyRoom;
+//      StudyRoom studyRoom;
       switch (message.getType()) {
           //                // text message from client has been received
           //                case MSG_TYPE_TEXT:
@@ -83,45 +91,60 @@ public class SignalHandler extends TextWebSocketHandler {
           //                    break;
           //
           //                 process signal received from client
-          //                case MSG_TYPE_OFFER:
-          //                case MSG_TYPE_ANSWER:
-          //                case MSG_TYPE_ICE:
-          //                    Object candidate = message.getCandidate();
-          //                    Object sdp = message.getSdp();
-          //                    logger.debug("[ws] Signal: {}",
-          //                            candidate != null
-          //                                    ? candidate.toString().substring(0, 64)
-          //                                    : sdp.toString().substring(0, 64));
-          //
-          //                    Room rm = sessionIdToRoomMap.get(session.getId());
-          //                    if (rm != null) {
-          //                        Map<String, WebSocketSession> clients =
-          // roomService.getClients(rm);
-          //                        for(Map.Entry<String, WebSocketSession> client :
-          // clients.entrySet())  {
-          //                            // send messages to all clients except current user
-          //                            if (!client.getKey().equals(userName)) {
-          //                                // select the same type to resend signal
-          //                                sendMessage(client.getValue(),
-          //                                        new WebSocketMessage(
-          //                                                userName,
-          //                                                message.getType(),
-          //                                                data,
-          //                                                candidate,
-          //                                                sdp));
-          //                            }
-          //                        }
-          //                    }
-          //                    break;
+        case MSG_TYPE_OFFER:
+        case MSG_TYPE_ANSWER:
+        case MSG_TYPE_ICE:
+            Object candidate = message.getCandidate();
+            Object sdp = message.getSdp();
+            log.debug("[ws] Signal: {}",candidate != null ? candidate.toString().substring(0, 64) : sdp.toString().substring(0, 64));
+            List<User> users = userRepository.findAllByRoom_uuid(message.getFrom());
+//            users.stream().
+          for(User user : users){
+            if(!message.getFrom().equals(user.getUser_uuid())){
+              sendMessage(
+                      userSessions.get(user.getUser_uuid()),
+                      WebSocketMessage.builder()
+                              .from(message.getFrom())
+                              .type(message.getType())
+                              .data(message.getData())
+                              .sdp(message.getSdp())
+                              .candidate(message.getCandidate())
+                              .build());
+            }
+          }
+//            Room rm = sessionIdToRoomMap.get(session.getId());
+//            if (rm != null) {
+//                Map<String, WebSocketSession> clients =
+//roomService.getClients(rm);
+//                for(Map.Entry<String, WebSocketSession> client :
+//clients.entrySet())  {
+//                    // send messages to all clients except current user
+//                    if (!client.getKey().equals(userName)) {
+//                        // select the same type to resend signal
+//                        sendMessage(client.getValue(),
+//                                new WebSocketMessage(
+//                                        userName,
+//                                        message.getType(),
+//                                        data,
+//                                        candidate,
+//                                        sdp));
+//                    }
+//                }
+//            }
+            break;
 
           // identify user and their opponent
         case MSG_TYPE_JOIN:
           // message.data contains connected room id
-          log.debug("[ws] {} has joined Room: #{}", user_uuid, message.getData());
-          studyRoom = studyRoomService.findStudyRoomById(Long.parseLong(data));
-
+          log.debug("[ws] {} has joined Room: #{}", message.getFrom(), message.getData());
+//          GetStudyRoomResponse response = studyRoomService.findStudyRoomByRoom_uuid(message.getData());
+//          StudyRoom studyRoom = studyRoomRepository.findStudyRoomByRoom_uuid(message.getData()).orElseThrow(NotFoundStudyRoom::new);
+          userSessions.put(message.getFrom(),session);
+//          userService.createUser()
+//          userRepository.save()
           // add client to the Room clients list
-          sessionIdToRoomMap.get(studyRoom.getRoom_uuid()).put(user_uuid, session);
+//          sessionIdToRoomMap.get(studyRoom.getRoom_uuid()).put(user_uuid, session);
+
           break;
 
           //                case MSG_TYPE_LEAVE:

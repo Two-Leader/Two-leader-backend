@@ -27,7 +27,8 @@ public class StudyRoomService {
     return rooms.stream().map(StudyRoom::toDto).collect(Collectors.toList());
   }
 
-  public StudyRoom findStudyRoomById(Long id) {
-    return studyRoomRepository.findById(id).orElseThrow(NotFoundStudyRoom::new);
+  public GetStudyRoomResponse findStudyRoomByRoom_uuid(UUID room_uuid) {
+    StudyRoom studyRoom = studyRoomRepository.findStudyRoomByRoom_uuid(room_uuid).orElseThrow(NotFoundStudyRoom::new);
+    return studyRoom.toDto();
   }
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UserName</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!-- Begin page content -->
+  <main role="main" class="container">
+    <h1>Enter Your Information</h1>
+    <div id="container">
+      <form th:method="post" th:action="@{/users}" th:object="${request}">
+        <div class="form-group">
+          <input class="form-control" name="user_name" id="user_name" type="text" placeholder="Enter Your Name"
+                 th:field="*{user_name}" required="required"/>
+        </div>
+        <button type="submit" class="btn btn-primary block full-width m-b">Join</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

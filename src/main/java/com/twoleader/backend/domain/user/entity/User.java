@@ -2,7 +2,10 @@ package com.twoleader.backend.domain.user.entity;
 
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
+
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.persistence.*;
 import lombok.*;
 
@@ -31,7 +34,4 @@ public class User {
   @JoinColumn(name = "room_id")
   private StudyRoom room;
 
-  public GetUserResponse toDto() {
-    return GetUserResponse.builder().user_uuid(this.user_uuid).user_name(this.user_name).build();
-  }
 }

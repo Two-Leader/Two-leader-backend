@@ -1,8 +1,13 @@
 package com.twoleader.backend.domain.studyRoom.entity;
 
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import javax.persistence.*;
+
+import com.twoleader.backend.domain.user.entity.User;
 import lombok.*;
 
 @Entity
@@ -24,8 +29,8 @@ public class StudyRoom {
   @Column(nullable = false)
   private String room_name;
 
-  //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  //    private List<User> users = new ArrayList<>();
+//  @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+//  private List<User> users = new ArrayList<>();
 
   public GetStudyRoomResponse toDto() {
     return GetStudyRoomResponse.builder()

@@ -4,9 +4,12 @@ import java.util.UUID;
 import javax.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 @Builder
 public class GetUserRequest {
-  @NotBlank private UUID user_uuid;
+  private UUID room_uuid;
+  private UUID user_uuid;
 }
