@@ -1,4 +1,4 @@
-package com.twoleader.backend.domain.studyRoom.dto.response.controller;
+package com.twoleader.backend.domain.controller;
 
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;

@@ -14,7 +14,9 @@
   <main role="main" class="container">
     <h1>Enter Your Information</h1>
     <div id="container">
-      <form th:method="post" th:action="@{/users}" th:object="${request}">
+      <form th:method="post" th:action="@{/{room_uuid}/users(room_uuid=${room_uuid})}" th:object="${request}">
+<!--          <input class="form-control" name="user_name" id="room_uuid" type="text" placeholder="Enter Your Name"-->
+<!--                 th:field="*{room_uuid}" th:value="${room_uuid}" required="required"/>-->
         <div class="form-group">
           <input class="form-control" name="user_name" id="user_name" type="text" placeholder="Enter Your Name"
                  th:field="*{user_name}" required="required"/>

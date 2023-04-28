@@ -8,11 +8,11 @@ const videoButtonOn = document.querySelector('#video_on');
 const audioButtonOff = document.querySelector('#audio_off');
 const audioButtonOn = document.querySelector('#audio_on');
 const exitButton = document.querySelector('#exit');
-const room_uuid = document.querySelector('input#id').value;
+const localRoom = document.querySelector('input#room_uuid').value;
 const localVideo = document.getElementById('local_video');
 const remoteVideo = document.getElementById('remote_video');
-const localUserName = localStorage.getItem("uuid");
-
+// const localUserName = localStorage.getItem("uuid");
+const localUserName = document.querySelector('input#user_uuid');
 // WebRTC STUN servers
 const peerConnectionConfig = {
     'iceServers': [
@@ -62,7 +62,8 @@ function start() {
                 break;
 
             case "join":
-                log('Client is starting to ' + (message.data === "true)" ? 'negotiate' : 'wait for a peer'));
+                log('Client is starting to wait for a peer');
+                // log('Client is starting to ' + (message.data === "true)" ? 'negotiate' : 'wait for a peer'));
                 handlePeerConnection(message);
                 break;
 
@@ -70,6 +71,32 @@ function start() {
                 handleErrorMessage('Wrong type message received from server');
         }
     };
+
+    // function chatListCount(){
+    //
+    //     let data;
+    //
+    //     $.ajax({
+    //         url : "/webrtc/usercount",
+    //         type : "POST",
+    //         async : false,
+    //         data : {
+    //             "from" : localUserName,
+    //             "type" : "findCount",
+    //             "data" : localRoom,
+    //             "candidate" : null,
+    //             "sdp" : null
+    //         },
+    //         success(result){
+    //             data = result;
+    //         },
+    //         error(result){
+    //             console.log("error : "+result);
+    //         }
+    //     });
+    //
+    //     return data;
+    // }
 
     // add an event listener to get to know when a connection is open
     socket.onopen = function() {

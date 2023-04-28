@@ -9,4 +9,5 @@ import lombok.Getter;
 public class GetStudyRoomResponse {
   private UUID room_uuid;
   private String room_name;
+  private boolean hasUser;
 }

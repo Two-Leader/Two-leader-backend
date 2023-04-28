@@ -29,9 +29,12 @@ public class SignalHandler extends TextWebSocketHandler {
   private final UserRepository userRepository;
   private final ObjectMapper objectMapper = new ObjectMapper();
 
+
+
   // session id to room mapping
   //  private Map<String, Map<String, WebSocketSession>> sessionIdToRoomMap = new HashMap<>();
 
+  private static final UUID SERVER_UUID = UUID.randomUUID();
   private Map<UUID, WebSocketSession> userSessions = new HashMap<>();
   // message types, used in signalling:
   // text message
@@ -62,7 +65,7 @@ public class SignalHandler extends TextWebSocketHandler {
     //    List<GetStudyRoomResponse> rooms = studyRoomService.findAllStudyRoom();
     sendMessage(
         session,
-        WebSocketMessage.builder().from(UUID.fromString("Server")).type(MSG_TYPE_JOIN).build());
+        WebSocketMessage.builder().from(SERVER_UUID).type(MSG_TYPE_JOIN).build());
   }
 
   @Override

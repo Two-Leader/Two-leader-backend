@@ -11,9 +11,13 @@ import com.twoleader.backend.domain.user.exception.NotFoundUser;
 import com.twoleader.backend.domain.user.mapper.UserMapper;
 import com.twoleader.backend.domain.user.repository.UserRepository;
 import java.util.List;
+import java.util.UUID;
+
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -21,10 +25,11 @@ public class UserService {
   private final StudyRoomRepository studyRoomRepository;
   private final UserMapper userMapper;
 
-  public User createUser(CreateUserRequest request) {
+  public User createUser(CreateUserRequest request, UUID room_uuid) {
+    log.info("[UserService][createUser] request : {}",request);
     StudyRoom studyRoom =
         studyRoomRepository
-            .findStudyRoomByRoom_uuid(request.getRoom_uuid())
+            .findStudyRoomByRoom_uuid(room_uuid)
             .orElseThrow(NotFoundStudyRoom::new);
 
     return userRepository.save(userMapper.toEntity(request, studyRoom));

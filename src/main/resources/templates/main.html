@@ -27,7 +27,7 @@
                     <label for="rooms-list">Select one of the rooms created:</label><br>
                     <h4>
                     <span id="rooms-list" th:each="r : ${rooms}">
-                        <a th:href="@{/studies/{room_uuid}(room_uuid=${r.room_uuid})}" th:id="'button-link-'+${r.room_name}">
+                        <a th:href="@{/{room_uuid}/users(room_uuid=${r.room_uuid})}" th:id="'button-link-'+${r.room_name}">
                             <button type="button" name="action" th:text="${r.room_name}" th:value="${r.room_uuid}"
                                     class="btn badge badge-primary">
                             </button>

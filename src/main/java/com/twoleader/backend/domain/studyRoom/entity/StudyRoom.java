@@ -17,7 +17,7 @@ public class StudyRoom {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long room_id;
 
-  @Column(nullable = false)
+  @Column(nullable = false,columnDefinition = "BINARY(16)")
   @Builder.Default
   private UUID room_uuid = UUID.randomUUID();
 
