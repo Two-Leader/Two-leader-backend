@@ -11,8 +11,9 @@ const exitButton = document.querySelector('#exit');
 const localRoom = document.querySelector('input#room_uuid').value;
 const localVideo = document.getElementById('local_video');
 const remoteVideo = document.getElementById('remote_video');
+const hasUser = document.querySelector('input#has_user').value;
 // const localUserName = localStorage.getItem("uuid");
-const localUserName = document.querySelector('input#user_uuid');
+const localUserName = document.querySelector('input#user_uuid').value;
 // WebRTC STUN servers
 const peerConnectionConfig = {
     'iceServers': [
@@ -224,7 +225,9 @@ function getMedia(constraints) {
 function handlePeerConnection(message) {
     createPeerConnection();
     getMedia(mediaConstraints);
-    if (message.data === "true") {
+    console.log("handlePeerConnection hasUser :",hasUser);
+    if (hasUser === 'true') {
+        console.log("handleNegotiationNeededEvent");
         myPeerConnection.onnegotiationneeded = handleNegotiationNeededEvent;
     }
 }

@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -29,7 +31,7 @@ public class SignalHandler extends TextWebSocketHandler {
   private final UserRepository userRepository;
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   // session id to room mapping
   //  private Map<String, Map<String, WebSocketSession>> sessionIdToRoomMap = new HashMap<>();

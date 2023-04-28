@@ -36,6 +36,7 @@
 <main role="main" class="container-fluid">
     <h1>Simple WebRTC Signalling Server</h1>
     <input type="hidden" id="room_uuid" name="room_uuid" th:value="${studyRoom.room_uuid}"/>
+    <input type="hidden" id="has_user" name="has_user" th:value="${studyRoom.hasUser}"/>
     <input type="hidden" id="user_uuid" name="user_uuid" th:value="${user.user_uuid}"/>
     <div class="col-lg-12 mb-3">
         <div class="mb-3" th:text="'User: ' + ${user.user_name} + ' @ Room #' + ${studyRoom.room_name}">

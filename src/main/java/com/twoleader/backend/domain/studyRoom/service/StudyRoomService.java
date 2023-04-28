@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,11 +31,13 @@ public class StudyRoomService {
     return rooms.stream().map(StudyRoom::toDto).collect(Collectors.toList());
   }
 
+  @Transactional
   public GetStudyRoomResponse findStudyRoomByRoom_uuid(UUID room_uuid) {
-    log.info("[studyRoomService][findAllStudyRoom] uuid : {}",room_uuid);
+    log.info("[studyRoomService][findStudyRoomByRoom_uuid] uuid : {}",room_uuid);
     StudyRoom studyRoom =
         studyRoomRepository.findStudyRoomByRoom_uuid(room_uuid).orElseThrow(NotFoundStudyRoom::new);
-    Boolean hasUser = userRepository.existsInRoomByRoom_uuid(room_uuid)
-    return studyRoom.toDto();
+    Boolean hasUser = userRepository.checkUsersByRoom_uuid(room_uuid);
+    log.info("[studyRoomService][findStudyRoomByRoom_uuid] hasUser : {}",hasUser);
+    return studyRoom.toDto(hasUser);
   }
 }

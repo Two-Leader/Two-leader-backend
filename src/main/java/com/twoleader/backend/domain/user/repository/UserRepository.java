@@ -17,6 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("SELECT u FROM User u JOIN FETCH u.room WHERE u.room.room_uuid =:room_uuid")
   List<User> findAllByRoom_uuid(@Param("room_uuid") UUID room_uuid);
 
-  @Query("")
-  Boolean existsInRoomByRoom_uuid(UUID room_uuid);
+  @Query("SELECT COUNT(u) > 1 FROM User u JOIN u.room r WHERE r.room_uuid = :room_uuid")
+  boolean checkUsersByRoom_uuid(@Param("room_uuid") UUID room_uuid);
 }
