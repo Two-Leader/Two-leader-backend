@@ -63,7 +63,7 @@ function start() {
                 break;
 
             case "join":
-                log('Client is starting to wait for a peer');
+                log('Client is starting to '+(hasUser === 'true')?'negotiate' :'wait for a peer');
                 // log('Client is starting to ' + (message.data === "true)" ? 'negotiate' : 'wait for a peer'));
                 handlePeerConnection(message);
                 break;
@@ -72,32 +72,6 @@ function start() {
                 handleErrorMessage('Wrong type message received from server');
         }
     };
-
-    // function chatListCount(){
-    //
-    //     let data;
-    //
-    //     $.ajax({
-    //         url : "/webrtc/usercount",
-    //         type : "POST",
-    //         async : false,
-    //         data : {
-    //             "from" : localUserName,
-    //             "type" : "findCount",
-    //             "data" : localRoom,
-    //             "candidate" : null,
-    //             "sdp" : null
-    //         },
-    //         success(result){
-    //             data = result;
-    //         },
-    //         error(result){
-    //             console.log("error : "+result);
-    //         }
-    //     });
-    //
-    //     return data;
-    // }
 
     // add an event listener to get to know when a connection is open
     socket.onopen = function() {
@@ -227,7 +201,6 @@ function handlePeerConnection(message) {
     getMedia(mediaConstraints);
     console.log("handlePeerConnection hasUser :",hasUser);
     if (hasUser === 'true') {
-        console.log("handleNegotiationNeededEvent");
         myPeerConnection.onnegotiationneeded = handleNegotiationNeededEvent;
     }
 }
@@ -277,6 +250,7 @@ function handleICECandidateEvent(event) {
         sendToServer({
             from: localUserName,
             type: 'ice',
+            data:localRoom,
             candidate: event.candidate
         });
         log('ICE Candidate Event: ICE candidate sent');
@@ -300,6 +274,7 @@ function handleNegotiationNeededEvent() {
             sendToServer({
                 from: localUserName,
                 type: 'offer',
+                data: localRoom,
                 sdp: myPeerConnection.localDescription
             });
             log('Negotiation Needed Event: SDP offer sent');
@@ -352,6 +327,7 @@ function handleOfferMessage(message) {
                 log("Sending answer packet back to other peer");
                 sendToServer({
                     from: localUserName,
+                    data: localRoom,
                     type: 'answer',
                     sdp: myPeerConnection.localDescription
                 });

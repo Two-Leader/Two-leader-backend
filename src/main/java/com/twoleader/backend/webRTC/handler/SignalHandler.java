@@ -1,18 +1,14 @@
 package com.twoleader.backend.webRTC.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
-import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.repository.UserRepository;
-import com.twoleader.backend.domain.user.service.UserService;
 import com.twoleader.backend.webRTC.dto.WebSocketMessage;
 import java.io.IOException;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -25,14 +21,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @RequiredArgsConstructor
 public class SignalHandler extends TextWebSocketHandler {
 
-  private final StudyRoomService studyRoomService;
-  private final StudyRoomRepository studyRoomRepository;
-  private final UserService userService;
   private final UserRepository userRepository;
   private final ObjectMapper objectMapper = new ObjectMapper();
-
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
   // session id to room mapping
   //  private Map<String, Map<String, WebSocketSession>> sessionIdToRoomMap = new HashMap<>();
 
@@ -49,6 +39,7 @@ public class SignalHandler extends TextWebSocketHandler {
   private static final String MSG_TYPE_ICE = "ice";
   // join room data message
   private static final String MSG_TYPE_JOIN = "join";
+
   // leave room data message
   //    private static final String MSG_TYPE_LEAVE = "leave";
 
@@ -64,8 +55,11 @@ public class SignalHandler extends TextWebSocketHandler {
     // when data field contains 'true' value, the client starts negotiating
     // to establish peer-to-peer connection, otherwise they wait for a counterpart
     log.debug("[ws] Session has been Open [session : {}]", session);
-    //    List<GetStudyRoomResponse> rooms = studyRoomService.findAllStudyRoom();
-    sendMessage(session, WebSocketMessage.builder().from(SERVER_UUID).type(MSG_TYPE_JOIN).build());
+
+    sendMessage(
+        session,
+        WebSocketMessage.builder().from(SERVER_UUID).type(MSG_TYPE_JOIN).build());
+
   }
 
   @Override
@@ -99,8 +93,8 @@ public class SignalHandler extends TextWebSocketHandler {
               candidate != null
                   ? candidate.toString().substring(0, 64)
                   : sdp.toString().substring(0, 64));
-          List<User> users = userRepository.findAllByRoom_uuid(message.getFrom());
-          //            users.stream().
+          List<User> users = userRepository.findAllByRoom_uuid(message.getData());
+          log.info("[ws] users : {}",users.toString());
           for (User user : users) {
             if (!message.getFrom().equals(user.getUser_uuid())) {
               sendMessage(
@@ -181,9 +175,10 @@ public class SignalHandler extends TextWebSocketHandler {
   private void sendMessage(WebSocketSession session, WebSocketMessage message) {
     try {
       String json = objectMapper.writeValueAsString(message);
+      log.info("[ws] sendMessage , json : {}",json);
       session.sendMessage(new TextMessage(json));
     } catch (IOException e) {
-      log.debug("An error occured: {}", e.getMessage());
+      log.error("An error occured: {}", e.getMessage());
     }
   }
 }

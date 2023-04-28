@@ -1,13 +1,14 @@
 package com.twoleader.backend.webRTC.dto;
 
 import java.util.UUID;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+
+import lombok.*;
 
 @ToString
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class WebSocketMessage {
   private UUID from;
   private String type;
