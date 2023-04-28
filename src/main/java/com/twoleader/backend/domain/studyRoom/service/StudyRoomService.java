@@ -27,17 +27,17 @@ public class StudyRoomService {
 
   public List<GetStudyRoomResponse> findAllStudyRoom() {
     List<StudyRoom> rooms = studyRoomRepository.findAll();
-    log.info("[studyRoomService][findAllStudyRoom] rooms : {}",rooms);
+    log.info("[studyRoomService][findAllStudyRoom] rooms : {}", rooms);
     return rooms.stream().map(StudyRoom::toDto).collect(Collectors.toList());
   }
 
   @Transactional
   public GetStudyRoomResponse findStudyRoomByRoom_uuid(UUID room_uuid) {
-    log.info("[studyRoomService][findStudyRoomByRoom_uuid] uuid : {}",room_uuid);
+    log.info("[studyRoomService][findStudyRoomByRoom_uuid] uuid : {}", room_uuid);
     StudyRoom studyRoom =
         studyRoomRepository.findStudyRoomByRoom_uuid(room_uuid).orElseThrow(NotFoundStudyRoom::new);
     Boolean hasUser = userRepository.checkUsersByRoom_uuid(room_uuid);
-    log.info("[studyRoomService][findStudyRoomByRoom_uuid] hasUser : {}",hasUser);
+    log.info("[studyRoomService][findStudyRoomByRoom_uuid] hasUser : {}", hasUser);
     return studyRoom.toDto(hasUser);
   }
 }

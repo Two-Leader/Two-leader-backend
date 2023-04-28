@@ -17,7 +17,7 @@ public class StudyRoom {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long room_id;
 
-  @Column(nullable = false,columnDefinition = "BINARY(16)")
+  @Column(nullable = false, columnDefinition = "BINARY(16)")
   @Builder.Default
   private UUID room_uuid = UUID.randomUUID();
 
@@ -34,10 +34,11 @@ public class StudyRoom {
         .hasUser(hasUser)
         .build();
   }
+
   public GetStudyRoomResponse toDto() {
     return GetStudyRoomResponse.builder()
-            .room_uuid(this.room_uuid)
-            .room_name(this.room_name)
-            .build();
+        .room_uuid(this.room_uuid)
+        .room_name(this.room_name)
+        .build();
   }
 }

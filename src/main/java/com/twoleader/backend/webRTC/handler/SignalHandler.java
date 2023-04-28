@@ -65,9 +65,7 @@ public class SignalHandler extends TextWebSocketHandler {
     // to establish peer-to-peer connection, otherwise they wait for a counterpart
     log.debug("[ws] Session has been Open [session : {}]", session);
     //    List<GetStudyRoomResponse> rooms = studyRoomService.findAllStudyRoom();
-    sendMessage(
-        session,
-        WebSocketMessage.builder().from(SERVER_UUID).type(MSG_TYPE_JOIN).build());
+    sendMessage(session, WebSocketMessage.builder().from(SERVER_UUID).type(MSG_TYPE_JOIN).build());
   }
 
   @Override

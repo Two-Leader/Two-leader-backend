@@ -1,6 +1,5 @@
 package com.twoleader.backend.domain.user.controller;
 
-
 import com.twoleader.backend.domain.user.dto.request.CreateUserRequest;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.service.UserService;
@@ -12,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-//@RequestMapping("users")
+// @RequestMapping("users")
 @Controller
 public class UserController {
   private final UserService userService;
@@ -25,8 +24,9 @@ public class UserController {
   }
 
   @PostMapping("{room_uuid}/users")
-  public String createUser(@Valid CreateUserRequest request, @PathVariable("room_uuid")UUID room_uuid, Model model) {
-    User user = userService.createUser(request,room_uuid);
-    return "redirect:/studies/"+room_uuid+"/"+user.getUser_uuid();
+  public String createUser(
+      @Valid CreateUserRequest request, @PathVariable("room_uuid") UUID room_uuid, Model model) {
+    User user = userService.createUser(request, room_uuid);
+    return "redirect:/studies/" + room_uuid + "/" + user.getUser_uuid();
   }
 }
