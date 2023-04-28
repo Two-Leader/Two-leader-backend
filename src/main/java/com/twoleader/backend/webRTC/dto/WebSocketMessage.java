@@ -1,7 +1,6 @@
 package com.twoleader.backend.webRTC.dto;
 
 import java.util.UUID;
-
 import lombok.*;
 
 @ToString

@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -56,10 +55,7 @@ public class SignalHandler extends TextWebSocketHandler {
     // to establish peer-to-peer connection, otherwise they wait for a counterpart
     log.debug("[ws] Session has been Open [session : {}]", session);
 
-    sendMessage(
-        session,
-        WebSocketMessage.builder().from(SERVER_UUID).type(MSG_TYPE_JOIN).build());
-
+    sendMessage(session, WebSocketMessage.builder().from(SERVER_UUID).type(MSG_TYPE_JOIN).build());
   }
 
   @Override
@@ -94,7 +90,7 @@ public class SignalHandler extends TextWebSocketHandler {
                   ? candidate.toString().substring(0, 64)
                   : sdp.toString().substring(0, 64));
           List<User> users = userRepository.findAllByRoom_uuid(message.getData());
-          log.info("[ws] users : {}",users.toString());
+          log.info("[ws] users : {}", users.toString());
           for (User user : users) {
             if (!message.getFrom().equals(user.getUser_uuid())) {
               sendMessage(
@@ -175,7 +171,7 @@ public class SignalHandler extends TextWebSocketHandler {
   private void sendMessage(WebSocketSession session, WebSocketMessage message) {
     try {
       String json = objectMapper.writeValueAsString(message);
-      log.info("[ws] sendMessage , json : {}",json);
+      log.info("[ws] sendMessage , json : {}", json);
       session.sendMessage(new TextMessage(json));
     } catch (IOException e) {
       log.error("An error occured: {}", e.getMessage());
