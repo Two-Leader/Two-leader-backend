@@ -17,8 +17,6 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long user_id;
 
-  //  @GeneratedValue(generator = "uuid2")
-  //  @GenericGenerator(name = "uuid2", strategy = "uuid2")
   @Column(nullable = false, columnDefinition = "BINARY(16)")
   @Builder.Default
   private UUID user_uuid = UUID.randomUUID();

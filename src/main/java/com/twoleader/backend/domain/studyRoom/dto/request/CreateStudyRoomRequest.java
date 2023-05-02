@@ -13,7 +13,4 @@ public class CreateStudyRoomRequest {
 
   @NotBlank private String room_name;
 
-  public StudyRoom toEntity() {
-    return StudyRoom.builder().room_name(this.room_name).build();
-  }
 }

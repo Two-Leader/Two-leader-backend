@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-// @RequestMapping("users")
 @Controller
 public class UserController {
   private final UserService userService;

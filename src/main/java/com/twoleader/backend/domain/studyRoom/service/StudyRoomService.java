@@ -4,6 +4,7 @@ import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
+import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.repository.UserRepository;
 import java.util.*;
@@ -19,25 +20,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class StudyRoomService {
   private final StudyRoomRepository studyRoomRepository;
   private final UserRepository userRepository;
+  private final StudyRoomMapper studyRoomMapper;
 
   public StudyRoom createStudyRoom(CreateStudyRoomRequest request) {
-    StudyRoom studyRoom = request.toEntity();
+    StudyRoom studyRoom = studyRoomMapper.toEntity(request);
     return studyRoomRepository.save(studyRoom);
   }
 
   public List<GetStudyRoomResponse> findAllStudyRoom() {
     List<StudyRoom> rooms = studyRoomRepository.findAll();
-    log.info("[studyRoomService][findAllStudyRoom] rooms : {}", rooms);
-    return rooms.stream().map(StudyRoom::toDto).collect(Collectors.toList());
+    return studyRoomMapper.toDto(rooms);
   }
 
   @Transactional
   public GetStudyRoomResponse findStudyRoomByRoom_uuid(UUID room_uuid) {
-    log.info("[studyRoomService][findStudyRoomByRoom_uuid] uuid : {}", room_uuid);
     StudyRoom studyRoom =
         studyRoomRepository.findStudyRoomByRoom_uuid(room_uuid).orElseThrow(NotFoundStudyRoom::new);
     Boolean hasUser = userRepository.checkUsersByRoom_uuid(room_uuid);
-    log.info("[studyRoomService][findStudyRoomByRoom_uuid] hasUser : {}", hasUser);
-    return studyRoom.toDto(hasUser);
+    return studyRoomMapper.toDto(studyRoom,hasUser);
   }
 }
