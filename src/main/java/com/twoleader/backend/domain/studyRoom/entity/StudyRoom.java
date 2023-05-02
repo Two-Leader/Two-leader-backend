@@ -1,6 +1,5 @@
 package com.twoleader.backend.domain.studyRoom.entity;
 
-import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import java.util.UUID;
 import javax.persistence.*;
 import lombok.*;
@@ -23,5 +22,4 @@ public class StudyRoom {
 
   @Column(nullable = false)
   private String room_name;
-
 }

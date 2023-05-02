@@ -39,17 +39,18 @@ public class SignalHandler extends TextWebSocketHandler {
 
   @Override
   public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) {
-    log.debug("[ws] Session has been closed with status [session : {}, status : {}]", session, status);
-    log.debug("[ws] before userSessions : {}",userSessions);
+    log.debug(
+        "[ws] Session has been closed with status [session : {}, status : {}]", session, status);
+    log.debug("[ws] before userSessions : {}", userSessions);
     UUID user_uuid = null;
-    for(UUID key : userSessions.keySet()) {
-      if(userSessions.get(key).equals(session)) {
+    for (UUID key : userSessions.keySet()) {
+      if (userSessions.get(key).equals(session)) {
         user_uuid = key;
         userSessions.remove(key);
         break;
       }
     }
-    log.debug("[ws] after userSessions : {}, user_uuid : {}",userSessions,user_uuid);
+    log.debug("[ws] after userSessions : {}, user_uuid : {}", userSessions, user_uuid);
     userRepository.deleteByUser_uuid(user_uuid);
   }
 
@@ -70,7 +71,7 @@ public class SignalHandler extends TextWebSocketHandler {
       WebSocketMessage message =
           objectMapper.readValue(textMessage.getPayload(), WebSocketMessage.class);
       log.debug("[ws] Message of {} type from {} received", message.getType(), message.getFrom());
-      log.debug("[ws] Message : {}",message);
+      log.debug("[ws] Message : {}", message);
 
       switch (message.getType()) {
         case MSG_TYPE_OFFER:
@@ -109,11 +110,11 @@ public class SignalHandler extends TextWebSocketHandler {
 
         case MSG_TYPE_LEAVE:
           // message data contains connected room id
-          log.debug("[ws] {} is going to leave Room: #{}", message.getFrom(),message.getData());
+          log.debug("[ws] {} is going to leave Room: #{}", message.getFrom(), message.getData());
 
           break;
 
-        // something should be wrong wit
+          // something should be wrong wit
         default:
           log.debug("[ws] Type of the received message {} is undefined!", message.getType());
           // handle this if needed
