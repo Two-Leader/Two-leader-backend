@@ -1,9 +1,8 @@
 package com.twoleader.backend.webRTC.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
+import com.twoleader.backend.domain.user.service.UserService;
 import com.twoleader.backend.webRTC.dto.WebSocketMessage;
 import java.io.IOException;
 import java.util.*;
@@ -22,12 +21,12 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class SignalHandler extends TextWebSocketHandler {
 
   private final StudyRoomService studyRoomService;
-  private final StudyRoomRepository studyRoomRepository;
+  private final UserService userService;
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   // session id to room mapping
-  private Map<String, Map<String, WebSocketSession>> sessionIdToRoomMap = new HashMap<>();
+  private Map<UUID,WebSocketSession> userSessions = new HashMap<>();
 
   // message types, used in signalling:
   // text message
@@ -43,23 +42,29 @@ public class SignalHandler extends TextWebSocketHandler {
   // leave room data message
   //    private static final String MSG_TYPE_LEAVE = "leave";
 
+  //server uuid
+  private static final UUID SERVER = UUID.randomUUID();
+
   @Override
   public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) {
     log.debug("[ws] Session has been closed with status {}", status);
-    sessionIdToRoomMap.remove(session.getId());
+    for(UUID key:userSessions.keySet()){
+      if(session.equals(userSessions.get(key))){
+        userSessions.remove(key);
+        userService.deleteUserByUuid(key);
+        break;
+      }
+    }
   }
 
   @Override
   public void afterConnectionEstablished(final WebSocketSession session) {
-    // webSocket has been opened, send a message to the client
-    // when data field contains 'true' value, the client starts negotiating
-    // to establish peer-to-peer connection, otherwise they wait for a counterpart
+    log.debug("[ws] {} has been opened with status",session);
     sendMessage(
         session,
         WebSocketMessage.builder()
-            .from("Server")
+            .from(SERVER)
             .type(MSG_TYPE_JOIN)
-            .data(Boolean.toString(!sessionIdToRoomMap.isEmpty()))
             .build());
   }
 
@@ -70,10 +75,10 @@ public class SignalHandler extends TextWebSocketHandler {
       WebSocketMessage message =
           objectMapper.readValue(textMessage.getPayload(), WebSocketMessage.class);
       log.debug("[ws] Message of {} type from {} received", message.getType(), message.getFrom());
-      String user_uuid = message.getFrom(); // origin of the message
-      String data = message.getData(); // payload
+//      String user_uuid = message.getFrom(); // origin of the message
+//      String data = message.getData(); // payload
 
-      StudyRoom studyRoom;
+//      StudyRoom studyRoom;
       switch (message.getType()) {
           //                // text message from client has been received
           //                case MSG_TYPE_TEXT:
@@ -116,12 +121,8 @@ public class SignalHandler extends TextWebSocketHandler {
 
           // identify user and their opponent
         case MSG_TYPE_JOIN:
-          // message.data contains connected room id
-          log.debug("[ws] {} has joined Room: #{}", user_uuid, message.getData());
-          studyRoom = studyRoomService.findStudyRoomById(Long.parseLong(data));
-
-          // add client to the Room clients list
-          sessionIdToRoomMap.get(studyRoom.getRoom_uuid()).put(user_uuid, session);
+          log.debug("[ws] {} has joined Room: #{}", message.getFrom(), message.getData());
+          userSessions.put(message.getFrom(),session);
           break;
 
           //                case MSG_TYPE_LEAVE:

@@ -4,13 +4,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.UUID;
+
 @ToString
 @Builder
 @Getter
 public class WebSocketMessage {
-  private String from;
+  private UUID from;
   private String type;
-  private String data;
+  private UUID data;
   private Object candidate;
   private Object sdp;
 }
