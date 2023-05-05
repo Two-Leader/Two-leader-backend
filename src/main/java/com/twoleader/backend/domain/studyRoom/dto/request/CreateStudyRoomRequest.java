@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreateStudyRoomRequest {
 
   @NotBlank private String roomName;
-
-
 }
