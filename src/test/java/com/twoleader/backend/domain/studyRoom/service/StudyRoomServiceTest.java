@@ -33,15 +33,15 @@ public class StudyRoomServiceTest {
   public void setUp() {
     studyRooms.add(
         StudyRoom.builder()
-            .room_id(1L)
-            .room_uuid(UUID.randomUUID())
-            .room_name("testStudyRoom1")
+            .roomId(1L)
+            .roomUuid(UUID.randomUUID())
+            .roomName("testStudyRoom1")
             .build());
     studyRooms.add(
         StudyRoom.builder()
-            .room_id(2L)
-            .room_uuid(UUID.randomUUID())
-            .room_name("testStudyRoom2")
+            .roomId(2L)
+            .roomUuid(UUID.randomUUID())
+            .roomName("testStudyRoom2")
             .build());
   }
 
@@ -51,15 +51,15 @@ public class StudyRoomServiceTest {
     // given
     StudyRoom studyRoom = studyRooms.get(0);
     CreateStudyRoomRequest createStudyRoomDto =
-        CreateStudyRoomRequest.builder().room_name(studyRoom.getRoom_name()).build();
+        CreateStudyRoomRequest.builder().roomName(studyRoom.getRoomName()).build();
     given(studyRoomRepository.save(any())).willReturn(studyRoom);
 
     // when
-    StudyRoom savedStudyRoom = studyRoomService.createStudyRoom(createStudyRoomDto);
+    GetStudyRoomResponse response = studyRoomService.createStudyRoom(createStudyRoomDto);
 
     // then
-    assertEquals(studyRoom.getRoom_name(), savedStudyRoom.getRoom_name());
-    assertEquals(studyRoom.getRoom_uuid(), savedStudyRoom.getRoom_uuid());
+    assertEquals(studyRoom.getRoomName(), response.getRoomName());
+    assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
   }
 
   @Test
@@ -74,7 +74,7 @@ public class StudyRoomServiceTest {
 
     // then
     assertEquals(studyRooms.size(), findStudyRooms.size());
-    assertEquals(studyRooms.get(index).getRoom_uuid(), findStudyRooms.get(index).getRoom_uuid());
-    assertEquals(studyRooms.get(index).getRoom_name(), findStudyRooms.get(index).getRoom_name());
+    assertEquals(studyRooms.get(index).getRoomUuid(), findStudyRooms.get(index).getRoomUuid());
+    assertEquals(studyRooms.get(index).getRoomName(), findStudyRooms.get(index).getRoomName());
   }
 }

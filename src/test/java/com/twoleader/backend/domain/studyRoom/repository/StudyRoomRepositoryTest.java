@@ -26,10 +26,10 @@ public class StudyRoomRepositoryTest {
   public void setUp() {
 
     studyRooms.add(
-        studyRoomRepository.save(StudyRoom.builder().room_name("TestStudyRoom1").build()));
+        studyRoomRepository.save(StudyRoom.builder().roomName("TestStudyRoom1").build()));
 
     studyRooms.add(
-        studyRoomRepository.save(StudyRoom.builder().room_name("TestStudyRoom2").build()));
+        studyRoomRepository.save(StudyRoom.builder().roomName("TestStudyRoom2").build()));
   }
 
   @Test
@@ -44,7 +44,7 @@ public class StudyRoomRepositoryTest {
 
     // then
     assertEquals(studyRooms.size(), findStudyRooms.size());
-    assertEquals(studyRoom1.getRoom_id(), findStudyRooms.get(index).getRoom_id());
-    assertEquals(studyRoom1.getRoom_uuid(), findStudyRooms.get(index).getRoom_uuid());
+    assertEquals(studyRoom1.getRoomId(), findStudyRooms.get(index).getRoomId());
+    assertEquals(studyRoom1.getRoomUuid(), findStudyRooms.get(index).getRoomUuid());
   }
 }

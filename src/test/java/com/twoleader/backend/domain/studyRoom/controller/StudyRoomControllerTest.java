@@ -40,7 +40,7 @@ public class StudyRoomControllerTest {
   public void CreateStudyRoomTest() throws Exception {
     // given
     CreateStudyRoomRequest studyRoomDto =
-        CreateStudyRoomRequest.builder().room_name("testStudyRoom").build();
+        CreateStudyRoomRequest.builder().roomName("testStudyRoom").build();
     EntityModel<ResultResponse<Object>> entity =
         EntityModel.of(
             new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS),

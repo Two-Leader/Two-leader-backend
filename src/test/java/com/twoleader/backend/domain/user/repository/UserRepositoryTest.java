@@ -31,9 +31,9 @@ public class UserRepositoryTest {
 
   @BeforeEach
   public void setUp() {
-    studyRoom = studyRoomRepository.save(StudyRoom.builder().room_name("testStudyRoom").build());
+    studyRoom = studyRoomRepository.save(StudyRoom.builder().roomName("testStudyRoom").build());
 
-    user = userRepository.save(User.builder().room(studyRoom).user_name("testUser").build());
+    user = userRepository.save(User.builder().room(studyRoom).userName("testUser").build());
   }
 
   @Nested
@@ -48,13 +48,13 @@ public class UserRepositoryTest {
       // when
       User findUser =
           userRepository
-              .findUserByUserUuid(expectUser.getUser_uuid())
+              .findUserByUserUuid(expectUser.getUserUuid())
               .orElseThrow(NotFoundUser::new);
 
       // then
-      assertEquals(expectUser.getUser_id(), findUser.getUser_id());
-      assertEquals(expectUser.getUser_uuid(), findUser.getUser_uuid());
-      assertEquals(expectUser.getUser_name(), findUser.getUser_name());
+      assertEquals(expectUser.getUserId(), findUser.getUserId());
+      assertEquals(expectUser.getUserUuid(), findUser.getUserUuid());
+      assertEquals(expectUser.getUserName(), findUser.getUserName());
     }
 
     @Test

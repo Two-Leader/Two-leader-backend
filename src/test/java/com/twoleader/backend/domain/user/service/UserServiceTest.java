@@ -36,16 +36,16 @@ public class UserServiceTest {
   public static void setUp() {
     studyRoom =
         StudyRoom.builder()
-            .room_id(1L)
-            .room_uuid(UUID.randomUUID())
-            .room_name("testStudyRoom")
+            .roomId(1L)
+            .roomUuid(UUID.randomUUID())
+            .roomName("testStudyRoom")
             .build();
 
     user =
         User.builder()
-            .user_id(1L)
-            .user_uuid(UUID.randomUUID())
-            .user_name("testUser")
+            .userId(1L)
+            .userUuid(UUID.randomUUID())
+            .userName("testUser")
             .room(studyRoom)
             .build();
   }
@@ -58,14 +58,14 @@ public class UserServiceTest {
     public void getUserByUserUuidTestwhenUserExist() {
       // given
       given(userRepository.findUserByUserUuid(any())).willReturn(Optional.ofNullable(user));
-      GetUserRequest request = GetUserRequest.builder().user_uuid(user.getUser_uuid()).build();
+      GetUserRequest request = GetUserRequest.builder().userUuid(user.getUserUuid()).build();
 
       // when
       GetUserResponse response = userService.getUser(request);
 
       // then
-      assertEquals(user.getUser_uuid(), response.getUser_uuid());
-      assertEquals(user.getUser_name(), response.getUser_name());
+      assertEquals(user.getUserUuid(), response.getUserUuid());
+      assertEquals(user.getUserName(), response.getUserName());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class UserServiceTest {
     public void getUserByUserUuidTestWhenUserNotExist() {
       // given
       given(userRepository.findUserByUserUuid(any())).willReturn(Optional.ofNullable(null));
-      GetUserRequest request = GetUserRequest.builder().user_uuid(UUID.randomUUID()).build();
+      GetUserRequest request = GetUserRequest.builder().userUuid(UUID.randomUUID()).build();
 
       // when,then
       assertThrows(
