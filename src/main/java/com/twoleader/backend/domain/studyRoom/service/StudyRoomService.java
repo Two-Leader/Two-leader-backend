@@ -4,6 +4,7 @@ import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
+import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.repository.UserRepository;
 import java.util.*;
@@ -16,18 +17,18 @@ import org.springframework.stereotype.Service;
 public class StudyRoomService {
   private final StudyRoomRepository studyRoomRepository;
   private final UserRepository userRepository;
+  private final StudyRoomMapper studyRoomMapper;
 
   public StudyRoom createStudyRoom(CreateStudyRoomRequest request) {
-    StudyRoom studyRoom = request.toEntity();
-    return studyRoomRepository.save(studyRoom);
+    return studyRoomRepository.save(studyRoomMapper.toEntity(request));
   }
 
   public List<GetStudyRoomResponse> findAllStudyRoom() {
-    List<StudyRoom> rooms = studyRoomRepository.findAll();
-    return rooms.stream().map(StudyRoom::toDto).collect(Collectors.toList());
+    List<StudyRoom> studyRooms = studyRoomRepository.findAll();
+    return studyRoomMapper.toDto(studyRooms);
   }
 
-  public StudyRoom findStudyRoomById(Long id) {
-    return studyRoomRepository.findById(id).orElseThrow(NotFoundStudyRoom::new);
+  public StudyRoom findStudyRoomByUuid(UUID studyRoomUuid) {
+    return studyRoomRepository.findStudyRoomByUuid(studyRoomUuid).orElseThrow(NotFoundStudyRoom::new);
   }
 }

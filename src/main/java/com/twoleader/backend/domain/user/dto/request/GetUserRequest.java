@@ -8,5 +8,5 @@ import lombok.Getter;
 @Getter
 @Builder
 public class GetUserRequest {
-  @NotBlank private UUID user_uuid;
+  @NotBlank private UUID userUuid;
 }

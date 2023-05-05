@@ -16,22 +16,18 @@ import lombok.*;
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long user_id;
+  private Long userId;
 
-  //  @GeneratedValue(generator = "uuid2")
-  //  @GenericGenerator(name = "uuid2", strategy = "uuid2")
   @Column(nullable = false, columnDefinition = "BINARY(16)")
   @Builder.Default
-  private UUID user_uuid = UUID.randomUUID();
+  private UUID userUuid = UUID.randomUUID();
 
   @Column(nullable = false)
-  private String user_name;
+  private String userName;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "room_id")
   private StudyRoom room;
 
-  public GetUserResponse toDto() {
-    return GetUserResponse.builder().user_uuid(this.user_uuid).user_name(this.user_name).build();
-  }
+
 }

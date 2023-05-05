@@ -9,13 +9,9 @@ import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class CreateStudyRoomRequest {
 
-  @NotBlank private String room_name;
+  @NotBlank private String roomName;
 
-  public StudyRoom toEntity() {
-    return StudyRoom.builder().room_name(this.room_name).build();
-  }
+
 }

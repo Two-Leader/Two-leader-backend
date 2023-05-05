@@ -8,9 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class CreateUserRequest {
-  @NotBlank private String user_name;
+  @NotBlank private String userName;
 
-  public User toEntity() {
-    return User.builder().user_name(this.user_name).build();
-  }
+
 }

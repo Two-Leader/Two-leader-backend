@@ -15,22 +15,17 @@ import lombok.*;
 public class StudyRoom {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long room_id;
+  private Long roomId;
 
   @Column(nullable = false)
   @Builder.Default
-  private UUID room_uuid = UUID.randomUUID();
+  private UUID roomUuid = UUID.randomUUID();
 
   @Column(nullable = false)
-  private String room_name;
+  private String roomName;
 
   //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   //    private List<User> users = new ArrayList<>();
 
-  public GetStudyRoomResponse toDto() {
-    return GetStudyRoomResponse.builder()
-        .room_uuid(this.room_uuid)
-        .room_name(this.room_name)
-        .build();
-  }
+
 }
