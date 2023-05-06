@@ -10,8 +10,8 @@ import lombok.*;
 @ToString(callSuper = true)
 @Builder
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")
 public class User {
   @Id
@@ -27,7 +27,7 @@ public class User {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "room_id")
-  private StudyRoom room;
+  private StudyRoom studyRoom;
 
 
 }

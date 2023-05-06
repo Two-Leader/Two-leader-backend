@@ -19,8 +19,9 @@ public class StudyRoomService {
   private final UserRepository userRepository;
   private final StudyRoomMapper studyRoomMapper;
 
-  public StudyRoom createStudyRoom(CreateStudyRoomRequest request) {
-    return studyRoomRepository.save(studyRoomMapper.toEntity(request));
+  public GetStudyRoomResponse createStudyRoom(CreateStudyRoomRequest request) {
+    StudyRoom studyRoom = studyRoomRepository.save(studyRoomMapper.toEntity(request));
+    return studyRoomMapper.toDto(studyRoom);
   }
 
   public List<GetStudyRoomResponse> findAllStudyRoom() {

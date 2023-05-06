@@ -33,7 +33,7 @@ public class UserRepositoryTest {
   public void setUp() {
     studyRoom = studyRoomRepository.save(StudyRoom.builder().roomName("testStudyRoom").build());
 
-    user = userRepository.save(User.builder().room(studyRoom).userName("testUser").build());
+    user = userRepository.save(User.builder().studyRoom(studyRoom).userName("testUser").build());
   }
 
   @Nested

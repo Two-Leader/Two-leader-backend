@@ -1,7 +1,6 @@
 package com.twoleader.backend.domain.user.controller;
 
-import static com.twoleader.backend.global.result.ResultCode.GET_USER_SUCCESS;
-import static com.twoleader.backend.global.result.ResultCode.STUDYROOM_REGISTRATION_SUCCESS;
+import static com.twoleader.backend.global.result.ResultCode.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -36,11 +35,11 @@ public class UserController {
   @PostMapping
   public ResponseEntity<EntityModel<ResultResponse>> createUser(
       @Valid @RequestBody CreateUserRequest request) {
-    userService.createUser(request);
+    GetUserResponse response = userService.createUser(request);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
-                new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS),
+                new ResultResponse<>(USER_REGISTRATION_SUCCESS,response),
                 linkTo(methodOn(UserController.class).createUser(request)).withSelfRel()));
   }
 
@@ -53,10 +52,10 @@ public class UserController {
   @GetMapping
   public ResponseEntity<EntityModel<ResultResponse<GetUserResponse>>> getUser(
       @NotBlank @RequestBody GetUserRequest request) {
-    GetUserResponse user = userService.getUser(request);
+    GetUserResponse response = userService.getUser(request);
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(GET_USER_SUCCESS, user),
+            new ResultResponse<>(GET_USER_SUCCESS, response),
             linkTo(methodOn(UserController.class).getUser(request)).withSelfRel()));
   }
 }

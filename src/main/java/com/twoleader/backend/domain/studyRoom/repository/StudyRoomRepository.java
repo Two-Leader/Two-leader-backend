@@ -11,6 +11,6 @@ import java.util.UUID;
 
 @Repository
 public interface StudyRoomRepository extends JpaRepository<StudyRoom, Long> {
-    @Query("SELECT s FROM StudyRoom s WHERE s.roomUuid = :studyRoomUuid")
-    Optional<StudyRoom> findStudyRoomByUuid(@Param("studyRoomUuid") UUID studyRoomUuid);
+    @Query("SELECT s FROM StudyRoom s WHERE s.roomUuid = :room_uuid")
+    Optional<StudyRoom> findStudyRoomByUuid(@Param("room_uuid") UUID studyRoomUuid);
 }

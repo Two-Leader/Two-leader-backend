@@ -35,11 +35,11 @@ public class StudyRoomController {
   @PostMapping("")
   public ResponseEntity<EntityModel<ResultResponse>> createStudyRoom(
       @Valid @RequestBody CreateStudyRoomRequest request) {
-    studyRoomService.createStudyRoom(request);
+    GetStudyRoomResponse response = studyRoomService.createStudyRoom(request);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
-                new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS),
+                new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS,response),
                 linkTo(methodOn(StudyRoomController.class).createStudyRoom(request))
                     .withSelfRel()));
   }

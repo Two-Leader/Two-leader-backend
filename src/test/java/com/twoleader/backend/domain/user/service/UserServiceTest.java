@@ -46,7 +46,7 @@ public class UserServiceTest {
             .userId(1L)
             .userUuid(UUID.randomUUID())
             .userName("testUser")
-            .room(studyRoom)
+            .studyRoom(studyRoom)
             .build();
   }
 

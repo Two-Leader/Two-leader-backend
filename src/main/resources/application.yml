@@ -1,4 +1,7 @@
 spring:
+  config:
+    activate:
+      on-profile: default
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/twoLeader?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
@@ -14,6 +17,7 @@ spring:
         format_sql: true
         use_sql_comments: true;
         show_sql: true
+
 
 springdoc:
   default-consumes-media-type: application/json

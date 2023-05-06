@@ -2,6 +2,7 @@ package com.twoleader.backend.domain.user.dto.request;
 
 import java.util.UUID;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,5 +14,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 public class GetUserRequest {
-  @NotBlank private UUID userUuid;
+  @NotNull
+  private UUID userUuid;
 }
