@@ -1,13 +1,10 @@
 package com.twoleader.backend.domain.studyRoom.entity;
 
-import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 
-import java.util.ArrayList;
+import com.twoleader.backend.domain.user.entity.User;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.*;
-
-import com.twoleader.backend.domain.user.entity.User;
 import lombok.*;
 
 @Entity
@@ -29,8 +26,10 @@ public class StudyRoom {
   @Column(nullable = false)
   private String roomName;
 
-  @OneToMany(mappedBy = "studyRoom", fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+  @OneToMany(
+      mappedBy = "studyRoom",
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
   private List<User> users;
-
-
 }

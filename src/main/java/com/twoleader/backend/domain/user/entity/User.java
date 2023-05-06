@@ -1,7 +1,6 @@
 package com.twoleader.backend.domain.user.entity;
 
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import java.util.UUID;
 import javax.persistence.*;
 import lombok.*;
@@ -28,6 +27,4 @@ public class User {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "room_id")
   private StudyRoom studyRoom;
-
-
 }

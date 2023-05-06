@@ -1,7 +1,6 @@
 package com.twoleader.backend.domain.user.repository;
 
 import com.twoleader.backend.domain.user.entity.User;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

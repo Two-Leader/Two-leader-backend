@@ -39,7 +39,7 @@ public class StudyRoomController {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
-                new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS,response),
+                new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS, response),
                 linkTo(methodOn(StudyRoomController.class).createStudyRoom(request))
                     .withSelfRel()));
   }

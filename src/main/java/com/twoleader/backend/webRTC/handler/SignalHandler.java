@@ -26,7 +26,7 @@ public class SignalHandler extends TextWebSocketHandler {
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   // session id to room mapping
-  private Map<UUID,WebSocketSession> userSessions = new HashMap<>();
+  private Map<UUID, WebSocketSession> userSessions = new HashMap<>();
 
   // message types, used in signalling:
   // text message
@@ -42,14 +42,14 @@ public class SignalHandler extends TextWebSocketHandler {
   // leave room data message
   //    private static final String MSG_TYPE_LEAVE = "leave";
 
-  //server uuid
+  // server uuid
   private static final UUID SERVER = UUID.randomUUID();
 
   @Override
   public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) {
     log.debug("[ws] Session has been closed with status {}", status);
-    for(UUID key:userSessions.keySet()){
-      if(session.equals(userSessions.get(key))){
+    for (UUID key : userSessions.keySet()) {
+      if (session.equals(userSessions.get(key))) {
         userSessions.remove(key);
         userService.deleteUserByUuid(key);
         break;
@@ -59,13 +59,8 @@ public class SignalHandler extends TextWebSocketHandler {
 
   @Override
   public void afterConnectionEstablished(final WebSocketSession session) {
-    log.debug("[ws] {} has been opened with status",session);
-    sendMessage(
-        session,
-        WebSocketMessage.builder()
-            .from(SERVER)
-            .type(MSG_TYPE_JOIN)
-            .build());
+    log.debug("[ws] {} has been opened with status", session);
+    sendMessage(session, WebSocketMessage.builder().from(SERVER).type(MSG_TYPE_JOIN).build());
   }
 
   @Override
@@ -75,10 +70,10 @@ public class SignalHandler extends TextWebSocketHandler {
       WebSocketMessage message =
           objectMapper.readValue(textMessage.getPayload(), WebSocketMessage.class);
       log.debug("[ws] Message of {} type from {} received", message.getType(), message.getFrom());
-//      String user_uuid = message.getFrom(); // origin of the message
-//      String data = message.getData(); // payload
+      //      String user_uuid = message.getFrom(); // origin of the message
+      //      String data = message.getData(); // payload
 
-//      StudyRoom studyRoom;
+      //      StudyRoom studyRoom;
       switch (message.getType()) {
           //                // text message from client has been received
           //                case MSG_TYPE_TEXT:
@@ -122,7 +117,7 @@ public class SignalHandler extends TextWebSocketHandler {
           // identify user and their opponent
         case MSG_TYPE_JOIN:
           log.debug("[ws] {} has joined Room: #{}", message.getFrom(), message.getData());
-          userSessions.put(message.getFrom(),session);
+          userSessions.put(message.getFrom(), session);
           break;
 
           //                case MSG_TYPE_LEAVE:

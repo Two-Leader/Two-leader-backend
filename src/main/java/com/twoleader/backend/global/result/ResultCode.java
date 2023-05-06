@@ -15,7 +15,7 @@ public enum ResultCode {
 
   // user
   GET_USER_SUCCESS("U001", "유저를 정상적으로 불러왔습니다."),
-  USER_REGISTRATION_SUCCESS("U002","유저가 정상적으로 등록되었습니다."),
+  USER_REGISTRATION_SUCCESS("U002", "유저가 정상적으로 등록되었습니다."),
   ;
 
   private final String code;

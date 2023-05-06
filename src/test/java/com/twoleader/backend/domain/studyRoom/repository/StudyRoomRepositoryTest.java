@@ -3,10 +3,9 @@ package com.twoleader.backend.domain.studyRoom.repository;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
+import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,12 +51,15 @@ public class StudyRoomRepositoryTest {
 
   @Test
   @DisplayName("StudyRoom UUID로 조회 Test")
-  public void findStudyRoomByUuidTest(){
-    //given
+  public void findStudyRoomByUuidTest() {
+    // given
     int index = 0;
     StudyRoom studyRoom = studyRooms.get(index);
 
-    //when
-    StudyRoom findStudyRoom = studyRoomRepository.findStudyRoomByUuid(studyRoom.getRoomUuid()).orElseThrow(NotFoundStudyRoom::new);
+    // when
+    StudyRoom findStudyRoom =
+        studyRoomRepository
+            .findStudyRoomByUuid(studyRoom.getRoomUuid())
+            .orElseThrow(NotFoundStudyRoom::new);
   }
 }

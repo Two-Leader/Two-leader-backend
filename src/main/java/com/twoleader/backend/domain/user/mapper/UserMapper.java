@@ -9,11 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public User toEntity(CreateUserRequest request, StudyRoom studyRoom){
-        return User.builder().userName(request.getUserName()).studyRoom(studyRoom).build();
-    }
+  public User toEntity(CreateUserRequest request, StudyRoom studyRoom) {
+    return User.builder().userName(request.getUserName()).studyRoom(studyRoom).build();
+  }
 
-    public GetUserResponse toDto(User user) {
-        return GetUserResponse.builder().userUuid(user.getUserUuid()).userName(user.getUserName()).build();
-    }
+  public GetUserResponse toDto(User user) {
+    return GetUserResponse.builder()
+        .userUuid(user.getUserUuid())
+        .userName(user.getUserName())
+        .build();
+  }
 }

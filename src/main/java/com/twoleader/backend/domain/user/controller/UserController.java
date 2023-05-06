@@ -39,7 +39,7 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
-                new ResultResponse<>(USER_REGISTRATION_SUCCESS,response),
+                new ResultResponse<>(USER_REGISTRATION_SUCCESS, response),
                 linkTo(methodOn(UserController.class).createUser(request)).withSelfRel()));
   }
 

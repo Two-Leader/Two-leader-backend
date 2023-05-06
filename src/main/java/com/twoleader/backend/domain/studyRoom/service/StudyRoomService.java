@@ -8,7 +8,6 @@ import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.repository.UserRepository;
 import java.util.*;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +29,8 @@ public class StudyRoomService {
   }
 
   public StudyRoom findStudyRoomByUuid(UUID studyRoomUuid) {
-    return studyRoomRepository.findStudyRoomByUuid(studyRoomUuid).orElseThrow(NotFoundStudyRoom::new);
+    return studyRoomRepository
+        .findStudyRoomByUuid(studyRoomUuid)
+        .orElseThrow(NotFoundStudyRoom::new);
   }
 }

@@ -10,12 +10,11 @@ import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.exception.NotFoundUser;
 import com.twoleader.backend.domain.user.mapper.UserMapper;
 import com.twoleader.backend.domain.user.repository.UserRepository;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -26,8 +25,11 @@ public class UserService {
 
   @Transactional
   public GetUserResponse createUser(CreateUserRequest request) {
-    StudyRoom studyRoom = studyRoomRepository.findStudyRoomByUuid(request.getRoomUuid()).orElseThrow(NotFoundStudyRoom::new);
-    User user = userRepository.save(userMapper.toEntity(request,studyRoom));
+    StudyRoom studyRoom =
+        studyRoomRepository
+            .findStudyRoomByUuid(request.getRoomUuid())
+            .orElseThrow(NotFoundStudyRoom::new);
+    User user = userRepository.save(userMapper.toEntity(request, studyRoom));
     return userMapper.toDto(user);
   }
 
@@ -37,11 +39,11 @@ public class UserService {
     return userMapper.toDto(user);
   }
 
-  public List<User> findAllUserInStudyRoomByStudyRoomUuid(UUID studyRoomUuid){
+  public List<User> findAllUserInStudyRoomByStudyRoomUuid(UUID studyRoomUuid) {
     return userRepository.findAllInStudyRoomByStudyRoomUuid(studyRoomUuid);
   }
 
-  public void deleteUserByUuid(UUID userUuid){
+  public void deleteUserByUuid(UUID userUuid) {
     userRepository.deleteByUuid(userUuid);
   }
 }
