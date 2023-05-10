@@ -1,31 +1,30 @@
 package com.twoleader.backend.global.config;
 
-import com.twoleader.backend.webRTC.handler.SignalHandler;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.*;
 
-@EnableWebSocket
-@RequiredArgsConstructor
+@EnableWebSocketMessageBroker
 @Configuration
-public class WebSocketConfig implements WebSocketConfigurer {
-
-  private final SignalHandler signalHandler;
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+  @Override
+  public void configureMessageBroker(MessageBrokerRegistry registry) {
+    registry.enableSimpleBroker("/topic");
+    registry.setApplicationDestinationPrefixes("/app");
+  }
 
   @Override
-  public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-    registry.addHandler(signalHandler, "/signal").setAllowedOrigins("*"); // allow all origins
+  public void registerStompEndpoints(StompEndpointRegistry registry) {
+    //the url is for Websocket handshake
+    registry.addEndpoint("/signal")
+            .setAllowedOriginPatterns("*")
+            .withSockJS();
   }
 
-  @Bean
-  public ServletServerContainerFactoryBean createWebSocketContainer() {
-    ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-    container.setMaxTextMessageBufferSize(8192);
-    container.setMaxBinaryMessageBufferSize(8192);
-    return container;
-  }
+//  @Override
+//  public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
+//    registration.setMessageSizeLimit(160 * 64 * 1024);    // Max incoming message size, default : 64 * 1024
+//    registration.setSendTimeLimit(20 * 10000);            // default : 10 * 10000
+//    registration.setSendBufferSizeLimit(10 * 512 * 1024); // Max outgoing buffer size, default : 512 * 1024
+//  }
 }

@@ -1,4 +1,4 @@
-package com.twoleader.backend.webRTC.dto;
+package com.twoleader.backend.domain.webRTC.dto;
 
 import java.util.UUID;
 import lombok.Builder;
