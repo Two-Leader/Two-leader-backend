@@ -1,24 +1,24 @@
-//package com.twoleader.backend.webRTC.handler;
+// package com.twoleader.backend.webRTC.handler;
 //
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
-//import com.twoleader.backend.domain.user.service.UserService;
-//import com.twoleader.backend.webRTC.dto.WebSocketMessage;
-//import java.io.IOException;
-//import java.util.*;
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.stereotype.Component;
-//import org.springframework.web.socket.CloseStatus;
-//import org.springframework.web.socket.TextMessage;
+// import com.fasterxml.jackson.databind.ObjectMapper;
+// import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
+// import com.twoleader.backend.domain.user.service.UserService;
+// import com.twoleader.backend.webRTC.dto.WebSocketMessage;
+// import java.io.IOException;
+// import java.util.*;
+// import lombok.RequiredArgsConstructor;
+// import lombok.extern.slf4j.Slf4j;
+// import org.springframework.stereotype.Component;
+// import org.springframework.web.socket.CloseStatus;
+// import org.springframework.web.socket.TextMessage;
 //// import org.springframework.web.socket.WebSocketMessage;
-//import org.springframework.web.socket.WebSocketSession;
-//import org.springframework.web.socket.handler.TextWebSocketHandler;
+// import org.springframework.web.socket.WebSocketSession;
+// import org.springframework.web.socket.handler.TextWebSocketHandler;
 //
-//@Component
-//@Slf4j
-//@RequiredArgsConstructor
-//public class SignalHandler extends TextWebSocketHandler {
+// @Component
+// @Slf4j
+// @RequiredArgsConstructor
+// public class SignalHandler extends TextWebSocketHandler {
 //
 //  private final StudyRoomService studyRoomService;
 //  private final UserService userService;
@@ -64,7 +64,8 @@
 //  }
 //
 //  @Override
-//  protected void handleTextMessage(final WebSocketSession session, final TextMessage textMessage) {
+//  protected void handleTextMessage(final WebSocketSession session, final TextMessage textMessage)
+// {
 //    // a message has been received
 //    try {
 //      WebSocketMessage message =
@@ -136,7 +137,8 @@
 //          //                    client.ifPresent(c -> roomService.removeClientByName(room, c));
 //          //                    break;
 //
-//          // something should be wrong with the received message, since it's type is unrecognizable
+//          // something should be wrong with the received message, since it's type is
+// unrecognizable
 //        default:
 //          log.debug("[ws] Type of the received message {} is undefined!", message.getType());
 //          // handle this if needed
@@ -155,4 +157,4 @@
 //      log.debug("An error occured: {}", e.getMessage());
 //    }
 //  }
-//}
+// }
