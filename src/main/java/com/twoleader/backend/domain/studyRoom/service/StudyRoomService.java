@@ -6,7 +6,6 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
-import com.twoleader.backend.domain.user.repository.UserRepository;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,8 @@ public class StudyRoomService {
   }
 
   public GetStudyRoomResponse findStudyRoomByUuid(UUID RoomUuid) {
-    StudyRoom studyRoom =  studyRoomRepository.findStudyRoomByUuid(RoomUuid).orElseThrow(NotFoundStudyRoom::new);
+    StudyRoom studyRoom =
+        studyRoomRepository.findStudyRoomByUuid(RoomUuid).orElseThrow(NotFoundStudyRoom::new);
     return studyRoomMapper.toDto(studyRoom);
   }
 }

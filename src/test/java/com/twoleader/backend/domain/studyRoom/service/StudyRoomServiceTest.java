@@ -23,8 +23,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,8 +32,7 @@ public class StudyRoomServiceTest {
 
   @InjectMocks private StudyRoomService studyRoomService;
 
-  @Spy
-  private StudyRoomMapper studyRoomMapper;
+  @Spy private StudyRoomMapper studyRoomMapper;
 
   private List<StudyRoom> studyRooms = new ArrayList<>();
 
@@ -89,32 +86,36 @@ public class StudyRoomServiceTest {
   }
 
   @Nested
-  class findStudyRoomByUuid{
+  class findStudyRoomByUuid {
     @Test
     @DisplayName("존재하는 StudyRoom UUID로 조회")
-    public void findStudyRoomByroomUuidWhenExist(){
+    public void findStudyRoomByroomUuidWhenExist() {
       // given
       int index = 0;
       StudyRoom studyRoom = studyRooms.get(index);
-      given(studyRoomRepository.findStudyRoomByUuid(any())).willReturn(Optional.ofNullable(studyRoom));
+      given(studyRoomRepository.findStudyRoomByUuid(any()))
+          .willReturn(Optional.ofNullable(studyRoom));
 
-      //when
+      // when
       assert studyRoom != null;
       GetStudyRoomResponse response = studyRoomService.findStudyRoomByUuid(studyRoom.getRoomUuid());
 
-      assertEquals(studyRoom.getRoomUuid(),response.getRoomUuid());
-      assertEquals(studyRoom.getRoomName(),response.getRoomName());
+      assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
+      assertEquals(studyRoom.getRoomName(), response.getRoomName());
     }
 
     @Test
     @DisplayName("존재하지 않는 StudyRoom UUID로 조회")
-    public void findStudyRoomByRoomUuidWhenNotExist(){
-      //given
+    public void findStudyRoomByRoomUuidWhenNotExist() {
+      // given
       given(studyRoomRepository.findStudyRoomByUuid(any())).willReturn(Optional.empty());
 
-      //when, then
-      assertThrows(NotFoundStudyRoom.class,() -> {studyRoomService.findStudyRoomByUuid(UUID.randomUUID());});
+      // when, then
+      assertThrows(
+          NotFoundStudyRoom.class,
+          () -> {
+            studyRoomService.findStudyRoomByUuid(UUID.randomUUID());
+          });
     }
   }
-
 }

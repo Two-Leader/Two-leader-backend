@@ -1,19 +1,13 @@
 package com.twoleader.backend.domain.studyRoom.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.internal.matchers.text.ValuePrinter.print;
 
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
-
 import java.util.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -62,17 +56,11 @@ public class StudyRoomRepositoryTest {
 
     // when
     Optional<StudyRoom> findStudyRoom =
-            studyRoomRepository
-                    .findStudyRoomByUuid(studyRoom.getRoomUuid());
+        studyRoomRepository.findStudyRoomByUuid(studyRoom.getRoomUuid());
 
-
-
-    //then
-    assertEquals(studyRoom.getRoomUuid(),findStudyRoom.get().getRoomUuid());
-    assertEquals(studyRoom.getRoomName(),findStudyRoom.get().getRoomName());
-    assertEquals(studyRoom.getRoomId(),findStudyRoom.get().getRoomId());
+    // then
+    assertEquals(studyRoom.getRoomUuid(), findStudyRoom.get().getRoomUuid());
+    assertEquals(studyRoom.getRoomName(), findStudyRoom.get().getRoomName());
+    assertEquals(studyRoom.getRoomId(), findStudyRoom.get().getRoomId());
   }
-
-
-
 }
