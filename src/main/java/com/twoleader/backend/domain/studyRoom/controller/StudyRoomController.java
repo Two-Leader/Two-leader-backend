@@ -54,8 +54,17 @@ public class StudyRoomController {
   })
   @GetMapping("")
   public ResponseEntity<EntityModel<ResultResponse<List<GetStudyRoomResponse>>>> getAllStudyRoom() {
-    List<EntityModel<GetStudyRoomResponse>>studyRooms = studyRoomService.findAllStudyRoom().stream().map(studyRoom ->
-      EntityModel.of(studyRoom,linkTo(methodOn(StudyRoomController.class).getStudyRoomByUuid(studyRoom.getRoomUuid())).withSelfRel())).collect(Collectors.toList());
+    List<EntityModel<GetStudyRoomResponse>> studyRooms =
+        studyRoomService.findAllStudyRoom().stream()
+            .map(
+                studyRoom ->
+                    EntityModel.of(
+                        studyRoom,
+                        linkTo(
+                                methodOn(StudyRoomController.class)
+                                    .getStudyRoomByUuid(studyRoom.getRoomUuid()))
+                            .withSelfRel()))
+            .collect(Collectors.toList());
 
     return ResponseEntity.ok(
         EntityModel.of(
@@ -65,18 +74,18 @@ public class StudyRoomController {
 
   @Operation(summary = "Study Room 개별 조회", description = "StudyRoom을 uuid로 개별 조회합니다.")
   @ApiResponses({
-          @ApiResponse(responseCode = "200", description = "OK(성공)"),
-          @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
-          @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
+    @ApiResponse(responseCode = "200", description = "OK(성공)"),
+    @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @GetMapping("/{roomUuid}")
-  public ResponseEntity<EntityModel<ResultResponse<GetStudyRoomResponse>>> getStudyRoomByUuid(@PathVariable("roomUuid")UUID roomUuid){
+  public ResponseEntity<EntityModel<ResultResponse<GetStudyRoomResponse>>> getStudyRoomByUuid(
+      @PathVariable("roomUuid") UUID roomUuid) {
     GetStudyRoomResponse studyRoom = studyRoomService.findStudyRoomByUuid(roomUuid);
     return ResponseEntity.ok(
-            EntityModel.of(
-                    new ResultResponse<>(GET_STUDYROOM_SUCCESS,studyRoom),
-                    linkTo(methodOn(StudyRoomController.class).getStudyRoomByUuid(roomUuid)).withSelfRel()
-            )
-    );
+        EntityModel.of(
+            new ResultResponse<>(GET_STUDYROOM_SUCCESS, studyRoom),
+            linkTo(methodOn(StudyRoomController.class).getStudyRoomByUuid(roomUuid))
+                .withSelfRel()));
   }
 }
