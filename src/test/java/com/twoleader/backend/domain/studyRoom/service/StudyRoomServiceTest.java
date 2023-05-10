@@ -7,17 +7,24 @@ import static org.mockito.BDDMockito.given;
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
+import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
+import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,6 +33,9 @@ public class StudyRoomServiceTest {
   @Mock private StudyRoomRepository studyRoomRepository;
 
   @InjectMocks private StudyRoomService studyRoomService;
+
+  @Spy
+  private StudyRoomMapper studyRoomMapper;
 
   private List<StudyRoom> studyRooms = new ArrayList<>();
 
@@ -77,4 +87,34 @@ public class StudyRoomServiceTest {
     assertEquals(studyRooms.get(index).getRoomUuid(), findStudyRooms.get(index).getRoomUuid());
     assertEquals(studyRooms.get(index).getRoomName(), findStudyRooms.get(index).getRoomName());
   }
+
+  @Nested
+  class findStudyRoomByUuid{
+    @Test
+    @DisplayName("존재하는 StudyRoom UUID로 조회")
+    public void findStudyRoomByroomUuidWhenExist(){
+      // given
+      int index = 0;
+      StudyRoom studyRoom = studyRooms.get(index);
+      given(studyRoomRepository.findStudyRoomByUuid(any())).willReturn(Optional.ofNullable(studyRoom));
+
+      //when
+      assert studyRoom != null;
+      GetStudyRoomResponse response = studyRoomService.findStudyRoomByUuid(studyRoom.getRoomUuid());
+
+      assertEquals(studyRoom.getRoomUuid(),response.getRoomUuid());
+      assertEquals(studyRoom.getRoomName(),response.getRoomName());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 StudyRoom UUID로 조회")
+    public void findStudyRoomByRoomUuidWhenNotExist(){
+      //given
+      given(studyRoomRepository.findStudyRoomByUuid(any())).willReturn(Optional.empty());
+
+      //when, then
+      assertThrows(NotFoundStudyRoom.class,() -> {studyRoomService.findStudyRoomByUuid(UUID.randomUUID());});
+    }
+  }
+
 }

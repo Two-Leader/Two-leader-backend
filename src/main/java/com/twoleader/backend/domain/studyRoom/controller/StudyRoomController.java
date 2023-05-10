@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
+import java.util.UUID;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
@@ -57,5 +58,22 @@ public class StudyRoomController {
         EntityModel.of(
             new ResultResponse<>(GET_ALL_STUDYROOM_SUCCESS, studyRooms),
             linkTo(methodOn(StudyRoomController.class).getAllStudyRoom()).withSelfRel()));
+  }
+
+  @Operation(summary = "Study Room 개별 조회", description = "StudyRoom을 uuid로 개별 조회합니다.")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = "OK(성공)"),
+          @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
+          @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
+  })
+  @GetMapping("/{roomUuid}")
+  public ResponseEntity<EntityModel<ResultResponse<GetStudyRoomResponse>>> getStudyRoomByUuid(@PathVariable("roomUuid")UUID roomUuid){
+    GetStudyRoomResponse studyRoom = studyRoomService.findStudyRoomByUuid(roomUuid);
+    return ResponseEntity.ok(
+            EntityModel.of(
+                    new ResultResponse<>(GET_STUDYROOM_SUCCESS,studyRoom),
+                    linkTo(methodOn(StudyRoomController.class).getStudyRoomByUuid(roomUuid)).withSelfRel()
+            )
+    );
   }
 }

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudyRoomService {
   private final StudyRoomRepository studyRoomRepository;
-  private final UserRepository userRepository;
   private final StudyRoomMapper studyRoomMapper;
 
   public GetStudyRoomResponse createStudyRoom(CreateStudyRoomRequest request) {
@@ -28,9 +27,8 @@ public class StudyRoomService {
     return studyRoomMapper.toDto(studyRooms);
   }
 
-  public StudyRoom findStudyRoomByUuid(UUID studyRoomUuid) {
-    return studyRoomRepository
-        .findStudyRoomByUuid(studyRoomUuid)
-        .orElseThrow(NotFoundStudyRoom::new);
+  public GetStudyRoomResponse findStudyRoomByUuid(UUID RoomUuid) {
+    StudyRoom studyRoom =  studyRoomRepository.findStudyRoomByUuid(RoomUuid).orElseThrow(NotFoundStudyRoom::new);
+    return studyRoomMapper.toDto(studyRoom);
   }
 }
