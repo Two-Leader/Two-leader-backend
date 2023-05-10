@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
@@ -34,7 +35,7 @@ public class StudyRoomController {
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @PostMapping("")
-  public ResponseEntity<EntityModel<ResultResponse>> createStudyRoom(
+  public ResponseEntity<EntityModel<ResultResponse<GetStudyRoomResponse>>> createStudyRoom(
       @Valid @RequestBody CreateStudyRoomRequest request) {
     GetStudyRoomResponse response = studyRoomService.createStudyRoom(request);
     return ResponseEntity.status(HttpStatus.CREATED)
@@ -53,7 +54,9 @@ public class StudyRoomController {
   })
   @GetMapping("")
   public ResponseEntity<EntityModel<ResultResponse<List<GetStudyRoomResponse>>>> getAllStudyRoom() {
-    List<GetStudyRoomResponse> studyRooms = studyRoomService.findAllStudyRoom();
+    List<EntityModel<GetStudyRoomResponse>>studyRooms = studyRoomService.findAllStudyRoom().stream().map(studyRoom ->
+      EntityModel.of(studyRoom,linkTo(methodOn(StudyRoomController.class).getStudyRoomByUuid(studyRoom.getRoomUuid())).withSelfRel())).collect(Collectors.toList());
+
     return ResponseEntity.ok(
         EntityModel.of(
             new ResultResponse<>(GET_ALL_STUDYROOM_SUCCESS, studyRooms),
@@ -62,18 +65,18 @@ public class StudyRoomController {
 
   @Operation(summary = "Study Room 개별 조회", description = "StudyRoom을 uuid로 개별 조회합니다.")
   @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "OK(성공)"),
-    @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
-    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
+          @ApiResponse(responseCode = "200", description = "OK(성공)"),
+          @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
+          @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @GetMapping("/{roomUuid}")
-  public ResponseEntity<EntityModel<ResultResponse<GetStudyRoomResponse>>> getStudyRoomByUuid(
-      @PathVariable("roomUuid") UUID roomUuid) {
+  public ResponseEntity<EntityModel<ResultResponse<GetStudyRoomResponse>>> getStudyRoomByUuid(@PathVariable("roomUuid")UUID roomUuid){
     GetStudyRoomResponse studyRoom = studyRoomService.findStudyRoomByUuid(roomUuid);
     return ResponseEntity.ok(
-        EntityModel.of(
-            new ResultResponse<>(GET_STUDYROOM_SUCCESS, studyRoom),
-            linkTo(methodOn(StudyRoomController.class).getStudyRoomByUuid(roomUuid))
-                .withSelfRel()));
+            EntityModel.of(
+                    new ResultResponse<>(GET_STUDYROOM_SUCCESS,studyRoom),
+                    linkTo(methodOn(StudyRoomController.class).getStudyRoomByUuid(roomUuid)).withSelfRel()
+            )
+    );
   }
 }
