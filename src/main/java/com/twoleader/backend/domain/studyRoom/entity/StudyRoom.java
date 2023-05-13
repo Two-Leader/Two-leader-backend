@@ -1,7 +1,6 @@
 package com.twoleader.backend.domain.studyRoom.entity;
 
 import com.twoleader.backend.domain.user.entity.User;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

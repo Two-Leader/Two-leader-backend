@@ -74,7 +74,7 @@ public class UserRepositoryTest {
     @Test
     @DisplayName("Study Room에 유저 한 명만 존재")
     public void checkUsersInStudyRoomWhenExistOneUser() {
-      //given
+      // given
       UUID roomUuid = studyRoom.getRoomUuid();
       boolean checkUsers = userRepository.checkUsersByRoomUuid(roomUuid);
 
@@ -84,7 +84,7 @@ public class UserRepositoryTest {
     @Test
     @DisplayName("Study Room에 유저 두 명 존재")
     public void checkUsersInStudyRoomWhenExistTwoUser() {
-      //given
+      // given
       userRepository.save(User.builder().studyRoom(studyRoom).userName("user2").build());
       UUID roomUuid = studyRoom.getRoomUuid();
       boolean checkUsers = userRepository.checkUsersByRoomUuid(roomUuid);

@@ -24,11 +24,11 @@ public class StudyRoomMapper {
     return studyRooms.stream().map(this::toDto).collect(Collectors.toList());
   }
 
-  public GetStudyRoomResponse toDto(StudyRoom studyRoom, boolean checkUser){
+  public GetStudyRoomResponse toDto(StudyRoom studyRoom, boolean checkUser) {
     return GetStudyRoomResponse.builder()
-            .roomUuid(studyRoom.getRoomUuid())
-            .roomName(studyRoom.getRoomName())
-            .checkUser(checkUser)
-            .build();
+        .roomUuid(studyRoom.getRoomUuid())
+        .roomName(studyRoom.getRoomName())
+        .checkUser(checkUser)
+        .build();
   }
 }

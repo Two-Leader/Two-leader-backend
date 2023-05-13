@@ -25,6 +25,6 @@ public class User {
   private String userName;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "room_id",nullable = false)
+  @JoinColumn(name = "room_id", nullable = false)
   private StudyRoom studyRoom;
 }

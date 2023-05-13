@@ -41,7 +41,11 @@ public class StudyRoomControllerTest {
   @Spy private StudyRoomMapper studyRoomMapper;
 
   private static final GetStudyRoomResponse response =
-      GetStudyRoomResponse.builder().roomUuid(UUID.randomUUID()).roomName("testStudyRoom1").checkUser(false).build();
+      GetStudyRoomResponse.builder()
+          .roomUuid(UUID.randomUUID())
+          .roomName("testStudyRoom1")
+          .checkUser(false)
+          .build();
 
   @Test
   @DisplayName("StudyRoom 생성 Test")

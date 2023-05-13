@@ -10,12 +10,11 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
+import com.twoleader.backend.domain.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import com.twoleader.backend.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -104,30 +103,30 @@ public class StudyRoomServiceTest {
       assert studyRoom != null;
       GetStudyRoomResponse response = studyRoomService.findStudyRoomByUuid(studyRoom.getRoomUuid());
 
-      //then
+      // then
       assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
       assertEquals(studyRoom.getRoomName(), response.getRoomName());
-      assertEquals(false,response.getCheckUser());
+      assertEquals(false, response.getCheckUser());
     }
 
     @Test
     @DisplayName("존재하는 StudyRoom & User가 두명")
-    public void findStudyRoomByRoomUuidWhenExistAndTwoUser(){
-      //given
+    public void findStudyRoomByRoomUuidWhenExistAndTwoUser() {
+      // given
       int index = 0;
       StudyRoom studyRoom = studyRooms.get(index);
       given(studyRoomRepository.findStudyRoomByUuid(any()))
-              .willReturn(Optional.ofNullable(studyRoom));
+          .willReturn(Optional.ofNullable(studyRoom));
       given(userRepository.checkUsersByRoomUuid(any())).willReturn(true);
 
-      //when
+      // when
       assert studyRoom != null;
       GetStudyRoomResponse response = studyRoomService.findStudyRoomByUuid(studyRoom.getRoomUuid());
 
-      //then
+      // then
       assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
       assertEquals(studyRoom.getRoomName(), response.getRoomName());
-      assertEquals(true,response.getCheckUser());
+      assertEquals(true, response.getCheckUser());
     }
 
     @Test
