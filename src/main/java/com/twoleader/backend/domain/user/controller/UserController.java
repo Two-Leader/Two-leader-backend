@@ -15,11 +15,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
 @RestController
@@ -51,7 +53,7 @@ public class UserController {
   })
   @GetMapping
   public ResponseEntity<EntityModel<ResultResponse<GetUserResponse>>> getUser(
-      @NotBlank @RequestBody GetUserRequest request) {
+      @Valid @RequestBody GetUserRequest request) {
     GetUserResponse response = userService.getUser(request);
     return ResponseEntity.ok(
         EntityModel.of(
