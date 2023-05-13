@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import com.twoleader.backend.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -29,6 +31,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles(profiles = {"test"})
 public class StudyRoomServiceTest {
   @Mock private StudyRoomRepository studyRoomRepository;
+  @Mock private UserRepository userRepository;
 
   @InjectMocks private StudyRoomService studyRoomService;
 
@@ -88,27 +91,51 @@ public class StudyRoomServiceTest {
   @Nested
   class findStudyRoomByUuid {
     @Test
-    @DisplayName("존재하는 StudyRoom UUID로 조회")
-    public void findStudyRoomByroomUuidWhenExist() {
+    @DisplayName("존재하는 StudyRoom & User가 한명")
+    public void findStudyRoomByroomUuidWhenExistAndOneUser() {
       // given
       int index = 0;
       StudyRoom studyRoom = studyRooms.get(index);
       given(studyRoomRepository.findStudyRoomByUuid(any()))
           .willReturn(Optional.ofNullable(studyRoom));
+      given(userRepository.checkUsersByRoomUuid(any())).willReturn(false);
 
       // when
       assert studyRoom != null;
       GetStudyRoomResponse response = studyRoomService.findStudyRoomByUuid(studyRoom.getRoomUuid());
 
+      //then
       assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
       assertEquals(studyRoom.getRoomName(), response.getRoomName());
+      assertEquals(false,response.getCheckUser());
     }
 
     @Test
-    @DisplayName("존재하지 않는 StudyRoom UUID로 조회")
+    @DisplayName("존재하는 StudyRoom & User가 두명")
+    public void findStudyRoomByRoomUuidWhenExistAndTwoUser(){
+      //given
+      int index = 0;
+      StudyRoom studyRoom = studyRooms.get(index);
+      given(studyRoomRepository.findStudyRoomByUuid(any()))
+              .willReturn(Optional.ofNullable(studyRoom));
+      given(userRepository.checkUsersByRoomUuid(any())).willReturn(true);
+
+      //when
+      assert studyRoom != null;
+      GetStudyRoomResponse response = studyRoomService.findStudyRoomByUuid(studyRoom.getRoomUuid());
+
+      //then
+      assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
+      assertEquals(studyRoom.getRoomName(), response.getRoomName());
+      assertEquals(true,response.getCheckUser());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 StudyRoom")
     public void findStudyRoomByRoomUuidWhenNotExist() {
       // given
       given(studyRoomRepository.findStudyRoomByUuid(any())).willReturn(Optional.empty());
+      given(userRepository.checkUsersByRoomUuid(any())).willReturn(false);
 
       // when, then
       assertThrows(

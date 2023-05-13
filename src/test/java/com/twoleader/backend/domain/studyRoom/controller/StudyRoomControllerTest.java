@@ -41,7 +41,7 @@ public class StudyRoomControllerTest {
   @Spy private StudyRoomMapper studyRoomMapper;
 
   private static final GetStudyRoomResponse response =
-      GetStudyRoomResponse.builder().roomUuid(UUID.randomUUID()).roomName("testStudyRoom1").build();
+      GetStudyRoomResponse.builder().roomUuid(UUID.randomUUID()).roomName("testStudyRoom1").checkUser(false).build();
 
   @Test
   @DisplayName("StudyRoom 생성 Test")
@@ -109,6 +109,7 @@ public class StudyRoomControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.data.roomUuid").value(response.getRoomUuid().toString()))
         .andExpect(jsonPath("$.data.roomName").value(response.getRoomName()))
+        .andExpect(jsonPath("$.data.checkUser").value(response.getCheckUser()))
         .andExpect(jsonPath("$._links.self").exists())
         .andDo(print());
   }

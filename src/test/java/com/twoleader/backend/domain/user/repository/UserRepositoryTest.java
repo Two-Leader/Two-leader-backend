@@ -61,11 +61,35 @@ public class UserRepositoryTest {
     @DisplayName("존재하지 않는 User")
     public void findUserbyUserUuidTestWhenUserNotExist() {
       // given
-      UUID user_uuid = UUID.randomUUID();
+      UUID userUuid = UUID.randomUUID();
 
       // when,then
-      Optional<User> findUser = userRepository.findUserByUserUuid(user_uuid);
+      Optional<User> findUser = userRepository.findUserByUserUuid(userUuid);
       assertFalse(findUser.isPresent());
+    }
+  }
+
+  @Nested
+  class checkUserInStudyRoom {
+    @Test
+    @DisplayName("Study Room에 유저 한 명만 존재")
+    public void checkUsersInStudyRoomWhenExistOneUser() {
+      //given
+      UUID roomUuid = studyRoom.getRoomUuid();
+      boolean checkUsers = userRepository.checkUsersByRoomUuid(roomUuid);
+
+      assertFalse(checkUsers);
+    }
+
+    @Test
+    @DisplayName("Study Room에 유저 두 명 존재")
+    public void checkUsersInStudyRoomWhenExistTwoUser() {
+      //given
+      userRepository.save(User.builder().studyRoom(studyRoom).userName("user2").build());
+      UUID roomUuid = studyRoom.getRoomUuid();
+      boolean checkUsers = userRepository.checkUsersByRoomUuid(roomUuid);
+
+      assertTrue(checkUsers);
     }
   }
 }
