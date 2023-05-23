@@ -33,9 +33,9 @@ public class UserService {
     return userMapper.toDto(user);
   }
 
-  public GetUserResponse getUser(GetUserRequest request) {
+  public GetUserResponse getUser(UUID userUuid) {
     User user =
-        userRepository.findUserByUserUuid(request.getUserUuid()).orElseThrow(NotFoundUser::new);
+        userRepository.findUserByUserUuid(userUuid).orElseThrow(NotFoundUser::new);
     return userMapper.toDto(user);
   }
 

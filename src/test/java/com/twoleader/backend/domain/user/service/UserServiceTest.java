@@ -58,10 +58,10 @@ public class UserServiceTest {
     public void getUserByUserUuidTestwhenUserExist() {
       // given
       given(userRepository.findUserByUserUuid(any())).willReturn(Optional.ofNullable(user));
-      GetUserRequest request = GetUserRequest.builder().userUuid(user.getUserUuid()).build();
+      UUID userUuid = user.getUserUuid();
 
       // when
-      GetUserResponse response = userService.getUser(request);
+      GetUserResponse response = userService.getUser(userUuid);
 
       // then
       assertEquals(user.getUserUuid(), response.getUserUuid());
@@ -73,13 +73,13 @@ public class UserServiceTest {
     public void getUserByUserUuidTestWhenUserNotExist() {
       // given
       given(userRepository.findUserByUserUuid(any())).willReturn(Optional.ofNullable(null));
-      GetUserRequest request = GetUserRequest.builder().userUuid(UUID.randomUUID()).build();
+      UUID userUuid = UUID.randomUUID();
 
       // when,then
       assertThrows(
           NotFoundUser.class,
           () -> {
-            GetUserResponse response = userService.getUser(request);
+            GetUserResponse response = userService.getUser(userUuid);
           });
     }
   }

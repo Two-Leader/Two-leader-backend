@@ -134,7 +134,6 @@ public class StudyRoomServiceTest {
     public void findStudyRoomByRoomUuidWhenNotExist() {
       // given
       given(studyRoomRepository.findStudyRoomByUuid(any())).willReturn(Optional.empty());
-      given(userRepository.checkUsersByRoomUuid(any())).willReturn(false);
 
       // when, then
       assertThrows(

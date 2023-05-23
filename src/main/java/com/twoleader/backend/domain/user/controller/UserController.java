@@ -20,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
@@ -50,13 +52,13 @@ public class UserController {
     @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
-  @GetMapping
+  @GetMapping("/{userUuid}")
   public ResponseEntity<EntityModel<ResultResponse<GetUserResponse>>> getUser(
-      @Valid @RequestBody GetUserRequest request) {
-    GetUserResponse response = userService.getUser(request);
+      @PathVariable("userUuid") UUID userUuid) {
+    GetUserResponse response = userService.getUser(userUuid);
     return ResponseEntity.ok(
         EntityModel.of(
             new ResultResponse<>(GET_USER_SUCCESS, response),
-            linkTo(methodOn(UserController.class).getUser(request)).withSelfRel()));
+            linkTo(methodOn(UserController.class).getUser(userUuid)).withSelfRel()));
   }
 }
