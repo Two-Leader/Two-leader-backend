@@ -21,6 +21,4 @@ public class WebSocketController {
     log.debug("[ws] offerMessage : message {}, roomUuid {}", message, roomUuid);
     simpMessagingTemplate.convertAndSend("/topic/" + roomUuid, message);
   }
-
-
 }
