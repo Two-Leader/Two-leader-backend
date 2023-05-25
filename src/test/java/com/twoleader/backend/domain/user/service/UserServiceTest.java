@@ -5,7 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-import com.twoleader.backend.domain.user.dto.request.GetUserRequest;
 import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.exception.NotFoundUser;

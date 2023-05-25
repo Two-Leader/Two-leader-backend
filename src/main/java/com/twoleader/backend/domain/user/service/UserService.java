@@ -4,7 +4,6 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.dto.request.CreateUserRequest;
-import com.twoleader.backend.domain.user.dto.request.GetUserRequest;
 import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.exception.NotFoundUser;
@@ -34,8 +33,7 @@ public class UserService {
   }
 
   public GetUserResponse getUser(UUID userUuid) {
-    User user =
-        userRepository.findUserByUserUuid(userUuid).orElseThrow(NotFoundUser::new);
+    User user = userRepository.findUserByUserUuid(userUuid).orElseThrow(NotFoundUser::new);
     return userMapper.toDto(user);
   }
 

@@ -5,13 +5,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.twoleader.backend.domain.user.dto.request.CreateUserRequest;
-import com.twoleader.backend.domain.user.dto.request.GetUserRequest;
 import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import com.twoleader.backend.domain.user.service.UserService;
 import com.twoleader.backend.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import java.util.UUID;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +19,6 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
