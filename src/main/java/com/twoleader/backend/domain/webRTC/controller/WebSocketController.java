@@ -15,12 +15,11 @@ import org.springframework.stereotype.Controller;
 public class WebSocketController {
   private final SimpMessagingTemplate simpMessagingTemplate;
 
-  @MessageMapping("/{roomUuid}/offer")
+  @MessageMapping("/{roomUuid}")
   public void offerMessage(
       @Payload WebSocketMessage message, @DestinationVariable("roomUuid") String roomUuid) {
-    log.debug("[ws] offerMessage : message {}, roomUuid {}", message, roomUuid);
+    log.debug("[ws] offerMessage : messageType {}, roomUuid {}", message.getType(), roomUuid);
     simpMessagingTemplate.convertAndSend("/topic/" + roomUuid, message);
   }
-
 
 }
