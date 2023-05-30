@@ -6,6 +6,8 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.exception.NotFoundUser;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,9 +72,11 @@ public class UserRepositoryTest {
   }
 
   @Nested
+  @DisplayName("Study Room안 User check")
   class checkUserInStudyRoom {
+
     @Test
-    @DisplayName("Study Room에 유저 한 명만 존재")
+    @DisplayName("Study Room에 유저 한 명만 존재 check")
     public void checkUsersInStudyRoomWhenExistOneUser() {
       // given
       UUID roomUuid = studyRoom.getRoomUuid();
@@ -91,5 +95,15 @@ public class UserRepositoryTest {
 
       assertTrue(checkUsers);
     }
+  }
+
+  @Test
+  @DisplayName("StudyRoom 안 User 찾기")
+  public void findAllUserByStudyRoomUuid(){
+    //given
+    UUID roomUuid = studyRoom.getRoomUuid();
+    List<User> users = userRepository.findAllInStudyRoomByStudyRoomUuid(roomUuid);
+
+    assertEquals(user.getUserUuid(), users.get(0).getUserUuid());
   }
 }

@@ -14,11 +14,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("SELECT u FROM User u WHERE u.userUuid = :user_uuid")
   Optional<User> findUserByUserUuid(@Param("user_uuid") UUID user_uuid);
 
-  @Query("SELECT u FROM User u JOIN FETCH StudyRoom s WHERE s.roomUuid = :studyRoomUuid")
-  List<User> findAllInStudyRoomByStudyRoomUuid(@Param("studyRoomUuid") UUID studyRoomUuid);
+  @Query("SELECT u FROM User u JOIN FETCH u.studyRoom s WHERE s.roomUuid = :roomUuid")
+  List<User> findAllInStudyRoomByStudyRoomUuid(@Param("roomUuid") UUID roomUuid);
 
   @Query("SELECT COUNT(u) > 1 FROM User u JOIN u.studyRoom r WHERE r.roomUuid = :roomUuid")
-  boolean checkUsersByRoomUuid(@Param("roomUuid") UUID room_uuid);
+  boolean checkUsersByRoomUuid(@Param("roomUuid") UUID roomUuid);
 
   @Query("DELETE FROM User u WHERE u.userUuid = :userUuid")
   void deleteByUuid(@Param("userUuid") UUID userUuid);

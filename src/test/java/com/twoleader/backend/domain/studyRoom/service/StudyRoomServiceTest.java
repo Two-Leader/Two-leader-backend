@@ -10,7 +10,11 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
+import com.twoleader.backend.domain.user.entity.User;
+import com.twoleader.backend.domain.user.mapper.UserMapper;
 import com.twoleader.backend.domain.user.repository.UserRepository;
+
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +28,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,7 +43,7 @@ public class StudyRoomServiceTest {
   @Spy private StudyRoomMapper studyRoomMapper;
 
   private List<StudyRoom> studyRooms = new ArrayList<>();
-
+  private List<User> users = new ArrayList<>();
   @BeforeEach
   public void setUp() {
     studyRooms.add(
@@ -51,6 +57,14 @@ public class StudyRoomServiceTest {
             .roomId(2L)
             .roomUuid(UUID.randomUUID())
             .roomName("testStudyRoom2")
+            .build());
+
+    users.add(
+        User.builder()
+            .userId(1L)
+            .userUuid(UUID.randomUUID())
+            .userName("tester")
+            .studyRoom(studyRooms.get(0))
             .build());
   }
 
@@ -95,9 +109,10 @@ public class StudyRoomServiceTest {
       // given
       int index = 0;
       StudyRoom studyRoom = studyRooms.get(index);
+
       given(studyRoomRepository.findStudyRoomByUuid(any()))
           .willReturn(Optional.ofNullable(studyRoom));
-      given(userRepository.checkUsersByRoomUuid(any())).willReturn(false);
+      given(userRepository.findAllInStudyRoomByStudyRoomUuid(any())).willReturn(users);
 
       // when
       assert studyRoom != null;
@@ -107,6 +122,7 @@ public class StudyRoomServiceTest {
       assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
       assertEquals(studyRoom.getRoomName(), response.getRoomName());
       assertEquals(false, response.getCheckUser());
+      assertEquals(users.get(index).getUserUuid(),response.getUsers().get(index).getUserUuid());
     }
 
     @Test
@@ -114,10 +130,17 @@ public class StudyRoomServiceTest {
     public void findStudyRoomByRoomUuidWhenExistAndTwoUser() {
       // given
       int index = 0;
+      users.add(
+              User.builder()
+                      .userId(2L)
+                      .userUuid(UUID.randomUUID())
+                      .userName("tester2")
+                      .studyRoom(studyRooms.get(0))
+                      .build());
       StudyRoom studyRoom = studyRooms.get(index);
       given(studyRoomRepository.findStudyRoomByUuid(any()))
           .willReturn(Optional.ofNullable(studyRoom));
-      given(userRepository.checkUsersByRoomUuid(any())).willReturn(true);
+      given(userRepository.findAllInStudyRoomByStudyRoomUuid(any())).willReturn(users);
 
       // when
       assert studyRoom != null;
@@ -127,6 +150,7 @@ public class StudyRoomServiceTest {
       assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
       assertEquals(studyRoom.getRoomName(), response.getRoomName());
       assertEquals(true, response.getCheckUser());
+      assertEquals(users.get(index).getUserUuid(),response.getUsers().get(index).getUserUuid());
     }
 
     @Test

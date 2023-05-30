@@ -6,6 +6,7 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
+import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.repository.UserRepository;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class StudyRoomService {
   public GetStudyRoomResponse findStudyRoomByUuid(UUID roomUuid) {
     StudyRoom studyRoom =
         studyRoomRepository.findStudyRoomByUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
-    boolean checkUser = userRepository.checkUsersByRoomUuid(roomUuid);
-    return studyRoomMapper.toDto(studyRoom, checkUser);
+    List<User> users = userRepository.findAllInStudyRoomByStudyRoomUuid(roomUuid);
+    return studyRoomMapper.toDto(studyRoom, users);
   }
 }

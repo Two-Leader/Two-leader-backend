@@ -6,6 +6,9 @@ import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import com.twoleader.backend.domain.user.entity.User;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class UserMapper {
 
@@ -18,5 +21,9 @@ public class UserMapper {
         .userUuid(user.getUserUuid())
         .userName(user.getUserName())
         .build();
+  }
+
+  public List<GetUserResponse> toDto(List<User> users){
+    return users.stream().map(this::toDto).collect(Collectors.toList());
   }
 }

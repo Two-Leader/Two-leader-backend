@@ -23,10 +23,8 @@ public class StudyRoomRepositoryTest {
 
   @BeforeEach
   public void setUp() {
-
     studyRooms.add(
         studyRoomRepository.save(StudyRoom.builder().roomName("TestStudyRoom1").build()));
-
     studyRooms.add(
         studyRoomRepository.save(StudyRoom.builder().roomName("TestStudyRoom2").build()));
   }

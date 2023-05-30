@@ -12,9 +12,15 @@ import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
+import com.twoleader.backend.domain.user.entity.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,13 +44,15 @@ public class StudyRoomControllerTest {
   @Autowired private ObjectMapper objectMapper;
 
   @MockBean private StudyRoomService studyRoomService;
-  @Spy private StudyRoomMapper studyRoomMapper;
+
+  private static final List<GetUserResponse> users = new ArrayList<>();
 
   private static final GetStudyRoomResponse response =
       GetStudyRoomResponse.builder()
           .roomUuid(UUID.randomUUID())
           .roomName("testStudyRoom1")
           .checkUser(false)
+          .users(users)
           .build();
 
   @Test
@@ -103,8 +111,12 @@ public class StudyRoomControllerTest {
   @DisplayName(" StudyRoom 개별 조회")
   public void getStudyRoomByUuid() throws Exception {
     // given
+    int index = 1;
     given(studyRoomService.findStudyRoomByUuid(any())).willReturn(response);
+    users.add(GetUserResponse.builder().userUuid(UUID.randomUUID()).userName("tester").build());
+    users.add(GetUserResponse.builder().userUuid(UUID.randomUUID()).userName("tester2").build());
 
+    //when, then
     mockMvc
         .perform(
             get("/api/v1/studies/" + response.getRoomUuid().toString())
@@ -114,6 +126,7 @@ public class StudyRoomControllerTest {
         .andExpect(jsonPath("$.data.roomUuid").value(response.getRoomUuid().toString()))
         .andExpect(jsonPath("$.data.roomName").value(response.getRoomName()))
         .andExpect(jsonPath("$.data.checkUser").value(response.getCheckUser()))
+        .andExpect(jsonPath("$.data.users["+index+"].userUuid").value(response.getUsers().get(index).getUserUuid().toString()))
         .andExpect(jsonPath("$._links.self").exists())
         .andDo(print());
   }
