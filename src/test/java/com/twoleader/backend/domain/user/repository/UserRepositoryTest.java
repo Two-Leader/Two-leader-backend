@@ -6,7 +6,6 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.exception.NotFoundUser;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -99,8 +98,8 @@ public class UserRepositoryTest {
 
   @Test
   @DisplayName("StudyRoom 안 User 찾기")
-  public void findAllUserByStudyRoomUuid(){
-    //given
+  public void findAllUserByStudyRoomUuid() {
+    // given
     UUID roomUuid = studyRoom.getRoomUuid();
     List<User> users = userRepository.findAllInStudyRoomByStudyRoomUuid(roomUuid);
 

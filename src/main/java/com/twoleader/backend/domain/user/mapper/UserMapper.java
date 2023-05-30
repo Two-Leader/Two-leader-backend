@@ -4,10 +4,9 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.user.dto.request.CreateUserRequest;
 import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import com.twoleader.backend.domain.user.entity.User;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
@@ -23,7 +22,7 @@ public class UserMapper {
         .build();
   }
 
-  public List<GetUserResponse> toDto(List<User> users){
+  public List<GetUserResponse> toDto(List<User> users) {
     return users.stream().map(this::toDto).collect(Collectors.toList());
   }
 }

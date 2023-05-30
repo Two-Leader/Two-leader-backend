@@ -10,21 +10,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
-import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
-
-import java.lang.reflect.Array;
+import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
-import com.twoleader.backend.domain.user.entity.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -116,7 +109,7 @@ public class StudyRoomControllerTest {
     users.add(GetUserResponse.builder().userUuid(UUID.randomUUID()).userName("tester").build());
     users.add(GetUserResponse.builder().userUuid(UUID.randomUUID()).userName("tester2").build());
 
-    //when, then
+    // when, then
     mockMvc
         .perform(
             get("/api/v1/studies/" + response.getRoomUuid().toString())
@@ -126,7 +119,9 @@ public class StudyRoomControllerTest {
         .andExpect(jsonPath("$.data.roomUuid").value(response.getRoomUuid().toString()))
         .andExpect(jsonPath("$.data.roomName").value(response.getRoomName()))
         .andExpect(jsonPath("$.data.checkUser").value(response.getCheckUser()))
-        .andExpect(jsonPath("$.data.users["+index+"].userUuid").value(response.getUsers().get(index).getUserUuid().toString()))
+        .andExpect(
+            jsonPath("$.data.users[" + index + "].userUuid")
+                .value(response.getUsers().get(index).getUserUuid().toString()))
         .andExpect(jsonPath("$._links.self").exists())
         .andDo(print());
   }
