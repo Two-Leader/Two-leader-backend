@@ -1,9 +1,8 @@
 package com.twoleader.backend.domain.studyRoom.dto.response;
 
+import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import java.util.List;
 import java.util.UUID;
-
-import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import lombok.Builder;
 import lombok.Getter;
 
