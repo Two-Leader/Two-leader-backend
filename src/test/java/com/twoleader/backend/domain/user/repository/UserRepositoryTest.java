@@ -106,4 +106,20 @@ public class UserRepositoryTest {
 
     assertEquals(user.getUserUuid(), users.get(0).getUserUuid());
   }
+
+  @Test
+  @DisplayName("User 삭제")
+  public void deleteUserByUserUuid(){
+    //given
+    List<User> users = userRepository.findAll();
+    assertEquals(users.size(),1);
+    UUID userUuid = user.getUserUuid();
+
+    //when
+    userRepository.deleteByUserUuid(userUuid);
+
+    //then
+    users = userRepository.findAll();
+    assertEquals(users.size(),0);
+  }
 }

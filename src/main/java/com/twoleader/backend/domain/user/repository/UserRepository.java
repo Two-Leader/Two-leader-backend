@@ -20,6 +20,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("SELECT COUNT(u) > 1 FROM User u JOIN u.studyRoom r WHERE r.roomUuid = :roomUuid")
   boolean checkUsersByRoomUuid(@Param("roomUuid") UUID roomUuid);
 
-  @Query("DELETE FROM User u WHERE u.userUuid = :userUuid")
-  void deleteByUuid(@Param("userUuid") UUID userUuid);
+  void deleteByUserUuid(UUID userUuid);
 }

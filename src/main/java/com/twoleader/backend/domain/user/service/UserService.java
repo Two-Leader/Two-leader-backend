@@ -42,6 +42,6 @@ public class UserService {
   }
 
   public void deleteUserByUuid(UUID userUuid) {
-    userRepository.deleteByUuid(userUuid);
+    userRepository.deleteByUserUuid(userUuid);
   }
 }
