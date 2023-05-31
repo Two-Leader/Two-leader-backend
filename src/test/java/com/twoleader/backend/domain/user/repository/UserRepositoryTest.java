@@ -108,17 +108,17 @@ public class UserRepositoryTest {
 
   @Test
   @DisplayName("User 삭제")
-  public void deleteUserByUserUuid(){
-    //given
+  public void deleteUserByUserUuid() {
+    // given
     List<User> users = userRepository.findAll();
-    assertEquals(users.size(),1);
+    assertEquals(users.size(), 1);
     UUID userUuid = user.getUserUuid();
 
-    //when
+    // when
     userRepository.deleteByUserUuid(userUuid);
 
-    //then
+    // then
     users = userRepository.findAll();
-    assertEquals(users.size(),0);
+    assertEquals(users.size(), 0);
   }
 }
