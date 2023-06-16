@@ -1,13 +1,13 @@
 package com.twoleader.backend.domain.studyRoom.controller;
 
-import static com.twoleader.backend.global.result.ResultCode.*;
+import static com.twoleader.backend.global.result.api.ResultCode.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
-import com.twoleader.backend.global.result.ResultResponse;
+import com.twoleader.backend.global.result.api.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -41,7 +41,7 @@ public class StudyRoomController {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
-                new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS, response),
+                new ResultResponse<>(API_SUCCESS_STUDYROOM_REGISTRATION, response),
                 linkTo(methodOn(StudyRoomController.class).createStudyRoom(request))
                     .withSelfRel()));
   }
@@ -68,7 +68,7 @@ public class StudyRoomController {
 
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(GET_ALL_STUDYROOM_SUCCESS, studyRooms),
+            new ResultResponse<>(API_SUCCESS_STUDYROOM_GET_ALL, studyRooms),
             linkTo(methodOn(StudyRoomController.class).getAllStudyRoom()).withSelfRel()));
   }
 
@@ -84,7 +84,7 @@ public class StudyRoomController {
     GetStudyRoomResponse studyRoom = studyRoomService.findStudyRoomByUuid(roomUuid);
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(GET_STUDYROOM_SUCCESS, studyRoom),
+            new ResultResponse<>(API_SUCCESS_STUDYROOM_GET, studyRoom),
             linkTo(methodOn(StudyRoomController.class).getStudyRoomByUuid(roomUuid))
                 .withSelfRel()));
   }

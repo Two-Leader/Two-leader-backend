@@ -1,4 +1,4 @@
-package com.twoleader.backend.global.result;
+package com.twoleader.backend.global.result.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;

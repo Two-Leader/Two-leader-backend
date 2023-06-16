@@ -25,6 +25,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.kurento:kurento-tree-client:6.6.0'
+    implementation 'org.kurento:kurento-client:6.18.0'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'

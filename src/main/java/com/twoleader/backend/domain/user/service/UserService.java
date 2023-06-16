@@ -37,8 +37,9 @@ public class UserService {
     return userMapper.toDto(user);
   }
 
-  public List<User> findAllUserInStudyRoomByStudyRoomUuid(UUID studyRoomUuid) {
-    return userRepository.findAllInStudyRoomByStudyRoomUuid(studyRoomUuid);
+  public List<GetUserResponse> findAllUserInStudyRoomByStudyRoomUuid(UUID studyRoomUuid) {
+    List<User> users = userRepository.findAllInStudyRoomByStudyRoomUuid(studyRoomUuid);
+    return userMapper.toDto(users);
   }
 
   public void deleteUserByUuid(UUID userUuid) {

@@ -1,13 +1,13 @@
 package com.twoleader.backend.domain.user.controller;
 
-import static com.twoleader.backend.global.result.ResultCode.*;
+import static com.twoleader.backend.global.result.api.ResultCode.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.twoleader.backend.domain.user.dto.request.CreateUserRequest;
 import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
 import com.twoleader.backend.domain.user.service.UserService;
-import com.twoleader.backend.global.result.ResultResponse;
+import com.twoleader.backend.global.result.api.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -40,7 +40,7 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
-                new ResultResponse<>(USER_REGISTRATION_SUCCESS, response),
+                new ResultResponse<>(API_SUCCESS_USER_REGISTRATION, response),
                 linkTo(methodOn(UserController.class).createUser(request)).withSelfRel()));
   }
 
@@ -56,7 +56,7 @@ public class UserController {
     GetUserResponse response = userService.getUser(userUuid);
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(GET_USER_SUCCESS, response),
+            new ResultResponse<>(API_SUCCESS_USER_GET, response),
             linkTo(methodOn(UserController.class).getUser(userUuid)).withSelfRel()));
   }
 
@@ -70,9 +70,7 @@ public class UserController {
   public ResponseEntity<EntityModel<ResultResponse>> deleteUser(
       @PathVariable("userUuid") UUID userUuid) {
     userService.deleteUserByUuid(userUuid);
-    return ResponseEntity.ok(
-        EntityModel.of(
-            new ResultResponse(DELETE_USER_SUCCESS),
-            linkTo(methodOn(UserController.class).deleteUser(userUuid)).withSelfRel()));
+    return ResponseEntity.ok(EntityModel.of(new ResultResponse(API_SUCCESS_USER_DELETE)
+            ,linkTo(methodOn(UserController.class).deleteUser(userUuid)).withSelfRel()));
   }
 }

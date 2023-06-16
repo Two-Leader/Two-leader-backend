@@ -1,0 +1,9 @@
+package com.twoleader.backend.global.result.webSocket;
+
+public enum OutputMessageCode {
+    WEBRTC_SUCCESS_GET_STUDYROOM_USERS,
+    WEBRTC_SUCCESS_ADDED_STUDYROOM_USER,
+    WEBRTC_STUDYROOM_USER_LEFT,
+    WEBRTC_SUCCESS_ANSWER,
+    WEBRTC_SUCCESS_ADD_ICE_CANDIDATE
+}
