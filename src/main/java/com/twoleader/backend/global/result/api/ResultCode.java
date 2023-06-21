@@ -17,7 +17,7 @@ public enum ResultCode {
   // user
   API_SUCCESS_USER_GET("U001", "유저를 정상적으로 불러왔습니다."),
   API_SUCCESS_USER_REGISTRATION("U002", "유저가 정상적으로 등록되었습니다."),
-  API_SUCCESS_USER_DELETE("U003","유저를 정삭적으로 삭제했습니다."),
+  API_SUCCESS_USER_DELETE("U003", "유저를 정삭적으로 삭제했습니다."),
   ;
 
   private final String code;

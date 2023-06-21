@@ -8,6 +8,6 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class OutputMessage<T> {
-    private OutputMessageCode code;
-    private T data;
+  private OutputMessageCode code;
+  private T data;
 }

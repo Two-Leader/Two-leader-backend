@@ -70,7 +70,9 @@ public class UserController {
   public ResponseEntity<EntityModel<ResultResponse>> deleteUser(
       @PathVariable("userUuid") UUID userUuid) {
     userService.deleteUserByUuid(userUuid);
-    return ResponseEntity.ok(EntityModel.of(new ResultResponse(API_SUCCESS_USER_DELETE)
-            ,linkTo(methodOn(UserController.class).deleteUser(userUuid)).withSelfRel()));
+    return ResponseEntity.ok(
+        EntityModel.of(
+            new ResultResponse(API_SUCCESS_USER_DELETE),
+            linkTo(methodOn(UserController.class).deleteUser(userUuid)).withSelfRel()));
   }
 }

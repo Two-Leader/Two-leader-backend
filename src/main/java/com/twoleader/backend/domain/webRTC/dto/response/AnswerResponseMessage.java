@@ -1,12 +1,10 @@
 package com.twoleader.backend.domain.webRTC.dto.response;
 
-
-import lombok.Builder;
-
 import java.util.UUID;
+import lombok.Builder;
 
 @Builder
 public class AnswerResponseMessage {
-    private UUID userUuid;
-    private String sdp;
+  private UUID userUuid;
+  private String sdp;
 }
