@@ -2,10 +2,10 @@ package com.twoleader.backend.domain.roomUser.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.roomUser.entity.RoomUser;
 import com.twoleader.backend.domain.roomUser.exception.NotFoundUser;
+import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
+import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,7 +34,9 @@ public class RoomUserRepositoryTest {
   public void setUp() {
     studyRoom = studyRoomRepository.save(StudyRoom.builder().roomName("testStudyRoom").build());
 
-    user = roomUserRepository.save(RoomUser.builder().studyRoom(studyRoom).userName("testUser").build());
+    user =
+        roomUserRepository.save(
+            RoomUser.builder().studyRoom(studyRoom).userName("testUser").build());
   }
 
   @Nested

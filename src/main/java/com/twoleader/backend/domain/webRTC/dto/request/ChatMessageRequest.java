@@ -8,6 +8,6 @@ import lombok.ToString;
 @Builder
 @Getter
 public class ChatMessageRequest {
-    private String userName;
-    private String message;
+  private String userName;
+  private String message;
 }

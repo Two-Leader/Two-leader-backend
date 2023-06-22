@@ -13,6 +13,4 @@ public class GetStudyRoomResponse {
   private String roomName;
   private Boolean checkUser;
   private List<GetRoomUserResponse> users;
-
 }
-

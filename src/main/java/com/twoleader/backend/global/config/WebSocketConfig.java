@@ -2,7 +2,6 @@ package com.twoleader.backend.global.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.*;
 
@@ -10,7 +9,7 @@ import org.springframework.web.socket.config.annotation.*;
 @EnableWebSocketMessageBroker
 @Configuration
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-//  private final StompHandler stompHandler;
+  //  private final StompHandler stompHandler;
 
   @Override
   public void configureMessageBroker(MessageBrokerRegistry registry) {
@@ -23,9 +22,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // the url is for Websocket handshake
     registry.addEndpoint("/signal").setAllowedOriginPatterns("*").withSockJS();
   }
-//  @Override
-//  public void configureClientInboundChannel(ChannelRegistration registration) {
-//    // connect / disconnect 인터셉터
-//    registration.interceptors(stompHandler);
-//  }
+  //  @Override
+  //  public void configureClientInboundChannel(ChannelRegistration registration) {
+  //    // connect / disconnect 인터셉터
+  //    registration.interceptors(stompHandler);
+  //  }
 }

@@ -1,18 +1,17 @@
 package com.twoleader.backend.domain.roomUser.service;
 
-import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
-import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.roomUser.dto.request.CreateRoomUserRequest;
 import com.twoleader.backend.domain.roomUser.dto.response.GetRoomUserResponse;
 import com.twoleader.backend.domain.roomUser.entity.RoomUser;
 import com.twoleader.backend.domain.roomUser.exception.NotFoundUser;
 import com.twoleader.backend.domain.roomUser.mapper.RoomUserMapper;
 import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
+import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
+import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
+import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
+import com.twoleader.backend.domain.webRTC.service.SendMessagingService;
 import java.util.List;
 import java.util.UUID;
-
-import com.twoleader.backend.domain.webRTC.service.SendMessagingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

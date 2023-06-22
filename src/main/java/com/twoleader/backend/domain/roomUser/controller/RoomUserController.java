@@ -75,6 +75,4 @@ public class RoomUserController {
             new ResultResponse(DELETE_USER_SUCCESS),
             linkTo(methodOn(RoomUserController.class).deleteUser(userUuid)).withSelfRel()));
   }
-
-
 }

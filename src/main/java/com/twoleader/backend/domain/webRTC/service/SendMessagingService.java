@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public final class SendMessagingService {
-    private final SimpMessagingTemplate simpMessagingTemplate;
+  private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public <T> void sendToUser(String roomUuid, OutputMessage<T> message) {
-        log.info("[ws] sendMessage to {} message {}",roomUuid,message);
-        simpMessagingTemplate.convertAndSend("/topic/"+roomUuid, message);
-    }
+  public <T> void sendToUser(String roomUuid, OutputMessage<T> message) {
+    log.info("[ws] sendMessage to {} message {}", roomUuid, message);
+    simpMessagingTemplate.convertAndSend("/topic/" + roomUuid, message);
+  }
 }

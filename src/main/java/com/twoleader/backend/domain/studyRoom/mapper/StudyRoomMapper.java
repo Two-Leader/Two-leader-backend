@@ -1,10 +1,10 @@
 package com.twoleader.backend.domain.studyRoom.mapper;
 
+import com.twoleader.backend.domain.roomUser.dto.response.GetRoomUserResponse;
+import com.twoleader.backend.domain.roomUser.entity.RoomUser;
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-import com.twoleader.backend.domain.roomUser.dto.response.GetRoomUserResponse;
-import com.twoleader.backend.domain.roomUser.entity.RoomUser;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;

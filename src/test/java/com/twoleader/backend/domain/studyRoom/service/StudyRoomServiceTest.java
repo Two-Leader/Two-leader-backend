@@ -4,14 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import com.twoleader.backend.domain.roomUser.entity.RoomUser;
+import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
-import com.twoleader.backend.domain.roomUser.entity.RoomUser;
-import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
