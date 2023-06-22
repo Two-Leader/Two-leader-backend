@@ -1,13 +1,13 @@
 package com.twoleader.backend.domain.studyRoom.controller;
 
-import static com.twoleader.backend.global.result.ResultCode.*;
+import static com.twoleader.backend.global.result.api.ResultCode.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
-import com.twoleader.backend.global.result.ResultResponse;
+import com.twoleader.backend.global.result.api.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

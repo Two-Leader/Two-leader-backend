@@ -1,12 +1,17 @@
 package com.twoleader.backend.global.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.*;
 
+@RequiredArgsConstructor
 @EnableWebSocketMessageBroker
 @Configuration
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+//  private final StompHandler stompHandler;
+
   @Override
   public void configureMessageBroker(MessageBrokerRegistry registry) {
     registry.enableSimpleBroker("/topic");
@@ -18,13 +23,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // the url is for Websocket handshake
     registry.addEndpoint("/signal").setAllowedOriginPatterns("*").withSockJS();
   }
-
-  //  @Override
-  //  public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
-  //    registration.setMessageSizeLimit(160 * 64 * 1024);    // Max incoming message size, default
-  // : 64 * 1024
-  //    registration.setSendTimeLimit(20 * 10000);            // default : 10 * 10000
-  //    registration.setSendBufferSizeLimit(10 * 512 * 1024); // Max outgoing buffer size, default :
-  // 512 * 1024
-  //  }
+//  @Override
+//  public void configureClientInboundChannel(ChannelRegistration registration) {
+//    // connect / disconnect 인터셉터
+//    registration.interceptors(stompHandler);
+//  }
 }

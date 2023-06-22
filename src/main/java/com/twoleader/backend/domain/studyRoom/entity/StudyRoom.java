@@ -1,6 +1,6 @@
 package com.twoleader.backend.domain.studyRoom.entity;
 
-import com.twoleader.backend.domain.user.entity.User;
+import com.twoleader.backend.domain.roomUser.entity.RoomUser;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,5 +31,5 @@ public class StudyRoom {
       fetch = FetchType.LAZY,
       cascade = CascadeType.ALL,
       orphanRemoval = true)
-  private List<User> users = new ArrayList<>();
+  private List<RoomUser> users = new ArrayList<>();
 }

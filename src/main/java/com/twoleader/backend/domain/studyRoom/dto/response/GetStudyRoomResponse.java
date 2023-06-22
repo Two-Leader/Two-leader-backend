@@ -1,6 +1,6 @@
 package com.twoleader.backend.domain.studyRoom.dto.response;
 
-import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
+import com.twoleader.backend.domain.roomUser.dto.response.GetRoomUserResponse;
 import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
@@ -12,5 +12,7 @@ public class GetStudyRoomResponse {
   private UUID roomUuid;
   private String roomName;
   private Boolean checkUser;
-  private List<GetUserResponse> users;
+  private List<GetRoomUserResponse> users;
+
 }
+

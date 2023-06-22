@@ -3,8 +3,8 @@ package com.twoleader.backend.domain.studyRoom.mapper;
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
-import com.twoleader.backend.domain.user.entity.User;
+import com.twoleader.backend.domain.roomUser.dto.response.GetRoomUserResponse;
+import com.twoleader.backend.domain.roomUser.entity.RoomUser;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class StudyRoomMapper {
     return studyRooms.stream().map(this::toDto).collect(Collectors.toList());
   }
 
-  public GetStudyRoomResponse toDto(StudyRoom studyRoom, List<User> users) {
+  public GetStudyRoomResponse toDto(StudyRoom studyRoom, List<RoomUser> users) {
     return GetStudyRoomResponse.builder()
         .roomUuid(studyRoom.getRoomUuid())
         .roomName(studyRoom.getRoomName())
@@ -36,8 +36,8 @@ public class StudyRoomMapper {
         .build();
   }
 
-  private GetUserResponse toDto(User user) {
-    return GetUserResponse.builder()
+  private GetRoomUserResponse toDto(RoomUser user) {
+    return GetRoomUserResponse.builder()
         .userUuid(user.getUserUuid())
         .userName(user.getUserName())
         .build();

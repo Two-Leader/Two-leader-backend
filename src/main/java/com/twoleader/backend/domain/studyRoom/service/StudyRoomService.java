@@ -6,8 +6,8 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
-import com.twoleader.backend.domain.user.entity.User;
-import com.twoleader.backend.domain.user.repository.UserRepository;
+import com.twoleader.backend.domain.roomUser.entity.RoomUser;
+import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class StudyRoomService {
   private final StudyRoomRepository studyRoomRepository;
-  private final UserRepository userRepository;
+  private final RoomUserRepository roomUserRepository;
   private final StudyRoomMapper studyRoomMapper;
 
   public GetStudyRoomResponse createStudyRoom(CreateStudyRoomRequest request) {
@@ -36,7 +36,7 @@ public class StudyRoomService {
   public GetStudyRoomResponse findStudyRoomByUuid(UUID roomUuid) {
     StudyRoom studyRoom =
         studyRoomRepository.findStudyRoomByUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
-    List<User> users = userRepository.findAllInStudyRoomByStudyRoomUuid(roomUuid);
+    List<RoomUser> users = roomUserRepository.findAllInStudyRoomByStudyRoomUuid(roomUuid);
     return studyRoomMapper.toDto(studyRoom, users);
   }
 }

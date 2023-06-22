@@ -10,8 +10,8 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
-import com.twoleader.backend.domain.user.entity.User;
-import com.twoleader.backend.domain.user.repository.UserRepository;
+import com.twoleader.backend.domain.roomUser.entity.RoomUser;
+import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,14 +31,14 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles(profiles = {"test"})
 public class StudyRoomServiceTest {
   @Mock private StudyRoomRepository studyRoomRepository;
-  @Mock private UserRepository userRepository;
+  @Mock private RoomUserRepository roomUserRepository;
 
   @InjectMocks private StudyRoomService studyRoomService;
 
   @Spy private StudyRoomMapper studyRoomMapper;
 
   private List<StudyRoom> studyRooms = new ArrayList<>();
-  private List<User> users = new ArrayList<>();
+  private List<RoomUser> users = new ArrayList<>();
 
   @BeforeEach
   public void setUp() {
@@ -56,7 +56,7 @@ public class StudyRoomServiceTest {
             .build());
 
     users.add(
-        User.builder()
+        RoomUser.builder()
             .userId(1L)
             .userUuid(UUID.randomUUID())
             .userName("tester")
@@ -108,7 +108,7 @@ public class StudyRoomServiceTest {
 
       given(studyRoomRepository.findStudyRoomByUuid(any()))
           .willReturn(Optional.ofNullable(studyRoom));
-      given(userRepository.findAllInStudyRoomByStudyRoomUuid(any())).willReturn(users);
+      given(roomUserRepository.findAllInStudyRoomByStudyRoomUuid(any())).willReturn(users);
 
       // when
       assert studyRoom != null;
@@ -127,7 +127,7 @@ public class StudyRoomServiceTest {
       // given
       int index = 0;
       users.add(
-          User.builder()
+          RoomUser.builder()
               .userId(2L)
               .userUuid(UUID.randomUUID())
               .userName("tester2")
@@ -136,7 +136,7 @@ public class StudyRoomServiceTest {
       StudyRoom studyRoom = studyRooms.get(index);
       given(studyRoomRepository.findStudyRoomByUuid(any()))
           .willReturn(Optional.ofNullable(studyRoom));
-      given(userRepository.findAllInStudyRoomByStudyRoomUuid(any())).willReturn(users);
+      given(roomUserRepository.findAllInStudyRoomByStudyRoomUuid(any())).willReturn(users);
 
       // when
       assert studyRoom != null;

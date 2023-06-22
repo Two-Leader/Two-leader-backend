@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
-import com.twoleader.backend.domain.user.dto.response.GetUserResponse;
+import com.twoleader.backend.domain.roomUser.dto.response.GetRoomUserResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -38,7 +38,7 @@ public class StudyRoomControllerTest {
 
   @MockBean private StudyRoomService studyRoomService;
 
-  private static final List<GetUserResponse> users = new ArrayList<>();
+  private static final List<GetRoomUserResponse> users = new ArrayList<>();
 
   private static final GetStudyRoomResponse response =
       GetStudyRoomResponse.builder()
@@ -106,8 +106,8 @@ public class StudyRoomControllerTest {
     // given
     int index = 1;
     given(studyRoomService.findStudyRoomByUuid(any())).willReturn(response);
-    users.add(GetUserResponse.builder().userUuid(UUID.randomUUID()).userName("tester").build());
-    users.add(GetUserResponse.builder().userUuid(UUID.randomUUID()).userName("tester2").build());
+    users.add(GetRoomUserResponse.builder().userUuid(UUID.randomUUID()).userName("tester").build());
+    users.add(GetRoomUserResponse.builder().userUuid(UUID.randomUUID()).userName("tester2").build());
 
     // when, then
     mockMvc
