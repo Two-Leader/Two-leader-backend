@@ -28,7 +28,8 @@ public class GlobalExceptionHandler {
   @ExceptionHandler
   protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
       MethodArgumentNotValidException e) {
-    final ErrorResponse response = ErrorResponse.of(API_ERROR_INPUT_INVALID_VALUE, e.getBindingResult());
+    final ErrorResponse response =
+        ErrorResponse.of(API_ERROR_INPUT_INVALID_VALUE, e.getBindingResult());
     log.warn(e.getMessage());
     return ResponseEntity.status(API_ERROR_INPUT_INVALID_VALUE.getStatus()).body(response);
   }

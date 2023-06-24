@@ -15,7 +15,6 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
@@ -38,14 +37,15 @@ public class RoomUserController {
   })
   @PostMapping("/{roomUuid}")
   public ResponseEntity<EntityModel<ResultResponse>> createUser(
-          @NotBlank @PathVariable("roomUuid") UUID roomUuid,
+      @NotBlank @PathVariable("roomUuid") UUID roomUuid,
       @Valid @RequestBody CreateRoomUserRequest request) {
-    GetRoomUserResponse response = roomUserService.createUser(roomUuid,request);
+    GetRoomUserResponse response = roomUserService.createUser(roomUuid, request);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
                 new ResultResponse<>(USER_REGISTRATION_SUCCESS, response),
-                linkTo(methodOn(RoomUserController.class).createUser(roomUuid,request)).withSelfRel()));
+                linkTo(methodOn(RoomUserController.class).createUser(roomUuid, request))
+                    .withSelfRel()));
   }
 
   @Operation(summary = "User 조회 요청", description = "한 User을 조회합니다.")

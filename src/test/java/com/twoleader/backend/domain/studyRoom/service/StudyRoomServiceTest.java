@@ -12,15 +12,12 @@ import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
+import com.twoleader.backend.domain.user.entity.User;
+import com.twoleader.backend.domain.user.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import com.twoleader.backend.domain.user.entity.User;
-import com.twoleader.backend.domain.user.exception.NotFoundUserException;
-import com.twoleader.backend.domain.user.repository.UserRepository;
-import com.twoleader.backend.domain.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -42,7 +39,6 @@ public class StudyRoomServiceTest {
 
   @InjectMocks private StudyRoomService studyRoomService;
 
-
   @Spy private StudyRoomMapper studyRoomMapper;
 
   private List<StudyRoom> studyRooms = new ArrayList<>();
@@ -51,7 +47,13 @@ public class StudyRoomServiceTest {
 
   @BeforeEach
   public void setUp() {
-    users.add(User.builder().userId(1L).email("testEmail").password("testPassword").nickName("tester").build());
+    users.add(
+        User.builder()
+            .userId(1L)
+            .email("testEmail")
+            .password("testPassword")
+            .nickName("tester")
+            .build());
 
     studyRooms.add(
         StudyRoom.builder()
@@ -80,23 +82,25 @@ public class StudyRoomServiceTest {
   @Test
   @DisplayName("StudyRoom 저장")
   public void whenExistedUser() {
-      // given
-      StudyRoom studyRoom = studyRooms.get(0);
-      User user = users.get(0);
-      CreateStudyRoomRequest request =
-              CreateStudyRoomRequest.builder().UserUuid(user.getUserUuid()).roomName(studyRoom.getRoomName()).build();
-      given(userService.findByUserUuid(any())).willReturn(user);
-      given(studyRoomRepository.save(any())).willReturn(studyRoom);
+    // given
+    StudyRoom studyRoom = studyRooms.get(0);
+    User user = users.get(0);
+    CreateStudyRoomRequest request =
+        CreateStudyRoomRequest.builder()
+            .UserUuid(user.getUserUuid())
+            .roomName(studyRoom.getRoomName())
+            .build();
+    given(userService.findByUserUuid(any())).willReturn(user);
+    given(studyRoomRepository.save(any())).willReturn(studyRoom);
 
-      // when
-      GetStudyRoomResponse response = studyRoomService.createStudyRoom(request);
+    // when
+    GetStudyRoomResponse response = studyRoomService.createStudyRoom(request);
 
-      // then
-      assertEquals(studyRoom.getRoomName(), response.getRoomName());
-      assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
-      assertEquals(studyRoom.getConstructor().getNickName(), response.getConstructorName());
+    // then
+    assertEquals(studyRoom.getRoomName(), response.getRoomName());
+    assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
+    assertEquals(studyRoom.getConstructor().getNickName(), response.getConstructorName());
   }
-
 
   @Test
   @DisplayName("StudyRoom 모두 조회")
@@ -135,7 +139,8 @@ public class StudyRoomServiceTest {
       // then
       assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
       assertEquals(studyRoom.getRoomName(), response.getRoomName());
-      assertEquals(roomUsers.get(index).getRoomUserId(), response.getUsers().get(index).getUserId());
+      assertEquals(
+          roomUsers.get(index).getRoomUserId(), response.getUsers().get(index).getUserId());
     }
 
     @Test

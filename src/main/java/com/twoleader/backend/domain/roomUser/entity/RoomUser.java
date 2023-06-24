@@ -1,11 +1,9 @@
 package com.twoleader.backend.domain.roomUser.entity;
 
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-import java.util.UUID;
-import javax.persistence.*;
-
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.global.common.BaseEntity;
+import javax.persistence.*;
 import lombok.*;
 
 @Entity
@@ -21,7 +19,7 @@ public class RoomUser extends BaseEntity {
   private Long roomUserId;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name="user_id",nullable = false)
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
   @Column(nullable = false)

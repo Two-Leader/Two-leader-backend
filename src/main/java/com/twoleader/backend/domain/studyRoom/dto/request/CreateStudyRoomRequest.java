@@ -1,14 +1,12 @@
 package com.twoleader.backend.domain.studyRoom.dto.request;
 
+import java.util.UUID;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 @Builder
 @Getter

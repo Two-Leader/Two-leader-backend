@@ -6,7 +6,6 @@ import com.twoleader.backend.domain.roomUser.service.RoomUserService;
 import com.twoleader.backend.domain.webRTC.dto.request.ChatMessageRequest;
 import com.twoleader.backend.domain.webRTC.service.SendMessagingService;
 import com.twoleader.backend.global.result.WebSocket.OutputMessage;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -48,9 +47,8 @@ public class WebSocketController {
   @EventListener
   public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
     StompHeaderAccessor headerAccesor = StompHeaderAccessor.wrap(event.getMessage());
-    int userId  = Integer.parseInt(headerAccesor.getSessionAttributes().get("userId").toString());
-    log.info("[ws] sessionId Disconnected : {}",userId);
+    int userId = Integer.parseInt(headerAccesor.getSessionAttributes().get("userId").toString());
+    log.info("[ws] sessionId Disconnected : {}", userId);
     roomUserService.deleteUserByUuid(userId);
   }
-
 }

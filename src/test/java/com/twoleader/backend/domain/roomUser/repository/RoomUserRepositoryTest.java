@@ -5,14 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.twoleader.backend.domain.roomUser.entity.RoomUser;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
-
+import com.twoleader.backend.domain.user.entity.User;
+import com.twoleader.backend.domain.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import com.twoleader.backend.domain.user.entity.User;
-import com.twoleader.backend.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -39,10 +37,31 @@ public class RoomUserRepositoryTest {
   @BeforeEach
   public void setUp() {
     studyRoom = studyRoomRepository.save(StudyRoom.builder().roomName("testStudyRoom").build());
-      users.add(userRepository.save(User.builder().email("testEmail1").password("testPassword").nickName("tester1").build()));
-      users.add(userRepository.save(User.builder().email("testEmail2").password("testPassword").nickName("tester2").build()));
-      studyRoom = studyRoomRepository.save(StudyRoom.builder().constructor(users.get(0)).roomName("testStudyRoom").build());
-      roomUser = roomUserRepository.save(RoomUser.builder().studyRoom(studyRoom).user(users.get(1)).roomUserName("testerName").roomUserName("testUser").build());
+    users.add(
+        userRepository.save(
+            User.builder()
+                .email("testEmail1")
+                .password("testPassword")
+                .nickName("tester1")
+                .build()));
+    users.add(
+        userRepository.save(
+            User.builder()
+                .email("testEmail2")
+                .password("testPassword")
+                .nickName("tester2")
+                .build()));
+    studyRoom =
+        studyRoomRepository.save(
+            StudyRoom.builder().constructor(users.get(0)).roomName("testStudyRoom").build());
+    roomUser =
+        roomUserRepository.save(
+            RoomUser.builder()
+                .studyRoom(studyRoom)
+                .user(users.get(1))
+                .roomUserName("testerName")
+                .roomUserName("testUser")
+                .build());
   }
 
   @Nested

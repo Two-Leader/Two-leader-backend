@@ -53,7 +53,10 @@ public class StudyRoomControllerTest {
   public void CreateStudyRoomTest() throws Exception {
     // given
     CreateStudyRoomRequest request =
-        CreateStudyRoomRequest.builder().userUuid(UUID.randomUUID()).roomName(response.getRoomName()).build();
+        CreateStudyRoomRequest.builder()
+            .userUuid(UUID.randomUUID())
+            .roomName(response.getRoomName())
+            .build();
 
     given(studyRoomService.createStudyRoom(any())).willReturn(response);
 

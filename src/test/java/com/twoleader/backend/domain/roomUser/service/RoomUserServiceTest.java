@@ -4,17 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-import com.twoleader.backend.domain.roomUser.exception.NotFoundRoomUserException;
-import com.twoleader.backend.domain.roomUser.mapper.RoomUserMapper;
-import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.roomUser.dto.response.GetRoomUserResponse;
 import com.twoleader.backend.domain.roomUser.entity.RoomUser;
+import com.twoleader.backend.domain.roomUser.exception.NotFoundRoomUserException;
+import com.twoleader.backend.domain.roomUser.mapper.RoomUserMapper;
 import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import java.util.Optional;
 import java.util.UUID;
-
-import com.twoleader.backend.domain.user.exception.NotFoundUserException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -46,11 +43,7 @@ public class RoomUserServiceTest {
             .build();
 
     roomUser =
-        RoomUser.builder()
-            .roomUserId(1L)
-            .roomUserName("testUser")
-            .studyRoom(studyRoom)
-            .build();
+        RoomUser.builder().roomUserId(1L).roomUserName("testUser").studyRoom(studyRoom).build();
   }
 
   @Nested

@@ -9,13 +9,10 @@ import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
-import com.twoleader.backend.domain.webRTC.service.SendMessagingService;
-import java.util.List;
-import java.util.UUID;
-
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.service.UserService;
-import com.twoleader.backend.domain.webRTC.service.SendMessagingService;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +29,8 @@ public class RoomUserService {
   public GetRoomUserResponse createUser(UUID roomUuid, CreateRoomUserRequest request) {
     User user = userService.findByUserUuid(request.getUserUuid());
     StudyRoom studyRoom =
-        studyRoomRepository
-            .findStudyRoomByUuid(roomUuid)
-            .orElseThrow(NotFoundStudyRoom::new);
-    RoomUser roomUser = roomUserRepository.save(roomUserMapper.toEntity(request, studyRoom,user));
+        studyRoomRepository.findStudyRoomByUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
+    RoomUser roomUser = roomUserRepository.save(roomUserMapper.toEntity(request, studyRoom, user));
     return roomUserMapper.toDto(roomUser);
   }
 
