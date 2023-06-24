@@ -25,12 +25,12 @@ public class WebSocketController {
   private final SendMessagingService stompMessagingService;
   private final RoomUserService roomUserService;
 
-  @MessageMapping("/join/{userUuid}")
+  @MessageMapping("/join/{userId}")
   public void addUser(
-      @DestinationVariable String userUuid, SimpMessageHeaderAccessor headerAccessor) {
-    log.info("[ws] join User : {}", userUuid);
+      @DestinationVariable String userId, SimpMessageHeaderAccessor headerAccessor) {
+    log.info("[ws] join User : {}", userId);
     // Add username in web socket session
-    headerAccessor.getSessionAttributes().put("userUuid", userUuid);
+    headerAccessor.getSessionAttributes().put("userId", userId);
   }
 
   @MessageMapping("/chat/{roomUuid}")
@@ -48,9 +48,9 @@ public class WebSocketController {
   @EventListener
   public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
     StompHeaderAccessor headerAccesor = StompHeaderAccessor.wrap(event.getMessage());
-    UUID userUuid =
-        UUID.fromString(headerAccesor.getSessionAttributes().get("userUuid").toString());
-    log.info("[ws] sessionId Disconnected : {}", userUuid);
-    roomUserService.deleteUserByUuid(userUuid);
+    int userId  = Integer.parseInt(headerAccesor.getSessionAttributes().get("userId").toString());
+    log.info("[ws] sessionId Disconnected : {}",userId);
+    roomUserService.deleteUserByUuid(userId);
   }
+
 }

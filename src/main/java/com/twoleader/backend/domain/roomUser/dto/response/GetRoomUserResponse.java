@@ -7,6 +7,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class GetRoomUserResponse {
-  private UUID userUuid;
+  private Long userId;
   private String userName;
 }

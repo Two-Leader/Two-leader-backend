@@ -13,6 +13,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.UUID;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
@@ -22,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/room-users")
 @RestController
 public class RoomUserController {
   private final RoomUserService roomUserService;
@@ -33,15 +36,16 @@ public class RoomUserController {
     @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
-  @PostMapping
+  @PostMapping("/{roomUuid}")
   public ResponseEntity<EntityModel<ResultResponse>> createUser(
+          @NotBlank @PathVariable("roomUuid") UUID roomUuid,
       @Valid @RequestBody CreateRoomUserRequest request) {
-    GetRoomUserResponse response = roomUserService.createUser(request);
+    GetRoomUserResponse response = roomUserService.createUser(roomUuid,request);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
                 new ResultResponse<>(USER_REGISTRATION_SUCCESS, response),
-                linkTo(methodOn(RoomUserController.class).createUser(request)).withSelfRel()));
+                linkTo(methodOn(RoomUserController.class).createUser(roomUuid,request)).withSelfRel()));
   }
 
   @Operation(summary = "User 조회 요청", description = "한 User을 조회합니다.")
@@ -50,14 +54,14 @@ public class RoomUserController {
     @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
-  @GetMapping("/{userUuid}")
+  @GetMapping("/{roomUserId}")
   public ResponseEntity<EntityModel<ResultResponse<GetRoomUserResponse>>> getUser(
-      @PathVariable("userUuid") UUID userUuid) {
-    GetRoomUserResponse response = roomUserService.getUser(userUuid);
+      @NotNull @PathVariable("roomUserId") long userId) {
+    GetRoomUserResponse response = roomUserService.getUser(userId);
     return ResponseEntity.ok(
         EntityModel.of(
             new ResultResponse<>(GET_USER_SUCCESS, response),
-            linkTo(methodOn(RoomUserController.class).getUser(userUuid)).withSelfRel()));
+            linkTo(methodOn(RoomUserController.class).getUser(userId)).withSelfRel()));
   }
 
   @Operation(summary = "User 삭제 요청", description = "User을 삭제합니다.")
@@ -68,11 +72,11 @@ public class RoomUserController {
   })
   @DeleteMapping("/{userUuid}")
   public ResponseEntity<EntityModel<ResultResponse>> deleteUser(
-      @PathVariable("userUuid") UUID userUuid) {
-    roomUserService.deleteUserByUuid(userUuid);
+      @PathVariable("userUuid") long userId) {
+    roomUserService.deleteUserByUuid(userId);
     return ResponseEntity.ok(
         EntityModel.of(
             new ResultResponse(DELETE_USER_SUCCESS),
-            linkTo(methodOn(RoomUserController.class).deleteUser(userUuid)).withSelfRel()));
+            linkTo(methodOn(RoomUserController.class).deleteUser(userId)).withSelfRel()));
   }
 }

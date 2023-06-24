@@ -14,5 +14,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CreateRoomUserRequest {
   @NotBlank private String userName;
-  @NotNull private UUID roomUuid;
+  @NotNull private UUID userUuid;
 }

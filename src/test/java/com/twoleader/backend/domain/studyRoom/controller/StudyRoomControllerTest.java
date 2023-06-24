@@ -44,7 +44,7 @@ public class StudyRoomControllerTest {
       GetStudyRoomResponse.builder()
           .roomUuid(UUID.randomUUID())
           .roomName("testStudyRoom1")
-          .checkUser(false)
+          .constructorName("tester")
           .users(users)
           .build();
 
@@ -53,7 +53,7 @@ public class StudyRoomControllerTest {
   public void CreateStudyRoomTest() throws Exception {
     // given
     CreateStudyRoomRequest request =
-        CreateStudyRoomRequest.builder().roomName(response.getRoomName()).build();
+        CreateStudyRoomRequest.builder().userUuid(UUID.randomUUID()).roomName(response.getRoomName()).build();
 
     given(studyRoomService.createStudyRoom(any())).willReturn(response);
 
@@ -106,9 +106,8 @@ public class StudyRoomControllerTest {
     // given
     int index = 1;
     given(studyRoomService.findStudyRoomByUuid(any())).willReturn(response);
-    users.add(GetRoomUserResponse.builder().userUuid(UUID.randomUUID()).userName("tester").build());
-    users.add(
-        GetRoomUserResponse.builder().userUuid(UUID.randomUUID()).userName("tester2").build());
+    users.add(GetRoomUserResponse.builder().userId(1L).userName("tester").build());
+    users.add(GetRoomUserResponse.builder().userId(2L).userName("tester2").build());
 
     // when, then
     mockMvc
@@ -119,10 +118,9 @@ public class StudyRoomControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.data.roomUuid").value(response.getRoomUuid().toString()))
         .andExpect(jsonPath("$.data.roomName").value(response.getRoomName()))
-        .andExpect(jsonPath("$.data.checkUser").value(response.getCheckUser()))
         .andExpect(
-            jsonPath("$.data.users[" + index + "].userUuid")
-                .value(response.getUsers().get(index).getUserUuid().toString()))
+            jsonPath("$.data.users[" + index + "].userId")
+                .value(response.getUsers().get(index).getUserId().toString()))
         .andExpect(jsonPath("$._links.self").exists())
         .andDo(print());
   }

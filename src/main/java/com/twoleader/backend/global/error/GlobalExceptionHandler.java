@@ -1,6 +1,6 @@
 package com.twoleader.backend.global.error;
 
-import static com.twoleader.backend.global.error.ErrorCode.INPUT_INVALID_VALUE;
+import static com.twoleader.backend.global.error.ErrorCode.API_ERROR_INPUT_INVALID_VALUE;
 
 import com.twoleader.backend.global.error.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +28,8 @@ public class GlobalExceptionHandler {
   @ExceptionHandler
   protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
       MethodArgumentNotValidException e) {
-    final ErrorResponse response = ErrorResponse.of(INPUT_INVALID_VALUE, e.getBindingResult());
+    final ErrorResponse response = ErrorResponse.of(API_ERROR_INPUT_INVALID_VALUE, e.getBindingResult());
     log.warn(e.getMessage());
-    return ResponseEntity.status(INPUT_INVALID_VALUE.getStatus()).body(response);
+    return ResponseEntity.status(API_ERROR_INPUT_INVALID_VALUE.getStatus()).body(response);
   }
 }

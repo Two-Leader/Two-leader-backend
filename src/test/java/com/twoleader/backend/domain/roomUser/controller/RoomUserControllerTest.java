@@ -10,12 +10,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(RoomUserController.class)
-@ExtendWith(SpringExtension.class)
-@AutoConfigureMockMvc(addFilters = false)
-@ActiveProfiles(profiles = {"test"})
-public class RoomUserControllerTest {
-  @Autowired private MockMvc mockMvc;
-
-  @MockBean private RoomUserService roomUserService;
-}
+//@WebMvcTest(RoomUserController.class)
+//@ExtendWith(SpringExtension.class)
+//@AutoConfigureMockMvc(addFilters = false)
+//@ActiveProfiles(profiles = {"test"})
+//public class RoomUserControllerTest {
+//  @Autowired private MockMvc mockMvc;
+//
+//  @MockBean private RoomUserService roomUserService;
+//}

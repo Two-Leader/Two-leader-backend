@@ -7,19 +7,22 @@ import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.twoleader.backend.domain.user.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StudyRoomMapper {
 
-  public StudyRoom toEntity(CreateStudyRoomRequest request) {
-    return StudyRoom.builder().roomName(request.getRoomName()).build();
+  public StudyRoom toEntity(CreateStudyRoomRequest request, User user) {
+    return StudyRoom.builder().roomName(request.getRoomName()).constructor(user).build();
   }
 
   public GetStudyRoomResponse toDto(StudyRoom studyRoom) {
     return GetStudyRoomResponse.builder()
         .roomUuid(studyRoom.getRoomUuid())
         .roomName(studyRoom.getRoomName())
+        .constructorName(studyRoom.getConstructor().getNickName())
         .build();
   }
 
@@ -31,15 +34,15 @@ public class StudyRoomMapper {
     return GetStudyRoomResponse.builder()
         .roomUuid(studyRoom.getRoomUuid())
         .roomName(studyRoom.getRoomName())
+        .constructorName(studyRoom.getConstructor().getNickName())
         .users(users.stream().map(this::toDto).collect(Collectors.toList()))
-        .checkUser(users.size() > 1)
         .build();
   }
 
   private GetRoomUserResponse toDto(RoomUser user) {
     return GetRoomUserResponse.builder()
-        .userUuid(user.getUserUuid())
-        .userName(user.getUserName())
+        .userId(user.getRoomUserId())
+        .userName(user.getRoomUserName())
         .build();
   }
 }

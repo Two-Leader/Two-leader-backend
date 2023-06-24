@@ -11,6 +11,6 @@ import lombok.Getter;
 public class GetStudyRoomResponse {
   private UUID roomUuid;
   private String roomName;
-  private Boolean checkUser;
+  private String constructorName;
   private List<GetRoomUserResponse> users;
 }

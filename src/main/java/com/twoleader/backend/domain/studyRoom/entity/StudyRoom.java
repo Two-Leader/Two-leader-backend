@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.*;
+
+import com.twoleader.backend.domain.user.entity.User;
+import com.twoleader.backend.global.common.BaseEntity;
 import lombok.*;
 
 @Entity
@@ -14,7 +17,7 @@ import lombok.*;
 @Getter
 @ToString(callSuper = true)
 @Table(name = "studyRooms")
-public class StudyRoom {
+public class StudyRoom extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long roomId;
@@ -25,6 +28,11 @@ public class StudyRoom {
 
   @Column(nullable = false)
   private String roomName;
+
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User constructor;
+
 
   @OneToMany(
       mappedBy = "studyRoom",

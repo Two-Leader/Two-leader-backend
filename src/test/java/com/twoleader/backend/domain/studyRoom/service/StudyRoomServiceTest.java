@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import com.twoleader.backend.domain.user.entity.User;
+import com.twoleader.backend.domain.user.exception.NotFoundUserException;
+import com.twoleader.backend.domain.user.repository.UserRepository;
+import com.twoleader.backend.domain.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -33,53 +38,65 @@ public class StudyRoomServiceTest {
   @Mock private StudyRoomRepository studyRoomRepository;
   @Mock private RoomUserRepository roomUserRepository;
 
+  @Mock private UserService userService;
+
   @InjectMocks private StudyRoomService studyRoomService;
+
 
   @Spy private StudyRoomMapper studyRoomMapper;
 
   private List<StudyRoom> studyRooms = new ArrayList<>();
-  private List<RoomUser> users = new ArrayList<>();
+  private List<RoomUser> roomUsers = new ArrayList<>();
+  private List<User> users = new ArrayList<>();
 
   @BeforeEach
   public void setUp() {
+    users.add(User.builder().userId(1L).email("testEmail").password("testPassword").nickName("tester").build());
+
     studyRooms.add(
         StudyRoom.builder()
             .roomId(1L)
             .roomUuid(UUID.randomUUID())
             .roomName("testStudyRoom1")
+            .constructor(users.get(0))
             .build());
     studyRooms.add(
         StudyRoom.builder()
             .roomId(2L)
             .roomUuid(UUID.randomUUID())
             .roomName("testStudyRoom2")
+            .constructor(users.get(0))
             .build());
 
-    users.add(
+    roomUsers.add(
         RoomUser.builder()
-            .userId(1L)
-            .userUuid(UUID.randomUUID())
-            .userName("tester")
+            .roomUserId(1L)
+            .user(users.get(0))
+            .roomUserName("tester")
             .studyRoom(studyRooms.get(0))
             .build());
   }
 
   @Test
   @DisplayName("StudyRoom 저장")
-  public void createStudyRoomTest() {
-    // given
-    StudyRoom studyRoom = studyRooms.get(0);
-    CreateStudyRoomRequest createStudyRoomDto =
-        CreateStudyRoomRequest.builder().roomName(studyRoom.getRoomName()).build();
-    given(studyRoomRepository.save(any())).willReturn(studyRoom);
+  public void whenExistedUser() {
+      // given
+      StudyRoom studyRoom = studyRooms.get(0);
+      User user = users.get(0);
+      CreateStudyRoomRequest request =
+              CreateStudyRoomRequest.builder().UserUuid(user.getUserUuid()).roomName(studyRoom.getRoomName()).build();
+      given(userService.findByUserUuid(any())).willReturn(user);
+      given(studyRoomRepository.save(any())).willReturn(studyRoom);
 
-    // when
-    GetStudyRoomResponse response = studyRoomService.createStudyRoom(createStudyRoomDto);
+      // when
+      GetStudyRoomResponse response = studyRoomService.createStudyRoom(request);
 
-    // then
-    assertEquals(studyRoom.getRoomName(), response.getRoomName());
-    assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
+      // then
+      assertEquals(studyRoom.getRoomName(), response.getRoomName());
+      assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
+      assertEquals(studyRoom.getConstructor().getNickName(), response.getConstructorName());
   }
+
 
   @Test
   @DisplayName("StudyRoom 모두 조회")
@@ -98,17 +115,18 @@ public class StudyRoomServiceTest {
   }
 
   @Nested
+  @DisplayName("studyRoom UUID로 Study방 찾기")
   class findStudyRoomByUuid {
     @Test
-    @DisplayName("존재하는 StudyRoom & User가 한명")
-    public void findStudyRoomByroomUuidWhenExistAndOneUser() {
+    @DisplayName("존재하는 StudyRoom")
+    public void findStudyRoomByroomUuidWhenExist() {
       // given
       int index = 0;
       StudyRoom studyRoom = studyRooms.get(index);
 
       given(studyRoomRepository.findStudyRoomByUuid(any()))
           .willReturn(Optional.ofNullable(studyRoom));
-      given(roomUserRepository.findAllInStudyRoomByStudyRoomUuid(any())).willReturn(users);
+      given(roomUserRepository.findAllInStudyRoomByStudyRoomUuid(any())).willReturn(roomUsers);
 
       // when
       assert studyRoom != null;
@@ -117,36 +135,7 @@ public class StudyRoomServiceTest {
       // then
       assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
       assertEquals(studyRoom.getRoomName(), response.getRoomName());
-      assertEquals(false, response.getCheckUser());
-      assertEquals(users.get(index).getUserUuid(), response.getUsers().get(index).getUserUuid());
-    }
-
-    @Test
-    @DisplayName("존재하는 StudyRoom & User가 두명")
-    public void findStudyRoomByRoomUuidWhenExistAndTwoUser() {
-      // given
-      int index = 0;
-      users.add(
-          RoomUser.builder()
-              .userId(2L)
-              .userUuid(UUID.randomUUID())
-              .userName("tester2")
-              .studyRoom(studyRooms.get(0))
-              .build());
-      StudyRoom studyRoom = studyRooms.get(index);
-      given(studyRoomRepository.findStudyRoomByUuid(any()))
-          .willReturn(Optional.ofNullable(studyRoom));
-      given(roomUserRepository.findAllInStudyRoomByStudyRoomUuid(any())).willReturn(users);
-
-      // when
-      assert studyRoom != null;
-      GetStudyRoomResponse response = studyRoomService.findStudyRoomByUuid(studyRoom.getRoomUuid());
-
-      // then
-      assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
-      assertEquals(studyRoom.getRoomName(), response.getRoomName());
-      assertEquals(true, response.getCheckUser());
-      assertEquals(users.get(index).getUserUuid(), response.getUsers().get(index).getUserUuid());
+      assertEquals(roomUsers.get(index).getRoomUserId(), response.getUsers().get(index).getUserId());
     }
 
     @Test

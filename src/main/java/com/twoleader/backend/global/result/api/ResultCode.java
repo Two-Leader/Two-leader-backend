@@ -15,9 +15,11 @@ public enum ResultCode {
   GET_STUDYROOM_SUCCESS("S003", "스터디방을 정상적으로 불러왔습니다."),
 
   // user
-  GET_USER_SUCCESS("U001", "유저를 정상적으로 불러왔습니다."),
-  USER_REGISTRATION_SUCCESS("U002", "유저가 정상적으로 등록되었습니다."),
-  DELETE_USER_SUCCESS("U003", "유저를 정삭적으로 삭제했습니다."),
+  GET_USER_SUCCESS("RU001", "유저를 정상적으로 불러왔습니다."),
+  USER_REGISTRATION_SUCCESS("RU002", "유저가 정상적으로 등록되었습니다."),
+  DELETE_USER_SUCCESS("RU003", "유저를 정삭적으로 삭제했습니다."),
+
+  API_SUCCESS_LOGIN_USER("U001","로그인을 정상적으로 했습니다."),
   ;
 
   private final String code;
