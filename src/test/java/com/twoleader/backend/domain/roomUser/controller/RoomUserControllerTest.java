@@ -1,6 +1,5 @@
 package com.twoleader.backend.domain.roomUser.controller;
 
-
 // @WebMvcTest(RoomUserController.class)
 // @ExtendWith(SpringExtension.class)
 // @AutoConfigureMockMvc(addFilters = false)
