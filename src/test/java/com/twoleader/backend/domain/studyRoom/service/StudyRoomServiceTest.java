@@ -87,7 +87,7 @@ public class StudyRoomServiceTest {
     User user = users.get(0);
     CreateStudyRoomRequest request =
         CreateStudyRoomRequest.builder()
-            .UserUuid(user.getUserUuid())
+            .userUuid(user.getUserUuid())
             .roomName(studyRoom.getRoomName())
             .build();
     given(userService.findByUserUuid(any())).willReturn(user);

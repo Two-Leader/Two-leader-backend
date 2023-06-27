@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import com.twoleader.backend.global.config.security.JwtProvider;
+import com.twoleader.backend.global.config.security.Token;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -25,6 +28,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,8 +40,14 @@ public class UserServiceTest {
   @Mock private UserRepository userRepository;
 
   @InjectMocks private UserService userService;
+  @InjectMocks private AuthService authService;
+
 
   @Spy private UserMapper userMapper;
+  @SpyBean
+  private AuthenticationManagerBuilder managerBuilder;
+  @Spy private BCryptPasswordEncoder passwordEncoder;
+  @SpyBean private JwtProvider jwtProvider;
 
   private List<User> users = new ArrayList<>();
 
@@ -74,7 +87,7 @@ public class UserServiceTest {
       given(userRepository.findByEmail(any())).willReturn(Optional.empty());
 
       // when, then
-      userService.createUser(request);
+        authService.signup(request);
     }
 
     @DisplayName("User가 존재할 때")
@@ -94,7 +107,7 @@ public class UserServiceTest {
       assertThrows(
           ExistedUserException.class,
           () -> {
-            userService.createUser(request);
+            authService.signup(request);
           });
     }
   }
@@ -117,7 +130,7 @@ public class UserServiceTest {
       assertThrows(
           NotFoundUserException.class,
           () -> {
-            userService.login(request);
+            authService.login(request);
           });
     }
 
@@ -130,8 +143,8 @@ public class UserServiceTest {
           LoginRequest.builder().email(user.getEmail()).password(user.getPassword()).build();
       given(userRepository.findByEmailAndPassword(any(), any())).willReturn(Optional.of(user));
 
-      UUID foundUuid = userService.login(request);
-      assertEquals(user.getUserUuid(), foundUuid);
+      Token token = authService.login(request);
+      assertEquals(user.getUserUuid(), token);
     }
   }
 }

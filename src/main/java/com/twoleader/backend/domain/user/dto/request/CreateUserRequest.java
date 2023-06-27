@@ -3,6 +3,7 @@ package com.twoleader.backend.domain.user.dto.request;
 import javax.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Builder
 @Getter
