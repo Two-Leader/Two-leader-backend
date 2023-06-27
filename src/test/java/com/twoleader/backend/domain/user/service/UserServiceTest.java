@@ -12,13 +12,12 @@ import com.twoleader.backend.domain.user.exception.ExistedUserException;
 import com.twoleader.backend.domain.user.exception.NotFoundUserException;
 import com.twoleader.backend.domain.user.mapper.UserMapper;
 import com.twoleader.backend.domain.user.repository.UserRepository;
+import com.twoleader.backend.global.config.security.JwtProvider;
+import com.twoleader.backend.global.config.security.Token;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import com.twoleader.backend.global.config.security.JwtProvider;
-import com.twoleader.backend.global.config.security.Token;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -28,7 +27,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,10 +40,8 @@ public class UserServiceTest {
   @InjectMocks private UserService userService;
   @InjectMocks private AuthService authService;
 
-
   @Spy private UserMapper userMapper;
-  @SpyBean
-  private AuthenticationManagerBuilder managerBuilder;
+  @SpyBean private AuthenticationManagerBuilder managerBuilder;
   @Spy private BCryptPasswordEncoder passwordEncoder;
   @SpyBean private JwtProvider jwtProvider;
 
@@ -87,7 +83,7 @@ public class UserServiceTest {
       given(userRepository.findByEmail(any())).willReturn(Optional.empty());
 
       // when, then
-        authService.signup(request);
+      authService.signup(request);
     }
 
     @DisplayName("User가 존재할 때")

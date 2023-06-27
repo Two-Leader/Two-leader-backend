@@ -18,36 +18,44 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtProvider jwtProvider;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+  private final JwtProvider jwtProvider;
+  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+  private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.csrf().disable();
 
-        http.httpBasic().disable()
-            .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler)
-            .and()
-            .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/api/v1/**").permitAll()
-                .antMatchers("/swagger-ui/**","/swagger-ui.html","/v3/api-docs/**","/v3/api-docs/swagger-config/**").permitAll()
-                .anyRequest()
-                    .authenticated()
-            .and()
-            .apply(new JwtSecurityConfig(jwtProvider));
+    http.httpBasic()
+        .disable()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .exceptionHandling()
+        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+        .accessDeniedHandler(jwtAccessDeniedHandler)
+        .and()
+        .authorizeRequests()
+        .antMatchers("/auth/**")
+        .permitAll()
+        .antMatchers("/api/v1/**")
+        .permitAll()
+        .antMatchers(
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
+            "/v3/api-docs/swagger-config/**")
+        .permitAll()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .apply(new JwtSecurityConfig(jwtProvider));
 
-        return http.build();
-    }
+    return http.build();
+  }
 }

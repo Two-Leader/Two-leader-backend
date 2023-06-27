@@ -1,11 +1,11 @@
 package com.twoleader.backend.domain.user.mapper;
 
+import static com.twoleader.backend.domain.user.entity.Authority.ROLE_USER;
+
 import com.twoleader.backend.domain.user.dto.request.CreateUserRequest;
 import com.twoleader.backend.domain.user.entity.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import static com.twoleader.backend.domain.user.entity.Authority.ROLE_USER;
 
 @Component
 public class UserMapper {

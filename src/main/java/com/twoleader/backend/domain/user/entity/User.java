@@ -1,7 +1,6 @@
 package com.twoleader.backend.domain.user.entity;
 
 import com.twoleader.backend.global.common.BaseEntity;
-
 import java.util.*;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
@@ -49,9 +48,10 @@ public class User extends BaseEntity implements UserDetails {
   }
 
   @Override
-  public String getPassword(){
+  public String getPassword() {
     return this.password;
   }
+
   @Override
   public boolean isAccountNonExpired() {
     return false;
