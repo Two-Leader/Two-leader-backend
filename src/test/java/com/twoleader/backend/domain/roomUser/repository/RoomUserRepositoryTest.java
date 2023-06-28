@@ -74,11 +74,11 @@ public class RoomUserRepositoryTest {
       RoomUser expectUser = roomUser;
 
       // when
-      Optional<RoomUser> findUser = roomUserRepository.findById(expectUser.getRoomUserId());
+      Optional<RoomUser> findUser = roomUserRepository.findById(expectUser.getId());
 
       assertTrue(findUser.isPresent());
       // then
-      assertEquals(expectUser.getRoomUserId(), findUser.get().getRoomUserId());
+      assertEquals(expectUser.getId(), findUser.get().getId());
       assertEquals(expectUser.getRoomUserName(), findUser.get().getRoomUserName());
     }
 
@@ -98,6 +98,6 @@ public class RoomUserRepositoryTest {
     UUID roomUuid = studyRoom.getRoomUuid();
     List<RoomUser> users = roomUserRepository.findAllInStudyRoomByStudyRoomUuid(roomUuid);
 
-    assertEquals(roomUser.getRoomUserId(), users.get(0).getRoomUserId());
+    assertEquals(roomUser.getId(), users.get(0).getId());
   }
 }

@@ -37,13 +37,13 @@ public class RoomUserServiceTest {
   public static void setUp() {
     studyRoom =
         StudyRoom.builder()
-            .roomId(1L)
+            .id(1L)
             .roomUuid(UUID.randomUUID())
             .roomName("testStudyRoom")
             .build();
 
     roomUser =
-        RoomUser.builder().roomUserId(1L).roomUserName("testUser").studyRoom(studyRoom).build();
+        RoomUser.builder().id(1L).roomUserName("testUser").studyRoom(studyRoom).build();
   }
 
   @Nested
@@ -59,7 +59,7 @@ public class RoomUserServiceTest {
       GetRoomUserResponse response = roomUserService.getUser(1L);
 
       // then
-      assertEquals(roomUser.getRoomUserId(), response.getUserId());
+      assertEquals(roomUser.getId(), response.getUserId());
       assertEquals(roomUser.getRoomUserName(), response.getUserName());
     }
 

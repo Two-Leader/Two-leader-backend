@@ -1,5 +1,6 @@
 package com.twoleader.backend.domain.user.entity;
 
+import com.twoleader.backend.domain.roomUser.entity.RoomUser;
 import com.twoleader.backend.global.common.BaseEntity;
 import java.util.*;
 import javax.persistence.*;
@@ -7,19 +8,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
+@SuperBuilder
 @Getter
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long userId;
 
   @Column(nullable = false, columnDefinition = "BINARY(16)")
   @Builder.Default
@@ -36,6 +35,11 @@ public class User extends BaseEntity implements UserDetails {
 
   @Enumerated(EnumType.STRING)
   private Authority role;
+
+  @OneToMany(
+          mappedBy = "user",
+          fetch = FetchType.LAZY)
+  private List<RoomUser> rooms = new ArrayList<>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

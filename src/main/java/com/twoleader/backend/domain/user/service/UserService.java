@@ -16,10 +16,9 @@ public class UserService {
   private final UserRepository userRepository;
 
   @Transactional
-  public User deleteUser(UUID userUuid) {
+  public void deleteUser(UUID userUuid) {
     User user = userRepository.findByUserUuid(userUuid).orElseThrow(NotFoundUserException::new);
     user.changeDeleted();
-    return userRepository.save(user);
   }
 
   public User findByUserUuid(UUID userUuid) {
