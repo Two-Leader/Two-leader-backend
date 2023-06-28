@@ -18,7 +18,7 @@ public class UserService {
 
   public void deleteUser(UUID userUuid) {
     User user = userRepository.findByUserUuid(userUuid).orElseThrow(NotFoundUserException::new);
-    user.changeDeleted(); //user는 영속성 컨텍스트에 이미 로딩되있어 따로 저장하지 않아도 save됨.
+    user.changeDeleted(); // user는 영속성 컨텍스트에 이미 로딩되있어 따로 저장하지 않아도 save됨.
   }
 
   public User findByUserUuid(UUID userUuid) {

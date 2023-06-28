@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
     name = "room_users",
-    uniqueConstraints = {    // Openvidu 연동 시 특정 Id가 필요해 복합 기본키가 아닌 복합 Unique키로 설정.
+    uniqueConstraints = { // Openvidu 연동 시 특정 Id가 필요해 복합 기본키가 아닌 복합 Unique키로 설정.
       @UniqueConstraint(
           name = "UniqueUserAndStudyRoom",
           columnNames = {"users_id", "study_rooms_id"})

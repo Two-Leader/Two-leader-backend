@@ -25,7 +25,7 @@ public class RoomUserService {
   private final StudyRoomRepository studyRoomRepository;
   private final RoomUserMapper roomUserMapper;
   private final UserService userService;
-  
+
   public GetRoomUserResponse createUser(UUID roomUuid, CreateRoomUserRequest request) {
     User user = userService.findByUserUuid(request.getUserUuid());
     StudyRoom studyRoom =

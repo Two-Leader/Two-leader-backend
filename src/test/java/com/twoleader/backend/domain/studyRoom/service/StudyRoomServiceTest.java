@@ -57,14 +57,14 @@ public class StudyRoomServiceTest {
 
     studyRooms.add(
         StudyRoom.builder()
-                .studyRoomId(1L)
+            .studyRoomId(1L)
             .roomUuid(UUID.randomUUID())
             .roomName("testStudyRoom1")
             .constructor(users.get(0))
             .build());
     studyRooms.add(
         StudyRoom.builder()
-                .studyRoomId(2L)
+            .studyRoomId(2L)
             .roomUuid(UUID.randomUUID())
             .roomName("testStudyRoom2")
             .constructor(users.get(0))
@@ -72,7 +72,7 @@ public class StudyRoomServiceTest {
 
     roomUsers.add(
         RoomUser.builder()
-                .roomUserId(1L)
+            .roomUserId(1L)
             .user(users.get(0))
             .roomUserName("tester")
             .studyRoom(studyRooms.get(0))
@@ -139,7 +139,8 @@ public class StudyRoomServiceTest {
       // then
       assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
       assertEquals(studyRoom.getRoomName(), response.getRoomName());
-      assertEquals(roomUsers.get(index).getRoomUserId(), response.getUsers().get(index).getUserId());
+      assertEquals(
+          roomUsers.get(index).getRoomUserId(), response.getUsers().get(index).getUserId());
     }
 
     @Test
