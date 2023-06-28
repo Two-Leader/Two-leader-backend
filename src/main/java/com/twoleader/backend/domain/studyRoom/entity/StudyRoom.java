@@ -27,11 +27,9 @@ public class StudyRoom extends BaseEntity {
   private String roomName;
 
   @ManyToOne
-  @JoinColumn(name = "user_id",nullable = false)  //nullable을 false로 해야 INNER JOIN함. => 성능 향상
+  @JoinColumn(name = "user_id", nullable = false) // nullable을 false로 해야 INNER JOIN함. => 성능 향상
   private User constructor;
 
-  @OneToMany(
-      mappedBy = "studyRoom",
-      fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "studyRoom", fetch = FetchType.LAZY)
   private List<RoomUser> users = new ArrayList<>();
 }

@@ -139,8 +139,7 @@ public class StudyRoomServiceTest {
       // then
       assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
       assertEquals(studyRoom.getRoomName(), response.getRoomName());
-      assertEquals(
-          roomUsers.get(index).getId(), response.getUsers().get(index).getUserId());
+      assertEquals(roomUsers.get(index).getId(), response.getUsers().get(index).getUserId());
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.twoleader.backend.global.common;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

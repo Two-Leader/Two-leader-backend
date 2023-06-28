@@ -36,14 +36,9 @@ public class RoomUserServiceTest {
   @BeforeAll
   public static void setUp() {
     studyRoom =
-        StudyRoom.builder()
-            .id(1L)
-            .roomUuid(UUID.randomUUID())
-            .roomName("testStudyRoom")
-            .build();
+        StudyRoom.builder().id(1L).roomUuid(UUID.randomUUID()).roomName("testStudyRoom").build();
 
-    roomUser =
-        RoomUser.builder().id(1L).roomUserName("testUser").studyRoom(studyRoom).build();
+    roomUser = RoomUser.builder().id(1L).roomUserName("testUser").studyRoom(studyRoom).build();
   }
 
   @Nested
