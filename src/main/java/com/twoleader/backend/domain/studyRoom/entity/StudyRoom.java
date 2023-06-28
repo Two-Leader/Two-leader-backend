@@ -19,6 +19,10 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "study_rooms")
 public class StudyRoom extends BaseEntity {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long studyRoomId;
+
   @Column(nullable = false, columnDefinition = "BINARY(16)")
   @Builder.Default
   private UUID roomUuid = UUID.randomUUID();

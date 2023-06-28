@@ -19,6 +19,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long userId;
 
   @Column(nullable = false, columnDefinition = "BINARY(16)")
   @Builder.Default

@@ -40,7 +40,7 @@ public class StudyRoomMapper {
 
   private GetRoomUserResponse toDto(RoomUser user) {
     return GetRoomUserResponse.builder()
-        .userId(user.getId())
+        .userId(user.getRoomUserId())
         .userName(user.getRoomUserName())
         .build();
   }

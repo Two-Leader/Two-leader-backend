@@ -13,15 +13,18 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-// Openvidu 연동 시 특정 Id가 필요해 복합 기본키가 아닌 복합 Unique키로 설정.
 @Table(
     name = "room_users",
-    uniqueConstraints = {
+    uniqueConstraints = {    // Openvidu 연동 시 특정 Id가 필요해 복합 기본키가 아닌 복합 Unique키로 설정.
       @UniqueConstraint(
           name = "UniqueUserAndStudyRoom",
           columnNames = {"users_id", "study_rooms_id"})
     })
 public class RoomUser extends BaseEntity {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long roomUserId;
 
   @Column(nullable = false)
   private String roomUserName;

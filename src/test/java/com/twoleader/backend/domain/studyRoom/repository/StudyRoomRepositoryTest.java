@@ -41,7 +41,7 @@ public class StudyRoomRepositoryTest {
 
     // then
     assertEquals(studyRooms.size(), findStudyRooms.size());
-    assertEquals(studyRoom1.getId(), findStudyRooms.get(index).getId());
+    assertEquals(studyRoom1.getStudyRoomId(), findStudyRooms.get(index).getStudyRoomId());
     assertEquals(studyRoom1.getRoomUuid(), findStudyRooms.get(index).getRoomUuid());
   }
 
@@ -59,6 +59,6 @@ public class StudyRoomRepositoryTest {
     // then
     assertEquals(studyRoom.getRoomUuid(), findStudyRoom.get().getRoomUuid());
     assertEquals(studyRoom.getRoomName(), findStudyRoom.get().getRoomName());
-    assertEquals(studyRoom.getId(), findStudyRoom.get().getId());
+    assertEquals(studyRoom.getStudyRoomId(), findStudyRoom.get().getStudyRoomId());
   }
 }

@@ -11,14 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class UserService {
   private final UserRepository userRepository;
 
-  @Transactional
   public void deleteUser(UUID userUuid) {
     User user = userRepository.findByUserUuid(userUuid).orElseThrow(NotFoundUserException::new);
-    user.changeDeleted();
+    user.changeDeleted(); //user는 영속성 컨텍스트에 이미 로딩되있어 따로 저장하지 않아도 save됨.
   }
 
   public User findByUserUuid(UUID userUuid) {

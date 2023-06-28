@@ -22,7 +22,7 @@ public class RoomUserMapper {
 
   public GetRoomUserResponse toDto(RoomUser user) {
     return GetRoomUserResponse.builder()
-        .userId(user.getId())
+        .userId(user.getRoomUserId())
         .userName(user.getRoomUserName())
         .build();
   }

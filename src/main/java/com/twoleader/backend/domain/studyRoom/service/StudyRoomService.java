@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class StudyRoomService {
   private final StudyRoomRepository studyRoomRepository;
