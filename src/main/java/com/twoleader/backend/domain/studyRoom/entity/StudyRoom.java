@@ -13,9 +13,9 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SuperBuilder
+@Builder
 @Getter
-@ToString(callSuper = true)
+@ToString(of = {"studyRoomId","roomUuid","roomName"},callSuper = true)
 @Table(name = "study_rooms")
 public class StudyRoom extends BaseEntity {
 
@@ -30,10 +30,10 @@ public class StudyRoom extends BaseEntity {
   @Column(nullable = false)
   private String roomName;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id", nullable = false) // nullable을 false로 해야 INNER JOIN함. => 성능 향상
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY,optional = false)
+  @JoinColumn(name = "user_id") // nullable을 false로 해야 INNER JOIN함. => 성능 향상
   private User constructor;
 
-  @OneToMany(mappedBy = "studyRoom", fetch = FetchType.LAZY)
-  private List<RoomUser> users = new ArrayList<>();
+  @OneToMany(mappedBy = "studyRoom", fetch = FetchType.LAZY,orphanRemoval = true)
+  private List<RoomUser> roomUsers = new ArrayList<>();
 }

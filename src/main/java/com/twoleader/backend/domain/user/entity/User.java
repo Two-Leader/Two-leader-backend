@@ -4,17 +4,15 @@ import com.twoleader.backend.domain.roomUser.entity.RoomUser;
 import com.twoleader.backend.global.common.BaseEntity;
 import java.util.*;
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Getter
 @Entity
 @Table(name = "users")

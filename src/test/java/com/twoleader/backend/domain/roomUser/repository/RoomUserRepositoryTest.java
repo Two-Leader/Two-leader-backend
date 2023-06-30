@@ -36,7 +36,6 @@ public class RoomUserRepositoryTest {
 
   @BeforeEach
   public void setUp() {
-    studyRoom = studyRoomRepository.save(StudyRoom.builder().roomName("testStudyRoom").build());
     users.add(
         userRepository.save(
             User.builder()
@@ -92,7 +91,7 @@ public class RoomUserRepositoryTest {
   }
 
   @Test
-  @DisplayName("StudyRoom 안 User 찾기")
+  @DisplayName("StudyRoom UUID로 StudyRoom내 User 찾기")
   public void findAllUserByStudyRoomUuid() {
     // given
     UUID roomUuid = studyRoom.getRoomUuid();
