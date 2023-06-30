@@ -5,24 +5,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.twoleader.backend.domain.roomUser.entity.RoomUser;
 import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-import java.util.*;
-
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.repository.UserRepository;
-import org.hibernate.Hibernate;
+import java.util.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -39,13 +34,28 @@ public class StudyRoomRepositoryTest {
 
   @BeforeEach
   public void setUp() {
-    users.add(userRepository.save(User.builder().userUuid(UUID.randomUUID()).email("tester@gmail.com").password("password").nickName("tester").build()));
-    users.add(userRepository.save(User.builder().userUuid(UUID.randomUUID()).email("tester2@gmail.com").password("password").nickName("tester2").build()));
+    users.add(
+        userRepository.save(
+            User.builder()
+                .userUuid(UUID.randomUUID())
+                .email("tester@gmail.com")
+                .password("password")
+                .nickName("tester")
+                .build()));
+    users.add(
+        userRepository.save(
+            User.builder()
+                .userUuid(UUID.randomUUID())
+                .email("tester2@gmail.com")
+                .password("password")
+                .nickName("tester2")
+                .build()));
     studyRooms.add(
-        studyRoomRepository.save(StudyRoom.builder().roomName("TestStudyRoom1").constructor(users.get(0)).build()));
+        studyRoomRepository.save(
+            StudyRoom.builder().roomName("TestStudyRoom1").constructor(users.get(0)).build()));
     studyRooms.add(
-        studyRoomRepository.save(StudyRoom.builder().roomName("TestStudyRoom2").constructor(users.get(0)).build()));
-
+        studyRoomRepository.save(
+            StudyRoom.builder().roomName("TestStudyRoom2").constructor(users.get(0)).build()));
   }
 
   @Test
@@ -82,15 +92,25 @@ public class StudyRoomRepositoryTest {
 
   @Test
   @DisplayName("users N+1 문제 Test")
-  public void UsersNPlusOneTest(){
-    //given
-    roomUserRepository.save(RoomUser.builder().studyRoom(studyRooms.get(0)).roomUserName("tester").user(users.get(0)).build());
-    roomUserRepository.save(RoomUser.builder().studyRoom(studyRooms.get(0)).roomUserName("tester2").user(users.get(1)).build());
+  public void UsersNPlusOneTest() {
+    // given
+    roomUserRepository.save(
+        RoomUser.builder()
+            .studyRoom(studyRooms.get(0))
+            .roomUserName("tester")
+            .user(users.get(0))
+            .build());
+    roomUserRepository.save(
+        RoomUser.builder()
+            .studyRoom(studyRooms.get(0))
+            .roomUserName("tester2")
+            .user(users.get(1))
+            .build());
     em.flush();
     em.clear();
 
     List<StudyRoom> findStudyRooms = studyRoomRepository.findAll();
-    for(StudyRoom findStudyRoom: findStudyRooms){
+    for (StudyRoom findStudyRoom : findStudyRooms) {
       System.out.println(findStudyRoom.getConstructor());
     }
   }

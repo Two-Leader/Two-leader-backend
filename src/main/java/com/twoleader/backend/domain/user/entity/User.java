@@ -4,9 +4,7 @@ import com.twoleader.backend.domain.roomUser.entity.RoomUser;
 import com.twoleader.backend.global.common.BaseEntity;
 import java.util.*;
 import javax.persistence.*;
-
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

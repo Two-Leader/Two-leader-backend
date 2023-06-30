@@ -8,14 +8,15 @@ import java.util.List;
 import java.util.UUID;
 import javax.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
-@ToString(of = {"studyRoomId","roomUuid","roomName"},callSuper = true)
+@ToString(
+    of = {"studyRoomId", "roomUuid", "roomName"},
+    callSuper = true)
 @Table(name = "study_rooms")
 public class StudyRoom extends BaseEntity {
 
@@ -30,10 +31,10 @@ public class StudyRoom extends BaseEntity {
   @Column(nullable = false)
   private String roomName;
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY,optional = false)
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "user_id") // nullable을 false로 해야 INNER JOIN함. => 성능 향상
   private User constructor;
 
-  @OneToMany(mappedBy = "studyRoom", fetch = FetchType.LAZY,orphanRemoval = true)
+  @OneToMany(mappedBy = "studyRoom", fetch = FetchType.LAZY, orphanRemoval = true)
   private List<RoomUser> roomUsers = new ArrayList<>();
 }

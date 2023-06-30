@@ -51,7 +51,7 @@ public class UserServiceTest {
   public void setUp() {
     users.add(
         User.builder()
-                .userId(1L)
+            .userId(1L)
             .userUuid(UUID.randomUUID())
             .email("testEmail1")
             .password("testPassword")
@@ -59,7 +59,7 @@ public class UserServiceTest {
             .build());
     users.add(
         User.builder()
-                .userId(2L)
+            .userId(2L)
             .userUuid(UUID.randomUUID())
             .email("testEmail2")
             .password("testPassword")
