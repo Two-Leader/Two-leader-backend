@@ -41,8 +41,9 @@ public class StudyRoomService {
     return studyRoomMapper.toDto(studyRoom, studyRoom.getRoomUsers());
   }
 
-  public boolean checkStudyRoomPassword(UUID roomUuid, String password){
-    StudyRoom studyRoom = studyRoomRepository.findByRoomUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
+  public boolean checkStudyRoomPassword(UUID roomUuid, String password) {
+    StudyRoom studyRoom =
+        studyRoomRepository.findByRoomUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
     return studyRoom.getPassword().equals(password);
   }
 }
