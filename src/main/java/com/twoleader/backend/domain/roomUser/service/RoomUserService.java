@@ -11,7 +11,6 @@ import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.service.UserService;
-import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

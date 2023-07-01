@@ -79,8 +79,6 @@ public class StudyRoomServiceTest {
             .roomUserName("tester")
             .studyRoom(studyRooms.get(0))
             .build());
-
-
   }
 
   @Test
@@ -132,7 +130,8 @@ public class StudyRoomServiceTest {
       int index = 0;
       StudyRoom studyRoom = studyRooms.get(index);
 
-      given(studyRoomRepository.findWithRoomUsersByRoomUuid(any())).willReturn(Optional.ofNullable(studyRoom));
+      given(studyRoomRepository.findWithRoomUsersByRoomUuid(any()))
+          .willReturn(Optional.ofNullable(studyRoom));
 
       // when
       assert studyRoom != null;
