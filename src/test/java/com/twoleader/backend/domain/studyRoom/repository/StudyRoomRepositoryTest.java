@@ -83,7 +83,7 @@ public class StudyRoomRepositoryTest {
 
     // when
     Optional<StudyRoom> findStudyRoom =
-        studyRoomRepository.findStudyRoomByUuid(studyRoom.getRoomUuid());
+        studyRoomRepository.findByRoomUuid(studyRoom.getRoomUuid());
 
     // then
     assert findStudyRoom.isPresent();
@@ -109,9 +109,9 @@ public class StudyRoomRepositoryTest {
     em.flush();
     em.clear();
 
-    List<StudyRoom> findStudyRooms = studyRoomRepository.findAll();
-    for (StudyRoom findStudyRoom : findStudyRooms) {
-      System.out.println(findStudyRoom.getConstructor());
+    StudyRoom findStudyRoom = studyRoomRepository.findWithRoomUsersByRoomUuid(studyRooms.get(0).getRoomUuid()).orElseThrow();
+    for(RoomUser roomUser : findStudyRoom.getRoomUsers()){
+      System.out.println(roomUser.getUser().getUserUuid());
     }
   }
 }

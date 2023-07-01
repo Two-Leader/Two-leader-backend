@@ -61,7 +61,9 @@ public class StudyRoomServiceTest {
             .roomUuid(UUID.randomUUID())
             .roomName("testStudyRoom1")
             .constructor(users.get(0))
+            .roomUsers(roomUsers)
             .build());
+
     studyRooms.add(
         StudyRoom.builder()
             .studyRoomId(2L)
@@ -77,6 +79,8 @@ public class StudyRoomServiceTest {
             .roomUserName("tester")
             .studyRoom(studyRooms.get(0))
             .build());
+
+
   }
 
   @Test
@@ -128,9 +132,7 @@ public class StudyRoomServiceTest {
       int index = 0;
       StudyRoom studyRoom = studyRooms.get(index);
 
-      given(studyRoomRepository.findStudyRoomByUuid(any()))
-          .willReturn(Optional.ofNullable(studyRoom));
-      given(roomUserRepository.findAllInStudyRoomByStudyRoomUuid(any())).willReturn(roomUsers);
+      given(studyRoomRepository.findWithRoomUsersByRoomUuid(any())).willReturn(Optional.ofNullable(studyRoom));
 
       // when
       assert studyRoom != null;
@@ -139,15 +141,14 @@ public class StudyRoomServiceTest {
       // then
       assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
       assertEquals(studyRoom.getRoomName(), response.getRoomName());
-      assertEquals(
-          roomUsers.get(index).getRoomUserId(), response.getUsers().get(index).getUserId());
+      assertEquals(1, response.getUsers().size());
     }
 
     @Test
     @DisplayName("존재하지 않는 StudyRoom")
     public void findStudyRoomByRoomUuidWhenNotExist() {
       // given
-      given(studyRoomRepository.findStudyRoomByUuid(any())).willReturn(Optional.empty());
+      given(studyRoomRepository.findWithRoomUsersByRoomUuid(any())).willReturn(Optional.empty());
 
       // when, then
       assertThrows(

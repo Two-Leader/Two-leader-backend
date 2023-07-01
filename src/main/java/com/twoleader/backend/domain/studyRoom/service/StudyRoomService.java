@@ -18,12 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class StudyRoomService {
   private final StudyRoomRepository studyRoomRepository;
-  private final RoomUserRepository roomUserRepository;
-  private final StudyRoomMapper studyRoomMapper;
+  private final StudyRoomMapper studyRoomMapper;;
   private final UserService userService;
 
   public GetStudyRoomResponse createStudyRoom(CreateStudyRoomRequest request) {
@@ -37,11 +35,9 @@ public class StudyRoomService {
     return studyRoomMapper.toDto(studyRooms);
   }
 
-  @Transactional
   public GetStudyRoomResponse findStudyRoomByUuid(UUID roomUuid) {
     StudyRoom studyRoom =
-        studyRoomRepository.findStudyRoomByUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
-    List<RoomUser> users = roomUserRepository.findAllInStudyRoomByStudyRoomUuid(roomUuid);
-    return studyRoomMapper.toDto(studyRoom, users);
+        studyRoomRepository.findWithRoomUsersByRoomUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
+    return studyRoomMapper.toDto(studyRoom,studyRoom.getRoomUsers());
   }
 }

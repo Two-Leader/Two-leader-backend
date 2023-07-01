@@ -22,7 +22,6 @@ public class UserService {
   }
 
   public User findByUserUuid(UUID userUuid) {
-    User user = userRepository.findByUserUuid(userUuid).orElseThrow(NotFoundUserException::new);
-    return user;
+    return userRepository.findByUserUuid(userUuid).orElseThrow(NotFoundUserException::new);
   }
 }

@@ -29,7 +29,7 @@ public class RoomUserService {
   public GetRoomUserResponse createUser(UUID roomUuid, CreateRoomUserRequest request) {
     User user = userService.findByUserUuid(request.getUserUuid());
     StudyRoom studyRoom =
-        studyRoomRepository.findStudyRoomByUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
+        studyRoomRepository.findByRoomUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
     RoomUser roomUser = roomUserRepository.save(roomUserMapper.toEntity(request, studyRoom, user));
     return roomUserMapper.toDto(roomUser);
   }
@@ -39,13 +39,9 @@ public class RoomUserService {
     return roomUserMapper.toDto(user);
   }
 
-  public List<RoomUser> findAllUserInStudyRoomByStudyRoomUuid(UUID studyRoomUuid) {
-    return roomUserRepository.findAllInStudyRoomByStudyRoomUuid(studyRoomUuid);
-  }
-
+  @Transactional
   public void deleteUserByUuid(long userId) {
     RoomUser user = roomUserRepository.findById(userId).orElseThrow(NotFoundRoomUserException::new);
     user.changeDeleted();
-    roomUserRepository.save(user);
   }
 }

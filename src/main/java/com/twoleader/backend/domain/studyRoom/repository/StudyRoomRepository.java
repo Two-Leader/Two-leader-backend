@@ -10,6 +10,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StudyRoomRepository extends JpaRepository<StudyRoom, Long> {
-  @Query("SELECT s FROM StudyRoom s WHERE s.roomUuid = :roomUuid")
-  Optional<StudyRoom> findStudyRoomByUuid(@Param("roomUuid") UUID studyRoomUuid);
+
+
+  @Query("SELECT DISTINCT s FROM StudyRoom s JOIN FETCH s.roomUsers ru JOIN FETCH ru.user u WHERE s.roomUuid = :roomUuid")
+  Optional<StudyRoom> findWithRoomUsersByRoomUuid(@Param("roomUuid") UUID roomUuid);
+
+  Optional<StudyRoom> findByRoomUuid(UUID roomUuid);
 }

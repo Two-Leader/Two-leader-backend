@@ -10,7 +10,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RoomUserRepository extends JpaRepository<RoomUser, Long> {
-
-  @Query("SELECT u FROM RoomUser u JOIN FETCH u.studyRoom s WHERE s.roomUuid = :roomUuid")
-  List<RoomUser> findAllInStudyRoomByStudyRoomUuid(@Param("roomUuid") UUID roomUuid);
 }

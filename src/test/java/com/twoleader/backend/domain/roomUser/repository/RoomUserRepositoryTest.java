@@ -89,14 +89,4 @@ public class RoomUserRepositoryTest {
       assertFalse(findUser.isPresent());
     }
   }
-
-  @Test
-  @DisplayName("StudyRoom UUID로 StudyRoom내 User 찾기")
-  public void findAllUserByStudyRoomUuid() {
-    // given
-    UUID roomUuid = studyRoom.getRoomUuid();
-    List<RoomUser> users = roomUserRepository.findAllInStudyRoomByStudyRoomUuid(roomUuid);
-
-    assertEquals(roomUser.getRoomUserId(), users.get(0).getRoomUserId());
-  }
 }
