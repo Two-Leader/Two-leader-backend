@@ -13,6 +13,7 @@ public enum ResultCode {
   STUDYROOM_REGISTRATION_SUCCESS("S001", "스터디방이 정상적으로 등록되었습니다."),
   GET_ALL_STUDYROOM_SUCCESS("S002", "모든 스터디방을 정상적으로 불러왔습니다."),
   GET_STUDYROOM_SUCCESS("S003", "스터디방을 정상적으로 불러왔습니다."),
+  API_SUCCESS_CHECK_PASSWORD("S004","스터디방 비밀번호 체크를 완료했습니다."),
 
   // user
   GET_USER_SUCCESS("RU001", "유저를 정상적으로 불러왔습니다."),

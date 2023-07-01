@@ -1,6 +1,7 @@
 package com.twoleader.backend.domain.studyRoom.service;
 
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
+import com.twoleader.backend.domain.studyRoom.dto.response.GetAllStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
@@ -19,16 +20,15 @@ import org.springframework.stereotype.Service;
 public class StudyRoomService {
   private final StudyRoomRepository studyRoomRepository;
   private final StudyRoomMapper studyRoomMapper;
-  ;
+
   private final UserService userService;
 
-  public GetStudyRoomResponse createStudyRoom(CreateStudyRoomRequest request) {
+  public void createStudyRoom(CreateStudyRoomRequest request) {
     User user = userService.findByUserUuid(request.getUserUuid());
-    StudyRoom studyRoom = studyRoomRepository.save(studyRoomMapper.toEntity(request, user));
-    return studyRoomMapper.toDto(studyRoom);
+    studyRoomRepository.save(studyRoomMapper.toEntity(request, user));
   }
 
-  public List<GetStudyRoomResponse> findAllStudyRoom() {
+  public List<GetAllStudyRoomResponse> findAllStudyRoom() {
     List<StudyRoom> studyRooms = studyRoomRepository.findAll();
     return studyRoomMapper.toDto(studyRooms);
   }
@@ -39,5 +39,10 @@ public class StudyRoomService {
             .findWithRoomUsersByRoomUuid(roomUuid)
             .orElseThrow(NotFoundStudyRoom::new);
     return studyRoomMapper.toDto(studyRoom, studyRoom.getRoomUsers());
+  }
+
+  public boolean checkStudyRoomPassword(UUID roomUuid, String password){
+    StudyRoom studyRoom = studyRoomRepository.findByRoomUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
+    return studyRoom.getPassword().equals(password);
   }
 }

@@ -9,7 +9,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class GetStudyRoomResponse {
-  private UUID roomUuid;
   private String roomName;
   private String constructorName;
   private List<GetRoomUserResponse> users;

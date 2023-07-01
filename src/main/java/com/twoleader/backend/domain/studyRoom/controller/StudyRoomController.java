@@ -4,7 +4,9 @@ import static com.twoleader.backend.global.result.api.ResultCode.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import com.twoleader.backend.domain.studyRoom.dto.request.CheckStudyRoomPasswordRequest;
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
+import com.twoleader.backend.domain.studyRoom.dto.response.GetAllStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
 import com.twoleader.backend.global.result.api.ResultResponse;
@@ -35,13 +37,13 @@ public class StudyRoomController {
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @PostMapping("")
-  public ResponseEntity<EntityModel<ResultResponse<GetStudyRoomResponse>>> createStudyRoom(
+  public ResponseEntity<EntityModel<ResultResponse>> createStudyRoom(
       @Valid @RequestBody CreateStudyRoomRequest request) {
-    GetStudyRoomResponse response = studyRoomService.createStudyRoom(request);
+    studyRoomService.createStudyRoom(request);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
-                new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS, response),
+                new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS),
                 linkTo(methodOn(StudyRoomController.class).createStudyRoom(request))
                     .withSelfRel()));
   }
@@ -53,8 +55,8 @@ public class StudyRoomController {
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @GetMapping("")
-  public ResponseEntity<EntityModel<ResultResponse<List<GetStudyRoomResponse>>>> getAllStudyRoom() {
-    List<EntityModel<GetStudyRoomResponse>> studyRooms =
+  public ResponseEntity<EntityModel<ResultResponse<List<GetAllStudyRoomResponse>>>> getAllStudyRoom() {
+    List<EntityModel<GetAllStudyRoomResponse>> response =
         studyRoomService.findAllStudyRoom().stream()
             .map(
                 studyRoom ->
@@ -68,7 +70,7 @@ public class StudyRoomController {
 
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(GET_ALL_STUDYROOM_SUCCESS, studyRooms),
+            new ResultResponse<>(GET_ALL_STUDYROOM_SUCCESS, response),
             linkTo(methodOn(StudyRoomController.class).getAllStudyRoom()).withSelfRel()));
   }
 
@@ -81,11 +83,29 @@ public class StudyRoomController {
   @GetMapping("/{roomUuid}")
   public ResponseEntity<EntityModel<ResultResponse<GetStudyRoomResponse>>> getStudyRoomByUuid(
       @PathVariable("roomUuid") UUID roomUuid) {
-    GetStudyRoomResponse studyRoom = studyRoomService.findStudyRoomByUuid(roomUuid);
+    GetStudyRoomResponse response = studyRoomService.findStudyRoomByUuid(roomUuid);
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(GET_STUDYROOM_SUCCESS, studyRoom),
+            new ResultResponse<>(GET_STUDYROOM_SUCCESS, response),
             linkTo(methodOn(StudyRoomController.class).getStudyRoomByUuid(roomUuid))
                 .withSelfRel()));
+  }
+
+  @Operation(summary = "Study Room 비밀번호 확인", description = "StudyRoom의 비밀번호를 확인합니다.")
+  @ApiResponses({
+          @ApiResponse(responseCode = "200", description = "OK(성공)"),
+          @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
+          @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
+  })
+  @GetMapping("/{roomUuid}/checkpw")
+  public ResponseEntity<EntityModel<ResultResponse>> checkStudyRoomPassword(
+          @PathVariable("roomUuid") UUID roomUuid,
+          @Valid @RequestBody CheckStudyRoomPasswordRequest request){
+    boolean response = studyRoomService.checkStudyRoomPassword(roomUuid,request.getPassword());
+    return ResponseEntity.ok(
+            EntityModel.of(
+                    new ResultResponse<>(API_SUCCESS_CHECK_PASSWORD,response),
+                    linkTo(methodOn(StudyRoomController.class).checkStudyRoomPassword(roomUuid,request))
+                            .withSelfRel()));
   }
 }

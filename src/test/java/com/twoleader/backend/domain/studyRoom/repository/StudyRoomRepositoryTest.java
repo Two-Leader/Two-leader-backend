@@ -52,10 +52,13 @@ public class StudyRoomRepositoryTest {
                 .build()));
     studyRooms.add(
         studyRoomRepository.save(
-            StudyRoom.builder().roomName("TestStudyRoom1").constructor(users.get(0)).build()));
+            StudyRoom.builder().roomName("TestStudyRoom1").information("testRoomInformation").password("testPassword").totalNop(5).constructor(users.get(0)).build()));
     studyRooms.add(
-        studyRoomRepository.save(
-            StudyRoom.builder().roomName("TestStudyRoom2").constructor(users.get(0)).build()));
+            studyRoomRepository.save(
+                    StudyRoom.builder().roomName("TestStudyRoom2").information("testRoomInformation").totalNop(5).constructor(users.get(0)).build()));
+    studyRooms.add(
+            studyRoomRepository.save(
+                    StudyRoom.builder().roomName("TestStudyRoom2").totalNop(5).constructor(users.get(0)).build()));
   }
 
   @Test
@@ -63,15 +66,16 @@ public class StudyRoomRepositoryTest {
   public void findAllStudyRoomTest() {
     // given
     int index = 0;
-    StudyRoom studyRoom1 = studyRooms.get(index);
+    StudyRoom studyRoom = studyRooms.get(index);
 
     // when
     List<StudyRoom> findStudyRooms = studyRoomRepository.findAll();
 
     // then
     assertEquals(studyRooms.size(), findStudyRooms.size());
-    assertEquals(studyRoom1.getStudyRoomId(), findStudyRooms.get(index).getStudyRoomId());
-    assertEquals(studyRoom1.getRoomUuid(), findStudyRooms.get(index).getRoomUuid());
+    assertEquals(studyRoom.getStudyRoomId(), findStudyRooms.get(index).getStudyRoomId());
+    assertNull(findStudyRooms.get(1).getPassword());
+    assertNull(findStudyRooms.get(2).getInformation());
   }
 
   @Test
