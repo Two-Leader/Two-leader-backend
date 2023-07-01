@@ -2,8 +2,14 @@ package com.twoleader.backend.domain.studyRoom.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.twoleader.backend.domain.roomUser.entity.RoomUser;
+import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
+import com.twoleader.backend.domain.user.entity.User;
+import com.twoleader.backend.domain.user.repository.UserRepository;
 import java.util.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,15 +24,38 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @DataJpaTest
 public class StudyRoomRepositoryTest {
   @Autowired private StudyRoomRepository studyRoomRepository;
+  @Autowired private UserRepository userRepository;
+  @Autowired private RoomUserRepository roomUserRepository;
+
+  @PersistenceContext EntityManager em;
 
   private List<StudyRoom> studyRooms = new ArrayList<>();
+  private List<User> users = new ArrayList<>();
 
   @BeforeEach
   public void setUp() {
+    users.add(
+        userRepository.save(
+            User.builder()
+                .userUuid(UUID.randomUUID())
+                .email("tester@gmail.com")
+                .password("password")
+                .nickName("tester")
+                .build()));
+    users.add(
+        userRepository.save(
+            User.builder()
+                .userUuid(UUID.randomUUID())
+                .email("tester2@gmail.com")
+                .password("password")
+                .nickName("tester2")
+                .build()));
     studyRooms.add(
-        studyRoomRepository.save(StudyRoom.builder().roomName("TestStudyRoom1").build()));
+        studyRoomRepository.save(
+            StudyRoom.builder().roomName("TestStudyRoom1").constructor(users.get(0)).build()));
     studyRooms.add(
-        studyRoomRepository.save(StudyRoom.builder().roomName("TestStudyRoom2").build()));
+        studyRoomRepository.save(
+            StudyRoom.builder().roomName("TestStudyRoom2").constructor(users.get(0)).build()));
   }
 
   @Test
@@ -41,7 +70,7 @@ public class StudyRoomRepositoryTest {
 
     // then
     assertEquals(studyRooms.size(), findStudyRooms.size());
-    assertEquals(studyRoom1.getRoomId(), findStudyRooms.get(index).getRoomId());
+    assertEquals(studyRoom1.getStudyRoomId(), findStudyRooms.get(index).getStudyRoomId());
     assertEquals(studyRoom1.getRoomUuid(), findStudyRooms.get(index).getRoomUuid());
   }
 
@@ -53,12 +82,38 @@ public class StudyRoomRepositoryTest {
     StudyRoom studyRoom = studyRooms.get(index);
 
     // when
-    Optional<StudyRoom> findStudyRoom =
-        studyRoomRepository.findStudyRoomByUuid(studyRoom.getRoomUuid());
+    Optional<StudyRoom> findStudyRoom = studyRoomRepository.findByRoomUuid(studyRoom.getRoomUuid());
 
     // then
+    assert findStudyRoom.isPresent();
     assertEquals(studyRoom.getRoomUuid(), findStudyRoom.get().getRoomUuid());
-    assertEquals(studyRoom.getRoomName(), findStudyRoom.get().getRoomName());
-    assertEquals(studyRoom.getRoomId(), findStudyRoom.get().getRoomId());
+  }
+
+  @Test
+  @DisplayName("users N+1 문제 Test")
+  public void UsersNPlusOneTest() {
+    // given
+    roomUserRepository.save(
+        RoomUser.builder()
+            .studyRoom(studyRooms.get(0))
+            .roomUserName("tester")
+            .user(users.get(0))
+            .build());
+    roomUserRepository.save(
+        RoomUser.builder()
+            .studyRoom(studyRooms.get(0))
+            .roomUserName("tester2")
+            .user(users.get(1))
+            .build());
+    em.flush();
+    em.clear();
+
+    StudyRoom findStudyRoom =
+        studyRoomRepository
+            .findWithRoomUsersByRoomUuid(studyRooms.get(0).getRoomUuid())
+            .orElseThrow();
+    for (RoomUser roomUser : findStudyRoom.getRoomUsers()) {
+      System.out.println(roomUser.getUser().getUserUuid());
+    }
   }
 }

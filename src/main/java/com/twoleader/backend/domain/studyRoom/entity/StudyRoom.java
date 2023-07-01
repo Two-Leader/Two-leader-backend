@@ -14,12 +14,15 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
-@ToString(callSuper = true)
-@Table(name = "studyRooms")
+@ToString(
+    of = {"studyRoomId", "roomUuid", "roomName"},
+    callSuper = true)
+@Table(name = "study_rooms")
 public class StudyRoom extends BaseEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long roomId;
+  private Long studyRoomId;
 
   @Column(nullable = false, columnDefinition = "BINARY(16)")
   @Builder.Default
@@ -28,14 +31,10 @@ public class StudyRoom extends BaseEntity {
   @Column(nullable = false)
   private String roomName;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "user_id") // nullable을 false로 해야 INNER JOIN함. => 성능 향상
   private User constructor;
 
-  @OneToMany(
-      mappedBy = "studyRoom",
-      fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL,
-      orphanRemoval = true)
-  private List<RoomUser> users = new ArrayList<>();
+  @OneToMany(mappedBy = "studyRoom", fetch = FetchType.LAZY, orphanRemoval = true)
+  private List<RoomUser> roomUsers = new ArrayList<>();
 }

@@ -17,16 +17,16 @@ public class StudyRoomMapper {
     return StudyRoom.builder().roomName(request.getRoomName()).constructor(user).build();
   }
 
+  public List<GetStudyRoomResponse> toDto(List<StudyRoom> studyRooms) {
+    return studyRooms.stream().map(this::toDto).collect(Collectors.toList());
+  }
+
   public GetStudyRoomResponse toDto(StudyRoom studyRoom) {
     return GetStudyRoomResponse.builder()
         .roomUuid(studyRoom.getRoomUuid())
         .roomName(studyRoom.getRoomName())
         .constructorName(studyRoom.getConstructor().getNickName())
         .build();
-  }
-
-  public List<GetStudyRoomResponse> toDto(List<StudyRoom> studyRooms) {
-    return studyRooms.stream().map(this::toDto).collect(Collectors.toList());
   }
 
   public GetStudyRoomResponse toDto(StudyRoom studyRoom, List<RoomUser> users) {
@@ -42,6 +42,7 @@ public class StudyRoomMapper {
     return GetRoomUserResponse.builder()
         .userId(user.getRoomUserId())
         .userName(user.getRoomUserName())
+        .userUuid(user.getUser().getUserUuid())
         .build();
   }
 }

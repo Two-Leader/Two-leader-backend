@@ -7,12 +7,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.twoleader.backend.domain.user.dto.request.CreateUserRequest;
 import com.twoleader.backend.domain.user.dto.request.LoginRequest;
+import com.twoleader.backend.domain.user.service.AuthService;
 import com.twoleader.backend.domain.user.service.UserService;
+import com.twoleader.backend.global.config.security.Token;
 import com.twoleader.backend.global.result.api.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import java.util.UUID;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class UserController {
   private final UserService userService;
+  private final AuthService authService;
 
   @Operation(summary = "User 생성 요청", description = "User를 생성합니다.")
   @ApiResponses({
@@ -38,7 +40,7 @@ public class UserController {
   @PostMapping("/signUp")
   public ResponseEntity<EntityModel<ResultResponse>> createUser(
       @Valid @RequestBody CreateUserRequest request) {
-    userService.createUser(request);
+    authService.signup(request);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
@@ -55,10 +57,10 @@ public class UserController {
   @PostMapping("/login")
   public ResponseEntity<EntityModel<ResultResponse>> login(
       @Valid @RequestBody LoginRequest request) {
-    UUID userUuid = userService.login(request);
+    Token token = authService.login(request);
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(API_SUCCESS_LOGIN_USER, userUuid),
+            new ResultResponse<>(API_SUCCESS_LOGIN_USER, token),
             linkTo(methodOn(UserController.class).login(request)).withSelfRel()));
   }
 }

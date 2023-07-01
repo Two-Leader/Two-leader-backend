@@ -11,13 +11,12 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
         use_sql_comments: true;
         show_sql: true
-
 
 springdoc:
   default-consumes-media-type: application/json
@@ -39,3 +38,7 @@ logging:
   level:
     org.springframework: info
     com.twoleader.backend: debug
+jwt:
+  secret: masdfafqawf65wdsadadcdwgzqpfoqmdyrkvuapfcjTTOwkfpOEsdcafafafaFEFFA1dfefaefGeAOgegIge3edw2ewfaffefa
+
+

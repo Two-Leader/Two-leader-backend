@@ -37,7 +37,7 @@ public class RoomUserServiceTest {
   public static void setUp() {
     studyRoom =
         StudyRoom.builder()
-            .roomId(1L)
+            .studyRoomId(1L)
             .roomUuid(UUID.randomUUID())
             .roomName("testStudyRoom")
             .build();

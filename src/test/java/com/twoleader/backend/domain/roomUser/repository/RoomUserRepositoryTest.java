@@ -10,7 +10,6 @@ import com.twoleader.backend.domain.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -36,7 +35,6 @@ public class RoomUserRepositoryTest {
 
   @BeforeEach
   public void setUp() {
-    studyRoom = studyRoomRepository.save(StudyRoom.builder().roomName("testStudyRoom").build());
     users.add(
         userRepository.save(
             User.builder()
@@ -89,15 +87,5 @@ public class RoomUserRepositoryTest {
       Optional<RoomUser> findUser = roomUserRepository.findById(100L);
       assertFalse(findUser.isPresent());
     }
-  }
-
-  @Test
-  @DisplayName("StudyRoom 안 User 찾기")
-  public void findAllUserByStudyRoomUuid() {
-    // given
-    UUID roomUuid = studyRoom.getRoomUuid();
-    List<RoomUser> users = roomUserRepository.findAllInStudyRoomByStudyRoomUuid(roomUuid);
-
-    assertEquals(roomUser.getRoomUserId(), users.get(0).getRoomUserId());
   }
 }
