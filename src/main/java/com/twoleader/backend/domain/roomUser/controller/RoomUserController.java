@@ -43,7 +43,7 @@ public class RoomUserController {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
-                new ResultResponse<>(USER_REGISTRATION_SUCCESS, response),
+                new ResultResponse<>(API_SUCCESS_ROOM_USER_REGISTRATION, response),
                 linkTo(methodOn(RoomUserController.class).createUser(roomUuid, request))
                     .withSelfRel()));
   }
@@ -60,7 +60,7 @@ public class RoomUserController {
     GetRoomUserResponse response = roomUserService.getUser(userId);
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(GET_USER_SUCCESS, response),
+            new ResultResponse<>(API_SUCCESS_ROOM_USER_GET, response),
             linkTo(methodOn(RoomUserController.class).getUser(userId)).withSelfRel()));
   }
 
@@ -76,7 +76,7 @@ public class RoomUserController {
     roomUserService.deleteUserById(userId);
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse(DELETE_USER_SUCCESS),
+            new ResultResponse<>(API_SUCCESS_ROOM_USER_DELETE),
             linkTo(methodOn(RoomUserController.class).deleteUser(userId)).withSelfRel()));
   }
 }

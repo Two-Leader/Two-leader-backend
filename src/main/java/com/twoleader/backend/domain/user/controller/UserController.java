@@ -1,7 +1,6 @@
 package com.twoleader.backend.domain.user.controller;
 
-import static com.twoleader.backend.global.result.api.ResultCode.API_SUCCESS_LOGIN_USER;
-import static com.twoleader.backend.global.result.api.ResultCode.USER_REGISTRATION_SUCCESS;
+import static com.twoleader.backend.global.result.api.ResultCode.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -44,7 +43,7 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
-                new ResultResponse<>(USER_REGISTRATION_SUCCESS),
+                new ResultResponse<>(API_SUCCESS_ROOM_USER_REGISTRATION),
                 linkTo(methodOn(UserController.class).createUser(request)).withSelfRel()));
   }
 
@@ -60,7 +59,7 @@ public class UserController {
     LoginResponse response = userService.login(request);
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(API_SUCCESS_LOGIN_USER, response),
+            new ResultResponse<>(API_SUCCESS_USER_LOGIN, response),
             linkTo(methodOn(UserController.class).login(request)).withSelfRel()));
   }
 }

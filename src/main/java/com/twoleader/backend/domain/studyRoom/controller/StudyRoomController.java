@@ -43,7 +43,7 @@ public class StudyRoomController {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
-                new ResultResponse<>(STUDYROOM_REGISTRATION_SUCCESS),
+                new ResultResponse<>(API_SUCCESS_STUDY_ROOM_REGISTRATION),
                 linkTo(methodOn(StudyRoomController.class).createStudyRoom(request))
                     .withSelfRel()));
   }
@@ -71,7 +71,7 @@ public class StudyRoomController {
 
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(GET_ALL_STUDYROOM_SUCCESS, response),
+            new ResultResponse<>(API_SUCCESS_STUDY_ROOM_GET_ALL, response),
             linkTo(methodOn(StudyRoomController.class).getAllStudyRoom()).withSelfRel()));
   }
 
@@ -87,7 +87,7 @@ public class StudyRoomController {
     GetStudyRoomResponse response = studyRoomService.findStudyRoomByUuid(roomUuid);
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(GET_STUDYROOM_SUCCESS, response),
+            new ResultResponse<>(API_SUCCESS_STUDY_ROOM_GET, response),
             linkTo(methodOn(StudyRoomController.class).getStudyRoomByUuid(roomUuid))
                 .withSelfRel()));
   }
@@ -105,7 +105,7 @@ public class StudyRoomController {
     boolean response = studyRoomService.checkStudyRoomPassword(roomUuid, request.getPassword());
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(API_SUCCESS_CHECK_PASSWORD, response),
+            new ResultResponse<>(API_SUCCESS_STUDY_ROOM_CHECK_PASSWORD, response),
             linkTo(methodOn(StudyRoomController.class).checkStudyRoomPassword(roomUuid, request))
                 .withSelfRel()));
   }
@@ -122,7 +122,7 @@ public class StudyRoomController {
     studyRoomService.deleteStudyRoom(roomUuid);
     return ResponseEntity.ok(
             EntityModel.of(
-                    new ResultResponse<>(API_SUCCESS_CHECK_PASSWORD),
+                    new ResultResponse<>(API_SUCCESS_ROOM_USER_DELETE),
                     linkTo(methodOn(StudyRoomController.class).deleteStudyRoom(roomUuid))
                             .withSelfRel()));
   }
