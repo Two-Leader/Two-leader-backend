@@ -45,9 +45,17 @@ public class StudyRoom extends BaseEntity {
   private Integer nowTotalNop = 1;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "user_id") // nullable을 false로 해야 INNER JOIN함. => 성능 향상
+  @JoinColumn(name = "user_id")
   private User constructor;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "studyRoom", fetch = FetchType.LAZY, orphanRemoval = true)
   private List<RoomUser> roomUsers = new ArrayList<>();
+
+  public void addRoomUser(){
+    this.nowTotalNop++;
+  }
+
+  public void deleteRoomUser(){
+    this.nowTotalNop--;
+  }
 }

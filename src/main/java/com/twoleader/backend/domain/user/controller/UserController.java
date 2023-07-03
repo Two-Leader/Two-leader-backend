@@ -7,6 +7,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.twoleader.backend.domain.user.dto.request.CreateUserRequest;
 import com.twoleader.backend.domain.user.dto.request.LoginRequest;
+import com.twoleader.backend.domain.user.dto.response.LoginResponse;
 import com.twoleader.backend.domain.user.service.AuthService;
 import com.twoleader.backend.domain.user.service.UserService;
 import com.twoleader.backend.global.config.security.Token;
@@ -40,7 +41,7 @@ public class UserController {
   @PostMapping("/signUp")
   public ResponseEntity<EntityModel<ResultResponse>> createUser(
       @Valid @RequestBody CreateUserRequest request) {
-    authService.signup(request);
+    userService.signup(request);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(
             EntityModel.of(
@@ -57,10 +58,10 @@ public class UserController {
   @PostMapping("/login")
   public ResponseEntity<EntityModel<ResultResponse>> login(
       @Valid @RequestBody LoginRequest request) {
-    Token token = authService.login(request);
+    LoginResponse response = userService.login(request);
     return ResponseEntity.ok(
         EntityModel.of(
-            new ResultResponse<>(API_SUCCESS_LOGIN_USER, token),
+            new ResultResponse<>(API_SUCCESS_LOGIN_USER, response),
             linkTo(methodOn(UserController.class).login(request)).withSelfRel()));
   }
 }
