@@ -32,7 +32,6 @@ public class UserService {
   }
 
   public void signup(CreateUserRequest request) {
-    if (userRepository.existsByEmail(request.getEmail())) throw new ExistedUserException();
     userRepository.save(userMapper.toEntity(request));
   }
 

@@ -3,6 +3,7 @@ package com.twoleader.backend.domain.roomUser.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.lenient;
 
 import com.twoleader.backend.domain.roomUser.dto.request.CreateRoomUserRequest;
 import com.twoleader.backend.domain.roomUser.dto.response.GetRoomUserResponse;
@@ -26,6 +27,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 
 @ExtendWith(MockitoExtension.class)
@@ -133,4 +135,5 @@ public class RoomUserServiceTest {
           });
     }
   }
+
 }

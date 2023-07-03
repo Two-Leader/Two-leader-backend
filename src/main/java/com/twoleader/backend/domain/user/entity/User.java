@@ -24,7 +24,7 @@ public class User extends BaseEntity implements UserDetails {
   @Builder.Default
   private UUID userUuid = UUID.randomUUID();
 
-  @Column(nullable = false)
+  @Column(nullable = false,unique = true)
   private String email;
 
   @Column(nullable = false)

@@ -22,6 +22,7 @@ public enum ErrorCode {
   // User
   API_ERROR_EXISTED_USER(400, "U001", "이미 존재하는 유저"),
   API_ERROR_USER_NOT_FOUND(400, "U002", "유저 없음"),
+  API_ERROR_USER_ALREADY_REGISTRATION(400,"U003","이미 등록된 계정"),
   ;
   private final int status;
   private final String code;
