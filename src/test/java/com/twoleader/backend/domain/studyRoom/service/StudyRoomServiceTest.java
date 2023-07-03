@@ -5,8 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import com.twoleader.backend.domain.roomUser.entity.RoomUser;
-import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
-import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetAllStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
@@ -142,7 +140,7 @@ public class StudyRoomServiceTest {
 
   @Nested
   @DisplayName("studyRoom Password 체크")
-  class checkPassword{
+  class checkPassword {
     @Test
     @DisplayName("password가 맞을 때")
     public void whenPasswordCorrect() {
@@ -150,7 +148,9 @@ public class StudyRoomServiceTest {
       given(studyRoomRepository.findByRoomUuid(any())).willReturn(Optional.of(studyRooms.get(0)));
 
       // when
-      boolean response = studyRoomService.checkStudyRoomPassword(studyRooms.get(0).getRoomUuid(),studyRooms.get(0).getPassword());
+      boolean response =
+          studyRoomService.checkStudyRoomPassword(
+              studyRooms.get(0).getRoomUuid(), studyRooms.get(0).getPassword());
 
       // then
       assertTrue(response);
@@ -163,7 +163,9 @@ public class StudyRoomServiceTest {
       given(studyRoomRepository.findByRoomUuid(any())).willReturn(Optional.of(studyRooms.get(0)));
 
       // when
-      boolean response = studyRoomService.checkStudyRoomPassword(studyRooms.get(0).getRoomUuid(),"inCorrectPassword");
+      boolean response =
+          studyRoomService.checkStudyRoomPassword(
+              studyRooms.get(0).getRoomUuid(), "inCorrectPassword");
 
       // then
       assertFalse(response);
@@ -176,9 +178,11 @@ public class StudyRoomServiceTest {
       given(studyRoomRepository.findByRoomUuid(any())).willReturn(Optional.of(studyRooms.get(1)));
 
       // when, then
-      assertThrows((NullPointerException.class),()->{
-        studyRoomService.checkStudyRoomPassword(studyRooms.get(1).getRoomUuid(),"");
-      });
+      assertThrows(
+          (NullPointerException.class),
+          () -> {
+            studyRoomService.checkStudyRoomPassword(studyRooms.get(1).getRoomUuid(), "");
+          });
     }
   }
 }

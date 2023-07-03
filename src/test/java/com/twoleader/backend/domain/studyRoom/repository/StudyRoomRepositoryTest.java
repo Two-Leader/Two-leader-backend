@@ -52,13 +52,28 @@ public class StudyRoomRepositoryTest {
                 .build()));
     studyRooms.add(
         studyRoomRepository.save(
-            StudyRoom.builder().roomName("TestStudyRoom1").information("testRoomInformation").password("testPassword").totalNop(5).constructor(users.get(0)).build()));
+            StudyRoom.builder()
+                .roomName("TestStudyRoom1")
+                .information("testRoomInformation")
+                .password("testPassword")
+                .totalNop(5)
+                .constructor(users.get(0))
+                .build()));
     studyRooms.add(
-            studyRoomRepository.save(
-                    StudyRoom.builder().roomName("TestStudyRoom2").information("testRoomInformation").totalNop(5).constructor(users.get(0)).build()));
+        studyRoomRepository.save(
+            StudyRoom.builder()
+                .roomName("TestStudyRoom2")
+                .information("testRoomInformation")
+                .totalNop(5)
+                .constructor(users.get(0))
+                .build()));
     studyRooms.add(
-            studyRoomRepository.save(
-                    StudyRoom.builder().roomName("TestStudyRoom2").totalNop(5).constructor(users.get(0)).build()));
+        studyRoomRepository.save(
+            StudyRoom.builder()
+                .roomName("TestStudyRoom2")
+                .totalNop(5)
+                .constructor(users.get(0))
+                .build()));
   }
 
   @Test

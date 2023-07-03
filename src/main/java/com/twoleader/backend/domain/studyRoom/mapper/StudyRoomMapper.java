@@ -16,11 +16,12 @@ public class StudyRoomMapper {
 
   public StudyRoom toEntity(CreateStudyRoomRequest request, User user) {
     return StudyRoom.builder()
-            .roomName(request.getRoomName())
-            .information(request.getInformation())
-            .password(request.getPassword())
-            .totalNop(request.getTotalNop())
-            .constructor(user).build();
+        .roomName(request.getRoomName())
+        .information(request.getInformation())
+        .password(request.getPassword())
+        .totalNop(request.getTotalNop())
+        .constructor(user)
+        .build();
   }
 
   public List<GetAllStudyRoomResponse> toDto(List<StudyRoom> studyRooms) {

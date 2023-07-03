@@ -42,8 +42,6 @@ public class StudyRoomControllerTest {
 
   private static final List<GetRoomUserResponse> users = new ArrayList<>();
 
-
-
   @Test
   @DisplayName("StudyRoom 생성 Test")
   public void CreateStudyRoomTest() throws Exception {
@@ -104,10 +102,14 @@ public class StudyRoomControllerTest {
     // given
     users.add(GetRoomUserResponse.builder().userId(1L).userName("tester").build());
     users.add(GetRoomUserResponse.builder().userId(2L).userName("tester2").build());
-    GetStudyRoomResponse response = GetStudyRoomResponse.builder().roomName("testStudyRoom1").constructorName("tester").users(users).build();
+    GetStudyRoomResponse response =
+        GetStudyRoomResponse.builder()
+            .roomName("testStudyRoom1")
+            .constructorName("tester")
+            .users(users)
+            .build();
     int index = 1;
     given(studyRoomService.findStudyRoomByUuid(any())).willReturn(response);
-
 
     // when, then
     mockMvc
@@ -128,18 +130,19 @@ public class StudyRoomControllerTest {
   @DisplayName(" StudyRoom password 체크 Test")
   public void checkStudyRoomPasswordTest() throws Exception {
     // given
-    CheckStudyRoomPasswordRequest request = CheckStudyRoomPasswordRequest.builder().password("testPassword").build();
-    given(studyRoomService.checkStudyRoomPassword(any(),any())).willReturn(true);
+    CheckStudyRoomPasswordRequest request =
+        CheckStudyRoomPasswordRequest.builder().password("testPassword").build();
+    given(studyRoomService.checkStudyRoomPassword(any(), any())).willReturn(true);
 
     // when, then
     mockMvc
-            .perform(
-                    get("/api/v1/studies/" + UUID.randomUUID() +"/checkpw")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(request))
-                            .characterEncoding("utf-8"))
-            .andExpect(status().isOk())
-            .andDo(print());
+        .perform(
+            get("/api/v1/studies/" + UUID.randomUUID() + "/checkpw")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .characterEncoding("utf-8"))
+        .andExpect(status().isOk())
+        .andDo(print());
   }
 }

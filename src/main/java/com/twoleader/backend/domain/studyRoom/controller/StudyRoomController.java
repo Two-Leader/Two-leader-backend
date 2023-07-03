@@ -55,7 +55,8 @@ public class StudyRoomController {
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @GetMapping("")
-  public ResponseEntity<EntityModel<ResultResponse<List<GetAllStudyRoomResponse>>>> getAllStudyRoom() {
+  public ResponseEntity<EntityModel<ResultResponse<List<GetAllStudyRoomResponse>>>>
+      getAllStudyRoom() {
     List<EntityModel<GetAllStudyRoomResponse>> response =
         studyRoomService.findAllStudyRoom().stream()
             .map(
@@ -93,19 +94,19 @@ public class StudyRoomController {
 
   @Operation(summary = "Study Room 비밀번호 확인", description = "StudyRoom의 비밀번호를 확인합니다.")
   @ApiResponses({
-          @ApiResponse(responseCode = "200", description = "OK(성공)"),
-          @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
-          @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
+    @ApiResponse(responseCode = "200", description = "OK(성공)"),
+    @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @GetMapping("/{roomUuid}/checkpw")
   public ResponseEntity<EntityModel<ResultResponse>> checkStudyRoomPassword(
-          @PathVariable("roomUuid") UUID roomUuid,
-          @Valid @RequestBody CheckStudyRoomPasswordRequest request){
-    boolean response = studyRoomService.checkStudyRoomPassword(roomUuid,request.getPassword());
+      @PathVariable("roomUuid") UUID roomUuid,
+      @Valid @RequestBody CheckStudyRoomPasswordRequest request) {
+    boolean response = studyRoomService.checkStudyRoomPassword(roomUuid, request.getPassword());
     return ResponseEntity.ok(
-            EntityModel.of(
-                    new ResultResponse<>(API_SUCCESS_CHECK_PASSWORD,response),
-                    linkTo(methodOn(StudyRoomController.class).checkStudyRoomPassword(roomUuid,request))
-                            .withSelfRel()));
+        EntityModel.of(
+            new ResultResponse<>(API_SUCCESS_CHECK_PASSWORD, response),
+            linkTo(methodOn(StudyRoomController.class).checkStudyRoomPassword(roomUuid, request))
+                .withSelfRel()));
   }
 }
