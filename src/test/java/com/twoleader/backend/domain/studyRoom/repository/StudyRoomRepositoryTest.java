@@ -135,4 +135,22 @@ public class StudyRoomRepositoryTest {
       System.out.println(roomUser.getUser().getUserUuid());
     }
   }
+
+  @Test
+  @DisplayName("cascade Test")
+  public void cascadeTest(){
+    //given
+    roomUserRepository.save(RoomUser.builder().roomUserName("tester").studyRoom(studyRooms.get(0)).user(users.get(0)).build());
+    roomUserRepository.save(RoomUser.builder().roomUserName("tester1").studyRoom(studyRooms.get(0)).user(users.get(1)).build());
+    em.flush();
+    em.clear();
+    StudyRoom studyRoom = studyRoomRepository.findById(studyRooms.get(0).getStudyRoomId()).orElseThrow();
+
+    //when
+    studyRoomRepository.delete(studyRoom);
+
+    //then
+    List<RoomUser> roomUsers = roomUserRepository.findAll();
+    assertEquals(0,roomUsers.size());
+  }
 }

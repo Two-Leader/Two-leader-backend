@@ -36,7 +36,7 @@ public class User extends BaseEntity implements UserDetails {
   @Enumerated(EnumType.STRING)
   private Authority role;
 
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  @OneToMany(cascade = CascadeType.ALL,mappedBy = "user", fetch = FetchType.LAZY)
   private List<RoomUser> rooms = new ArrayList<>();
 
   @Override

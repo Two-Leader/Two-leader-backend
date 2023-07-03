@@ -15,9 +15,17 @@ public class RoomUserMapper {
   public RoomUser toEntity(CreateRoomUserRequest request, StudyRoom studyRoom, User user) {
     return RoomUser.builder()
         .user(user)
-        .roomUserName(request.getUserName())
+        .roomUserName(request.getUserName() == null ? user.getNickName() : request.getUserName())
         .studyRoom(studyRoom)
         .build();
+  }
+
+  public RoomUser toEntity(String userName,StudyRoom studyRoom, User user){
+    return RoomUser.builder()
+            .user(user)
+            .roomUserName(userName == null ?user.getNickName() : userName)
+            .studyRoom(studyRoom)
+            .build();
   }
 
   public GetRoomUserResponse toDto(RoomUser user) {

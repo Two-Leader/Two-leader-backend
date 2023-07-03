@@ -30,11 +30,11 @@ public class RoomUser extends BaseEntity {
   @Column(nullable = false)
   private String roomUserName;
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "study_rooms_id", nullable = false) // INNER JOIN을 하기위해 nullable을 false로 설정
   private StudyRoom studyRoom;
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "users_id", nullable = false) // INNER JOIN을 하기위해 nullable을 false로 설정
   private User user;
 }

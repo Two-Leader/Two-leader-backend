@@ -36,12 +36,17 @@ public class RoomUserService {
     return roomUserMapper.toDto(roomUser);
   }
 
+  public void createUser(String userName, StudyRoom studyRoom, User user){
+    roomUserRepository.save(roomUserMapper.toEntity(userName,studyRoom,user));
+    studyRoom.addRoomUser();
+  }
+
   public GetRoomUserResponse getUser(long userId) {
     RoomUser user = roomUserRepository.findById(userId).orElseThrow(NotFoundRoomUserException::new);
     return roomUserMapper.toDto(user);
   }
 
-  public void deleteUserByUuid(long userId) {
+  public void deleteUserById(long userId) {
     RoomUser user = roomUserRepository.findById(userId).orElseThrow(NotFoundRoomUserException::new);
     roomUserRepository.delete(user);
     user.getStudyRoom().deleteRoomUser();

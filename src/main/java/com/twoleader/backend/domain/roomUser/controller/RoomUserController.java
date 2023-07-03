@@ -70,10 +70,10 @@ public class RoomUserController {
     @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
-  @DeleteMapping("/{userUuid}")
+  @DeleteMapping("/{roomUserId}")
   public ResponseEntity<EntityModel<ResultResponse>> deleteUser(
-      @PathVariable("userUuid") long userId) {
-    roomUserService.deleteUserByUuid(userId);
+      @PathVariable("roomUserId") long userId) {
+    roomUserService.deleteUserById(userId);
     return ResponseEntity.ok(
         EntityModel.of(
             new ResultResponse(DELETE_USER_SUCCESS),

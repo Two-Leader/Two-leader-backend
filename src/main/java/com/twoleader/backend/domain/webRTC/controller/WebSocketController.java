@@ -44,11 +44,11 @@ public class WebSocketController {
         roomUuid, new OutputMessage<>(WEBSOCKET_SUCCESS_CHAT, message));
   }
 
-  @EventListener
-  public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-    StompHeaderAccessor headerAccesor = StompHeaderAccessor.wrap(event.getMessage());
-    int userId = Integer.parseInt(headerAccesor.getSessionAttributes().get("userId").toString());
-    log.info("[ws] sessionId Disconnected : {}", userId);
-    roomUserService.deleteUserByUuid(userId);
-  }
+//  @EventListener
+//  public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+//    StompHeaderAccessor headerAccesor = StompHeaderAccessor.wrap(event.getMessage());
+//    int userId = Integer.parseInt(headerAccesor.getSessionAttributes().get("userId").toString());
+//    log.info("[ws] sessionId Disconnected : {}", userId);
+//    roomUserService.deleteUserById(userId);
+//  }
 }

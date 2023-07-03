@@ -36,14 +36,13 @@ public class StudyRoom extends BaseEntity {
   @Column private String password;
 
   @Column(nullable = false)
-  private Integer totalNop;
+  private int totalNop;
 
-  @Builder.Default
   @Column(nullable = false)
-  private Integer nowTotalNop = 1;
+  private int nowTotalNop;
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "user_id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id",nullable = false)
   private User constructor;
 
   @OneToMany(

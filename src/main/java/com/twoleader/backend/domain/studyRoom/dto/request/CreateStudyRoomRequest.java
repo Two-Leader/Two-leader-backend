@@ -16,6 +16,7 @@ public class CreateStudyRoomRequest {
 
   @NotBlank private String roomName;
   @NotNull private UUID userUuid;
+  private String userName;
   private String information;
   private String password;
   private int totalNop;
