@@ -1,6 +1,5 @@
 package com.twoleader.backend.domain.studyRoom.service;
 
-import com.twoleader.backend.domain.roomUser.dto.request.CreateRoomUserRequest;
 import com.twoleader.backend.domain.roomUser.service.RoomUserService;
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetAllStudyRoomResponse;
@@ -29,7 +28,7 @@ public class StudyRoomService {
   public UUID createStudyRoom(CreateStudyRoomRequest request) {
     User user = userService.findByUserUuid(request.getUserUuid());
     StudyRoom studyRoom = studyRoomRepository.save(studyRoomMapper.toEntity(request, user));
-    roomUserService.createUser(request.getUserName(),studyRoom,user);
+    roomUserService.createUser(request.getUserName(), studyRoom, user);
     return studyRoom.getRoomUuid();
   }
 
@@ -52,8 +51,9 @@ public class StudyRoomService {
     return studyRoom.getPassword().equals(password);
   }
 
-  public void deleteStudyRoom(UUID roomUuid){
-    StudyRoom studyRoom = studyRoomRepository.findByRoomUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
+  public void deleteStudyRoom(UUID roomUuid) {
+    StudyRoom studyRoom =
+        studyRoomRepository.findByRoomUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
     studyRoomRepository.delete(studyRoom);
   }
 }
