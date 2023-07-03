@@ -22,14 +22,17 @@ public class UserMapper {
 
   public User toEntity(CreateUserRequest request) {
     return User.builder()
-            .email(request.getEmail())
-            .password(request.getPassword())
-            .nickName(request.getNickName())
-            .role(ROLE_USER)
-            .build();
+        .email(request.getEmail())
+        .password(request.getPassword())
+        .nickName(request.getNickName())
+        .role(ROLE_USER)
+        .build();
   }
 
-  public LoginResponse toDto(User user){
-    return LoginResponse.builder().userUuid(user.getUserUuid()).nickName(user.getNickName()).build();
+  public LoginResponse toDto(User user) {
+    return LoginResponse.builder()
+        .userUuid(user.getUserUuid())
+        .nickName(user.getNickName())
+        .build();
   }
 }

@@ -12,14 +12,11 @@ import com.twoleader.backend.domain.roomUser.exception.NotFoundRoomUserException
 import com.twoleader.backend.domain.roomUser.mapper.RoomUserMapper;
 import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
-
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
-
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.service.UserService;
+import java.util.ArrayList;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -46,7 +43,12 @@ public class RoomUserServiceTest {
 
   @BeforeAll
   public static void setUp() {
-    user = User.builder().email("tester@gmail.com").password("testPassword").nickName("tester").build();
+    user =
+        User.builder()
+            .email("tester@gmail.com")
+            .password("testPassword")
+            .nickName("tester")
+            .build();
 
     studyRoom =
         StudyRoom.builder()
@@ -59,7 +61,12 @@ public class RoomUserServiceTest {
             .build();
 
     roomUser =
-        RoomUser.builder().roomUserId(1L).roomUserName("testUser").user(user).studyRoom(studyRoom).build();
+        RoomUser.builder()
+            .roomUserId(1L)
+            .roomUserName("testUser")
+            .user(user)
+            .studyRoom(studyRoom)
+            .build();
   }
 
   @Nested
@@ -96,25 +103,34 @@ public class RoomUserServiceTest {
 
   @Nested
   @DisplayName("roomUser 생성 Test")
-  class createRoomUserTest{
+  class createRoomUserTest {
     @Test
     @DisplayName("인원이 다 찾을때")
-    public void whenFullOfPersonnel(){
-      //given
-      User user1 = User.builder().email("tester1@gmail.com").password("testPassword").nickName("tester1").build();
-      RoomUser roomUser1 = RoomUser.builder().studyRoom(studyRoom).roomUserName("tester1").user(user1).build();
-      CreateRoomUserRequest request = CreateRoomUserRequest.builder().userUuid(user1.getUserUuid()).userName("tester").build();
+    public void whenFullOfPersonnel() {
+      // given
+      User user1 =
+          User.builder()
+              .email("tester1@gmail.com")
+              .password("testPassword")
+              .nickName("tester1")
+              .build();
+      RoomUser roomUser1 =
+          RoomUser.builder().studyRoom(studyRoom).roomUserName("tester1").user(user1).build();
+      CreateRoomUserRequest request =
+          CreateRoomUserRequest.builder().userUuid(user1.getUserUuid()).userName("tester").build();
 
       given(userService.findByUserUuid(any())).willReturn(user1);
       given(studyRoomRepository.findByRoomUuid(any())).willReturn(Optional.of(studyRoom));
       given(roomUserRepository.save(any())).willReturn(roomUser1);
 
-      roomUserService.createUser(studyRoom.getRoomUuid(),request); //이제 인원 다참.
+      roomUserService.createUser(studyRoom.getRoomUuid(), request); // 이제 인원 다참.
 
-      //when, then
-      assertThrows(FullOfPersonnelException.class,()->{
-        roomUserService.createUser(studyRoom.getRoomUuid(),request);
-      });
+      // when, then
+      assertThrows(
+          FullOfPersonnelException.class,
+          () -> {
+            roomUserService.createUser(studyRoom.getRoomUuid(), request);
+          });
     }
   }
 }

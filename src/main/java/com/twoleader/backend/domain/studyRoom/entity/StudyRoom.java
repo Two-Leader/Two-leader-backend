@@ -53,11 +53,11 @@ public class StudyRoom extends BaseEntity {
       orphanRemoval = true)
   private List<RoomUser> roomUsers = new ArrayList<>();
 
-  public void addRoomUser(){
+  public void addRoomUser() {
     this.nowTotalNop++;
   }
 
-  public void deleteRoomUser(){
+  public void deleteRoomUser() {
     this.nowTotalNop--;
   }
 }

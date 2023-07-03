@@ -10,7 +10,6 @@ import com.twoleader.backend.domain.user.dto.request.LoginRequest;
 import com.twoleader.backend.domain.user.dto.response.LoginResponse;
 import com.twoleader.backend.domain.user.service.AuthService;
 import com.twoleader.backend.domain.user.service.UserService;
-import com.twoleader.backend.global.config.security.Token;
 import com.twoleader.backend.global.result.api.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

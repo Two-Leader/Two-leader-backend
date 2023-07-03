@@ -12,7 +12,6 @@ import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.service.UserService;
-
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,8 +28,9 @@ public class RoomUserService {
 
   public GetRoomUserResponse createUser(UUID roomUuid, CreateRoomUserRequest request) {
     User user = userService.findByUserUuid(request.getUserUuid());
-    StudyRoom studyRoom = studyRoomRepository.findByRoomUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
-    if(studyRoom.getNowTotalNop() >= studyRoom.getTotalNop()) throw new FullOfPersonnelException();
+    StudyRoom studyRoom =
+        studyRoomRepository.findByRoomUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
+    if (studyRoom.getNowTotalNop() >= studyRoom.getTotalNop()) throw new FullOfPersonnelException();
     RoomUser roomUser = roomUserRepository.save(roomUserMapper.toEntity(request, studyRoom, user));
     studyRoom.addRoomUser();
     return roomUserMapper.toDto(roomUser);

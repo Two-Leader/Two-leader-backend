@@ -9,8 +9,12 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class RoomUserAspect {
-    @AfterThrowing(pointcut = "execution(* com.twoleader.backend.domain.roomUser.service.RoomUserService.createUser(..))",throwing = "exception")
-    public void test(DataIntegrityViolationException exception){
-        throw new DuplicateEntryException();
-    }
+  @AfterThrowing(
+      pointcut =
+          "execution(*"
+              + " com.twoleader.backend.domain.roomUser.service.RoomUserService.createUser(..))",
+      throwing = "exception")
+  public void test(DataIntegrityViolationException exception) {
+    throw new DuplicateEntryException();
+  }
 }
