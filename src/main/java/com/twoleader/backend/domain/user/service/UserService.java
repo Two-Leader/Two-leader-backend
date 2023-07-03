@@ -4,7 +4,6 @@ import com.twoleader.backend.domain.user.dto.request.CreateUserRequest;
 import com.twoleader.backend.domain.user.dto.request.LoginRequest;
 import com.twoleader.backend.domain.user.dto.response.LoginResponse;
 import com.twoleader.backend.domain.user.entity.User;
-import com.twoleader.backend.domain.user.exception.ExistedUserException;
 import com.twoleader.backend.domain.user.exception.NotFoundUserException;
 import com.twoleader.backend.domain.user.mapper.UserMapper;
 import com.twoleader.backend.domain.user.repository.UserRepository;

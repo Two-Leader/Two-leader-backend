@@ -46,5 +46,4 @@ public class RoomUserService {
     roomUserRepository.delete(user);
     user.getStudyRoom().deleteRoomUser();
   }
-
 }

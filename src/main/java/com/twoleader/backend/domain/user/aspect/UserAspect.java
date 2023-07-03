@@ -12,8 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserAspect {
 
-    @AfterThrowing(pointcut = "execution(* com.twoleader.backend.domain.user.service.UserService.signup(..))",throwing = "exception")
-    public void handleDuplicateEntryException(DataIntegrityViolationException exception){
-            throw new DuplicateEntryException();
-    }
+  @AfterThrowing(
+      pointcut = "execution(* com.twoleader.backend.domain.user.service.UserService.signup(..))",
+      throwing = "exception")
+  public void handleDuplicateEntryException(DataIntegrityViolationException exception) {
+    throw new DuplicateEntryException();
+  }
 }

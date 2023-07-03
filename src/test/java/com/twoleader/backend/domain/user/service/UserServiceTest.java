@@ -5,16 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-import com.twoleader.backend.domain.user.dto.request.CreateUserRequest;
 import com.twoleader.backend.domain.user.dto.request.LoginRequest;
 import com.twoleader.backend.domain.user.dto.response.LoginResponse;
 import com.twoleader.backend.domain.user.entity.User;
-import com.twoleader.backend.domain.user.exception.ExistedUserException;
 import com.twoleader.backend.domain.user.exception.NotFoundUserException;
 import com.twoleader.backend.domain.user.mapper.UserMapper;
 import com.twoleader.backend.domain.user.repository.UserRepository;
 import com.twoleader.backend.global.config.security.JwtProvider;
-import com.twoleader.backend.global.config.security.Token;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
