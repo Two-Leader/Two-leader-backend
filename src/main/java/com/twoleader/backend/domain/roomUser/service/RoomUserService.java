@@ -36,8 +36,8 @@ public class RoomUserService {
     return roomUserMapper.toDto(roomUser);
   }
 
-  public void createUser(String userName, StudyRoom studyRoom, User user){
-    roomUserRepository.save(roomUserMapper.toEntity(userName,studyRoom,user));
+  public void createUser(String userName, StudyRoom studyRoom, User user) {
+    roomUserRepository.save(roomUserMapper.toEntity(userName, studyRoom, user));
     studyRoom.addRoomUser();
   }
 

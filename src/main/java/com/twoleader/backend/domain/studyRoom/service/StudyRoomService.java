@@ -30,7 +30,7 @@ public class StudyRoomService {
   public UUID createStudyRoom(CreateStudyRoomRequest request) {
     User user = userService.findByUserUuid(request.getUserUuid());
     StudyRoom studyRoom = studyRoomRepository.save(studyRoomMapper.toEntity(request, user));
-    roomUserService.createUser(request.getUserName(),studyRoom,user);
+    roomUserService.createUser(request.getUserName(), studyRoom, user);
     return studyRoom.getRoomUuid();
   }
 
@@ -53,8 +53,9 @@ public class StudyRoomService {
     return studyRoom.getPassword().equals(password);
   }
 
-  public void deleteStudyRoom(UUID roomUuid){
-    StudyRoom studyRoom = studyRoomRepository.findByRoomUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
+  public void deleteStudyRoom(UUID roomUuid) {
+    StudyRoom studyRoom =
+        studyRoomRepository.findByRoomUuid(roomUuid).orElseThrow(NotFoundStudyRoom::new);
     studyRoomRepository.delete(studyRoom);
   }
 }

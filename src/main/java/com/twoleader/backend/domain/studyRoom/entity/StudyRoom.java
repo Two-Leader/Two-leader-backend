@@ -42,7 +42,7 @@ public class StudyRoom extends BaseEntity {
   private int nowTotalNop;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id",nullable = false)
+  @JoinColumn(name = "user_id", nullable = false)
   private User constructor;
 
   @OneToMany(

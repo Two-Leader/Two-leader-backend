@@ -88,11 +88,12 @@ public class StudyRoomController {
 
   @Operation(summary = "Study Room 삭제", description = "StudyRoom을 삭제합니다.")
   @ApiResponses({
-          @ApiResponse(responseCode = "200", description = "OK(성공)"),
-          @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
-          @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
+    @ApiResponse(responseCode = "200", description = "OK(성공)"),
+    @ApiResponse(responseCode = "409", description = "INPUT_INVALID_VALUE(잘못된 입력)"),
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @DeleteMapping("/{roomUuid}")
+
   public ResponseEntity deleteStudyRoom(
           @PathVariable("roomUuid") UUID roomUuid) {
     studyRoomService.deleteStudyRoom(roomUuid);
