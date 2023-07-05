@@ -112,11 +112,15 @@ public class StudyRoomMapper {
                             .withSelfRel()))
             .collect(Collectors.toList());
 
-    EntityModel<ResultResponse<Object>> entity =  EntityModel.of(
-        new ResultResponse<>(code, response),
-        linkTo(methodOn(StudyRoomController.class).getAllStudyRoom(page,size)).withSelfRel());
-    if(responses.hasNext()) entity.add(linkTo(methodOn(StudyRoomController.class).getAllStudyRoom(page+1,size)).withRel("next"));
+    EntityModel<ResultResponse<Object>> entity =
+        EntityModel.of(
+            new ResultResponse<>(code, response),
+            linkTo(methodOn(StudyRoomController.class).getAllStudyRoom(page, size)).withSelfRel());
+    if (responses.hasNext())
+      entity.add(
+          linkTo(methodOn(StudyRoomController.class).getAllStudyRoom(page + 1, size))
+              .withRel("next"));
 
-   return entity;
+    return entity;
   }
 }
