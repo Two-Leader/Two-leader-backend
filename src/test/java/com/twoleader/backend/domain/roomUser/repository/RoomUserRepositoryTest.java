@@ -10,6 +10,8 @@ import com.twoleader.backend.domain.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -28,6 +31,8 @@ public class RoomUserRepositoryTest {
   @Autowired private RoomUserRepository roomUserRepository;
   @Autowired private StudyRoomRepository studyRoomRepository;
   @Autowired private UserRepository userRepository;
+
+  @PersistenceContext private EntityManager em;
 
   private StudyRoom studyRoom;
   private RoomUser roomUser;
@@ -51,7 +56,11 @@ public class RoomUserRepositoryTest {
                 .build()));
     studyRoom =
         studyRoomRepository.save(
-            StudyRoom.builder().constructor(users.get(0)).roomName("testStudyRoom").build());
+            StudyRoom.builder()
+                .constructor(users.get(0))
+                .roomName("testStudyRoom")
+                .totalNop(5)
+                .build());
     roomUser =
         roomUserRepository.save(
             RoomUser.builder()
@@ -87,5 +96,21 @@ public class RoomUserRepositoryTest {
       Optional<RoomUser> findUser = roomUserRepository.findById(100L);
       assertFalse(findUser.isPresent());
     }
+  }
+
+  @Test
+  @DisplayName("중복된 RoomUser Test")
+  public void DuplicateEntryExceptionTest() {
+    assertThrows(
+        DataIntegrityViolationException.class,
+        () -> {
+          roomUserRepository.save(
+              RoomUser.builder()
+                  .studyRoom(studyRoom)
+                  .user(users.get(1))
+                  .roomUserName("testerName")
+                  .roomUserName("testUser")
+                  .build());
+        });
   }
 }

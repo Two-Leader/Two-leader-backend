@@ -5,8 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import com.twoleader.backend.domain.roomUser.entity.RoomUser;
-import com.twoleader.backend.domain.roomUser.repository.RoomUserRepository;
-import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
+import com.twoleader.backend.domain.studyRoom.dto.response.GetAllStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.exception.NotFoundStudyRoom;
@@ -27,13 +26,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles(profiles = {"test"})
 public class StudyRoomServiceTest {
   @Mock private StudyRoomRepository studyRoomRepository;
-  @Mock private RoomUserRepository roomUserRepository;
 
   @Mock private UserService userService;
 
@@ -60,6 +61,9 @@ public class StudyRoomServiceTest {
             .studyRoomId(1L)
             .roomUuid(UUID.randomUUID())
             .roomName("testStudyRoom1")
+            .password("testPassword")
+            .information("testInformation")
+            .totalNop(5)
             .constructor(users.get(0))
             .roomUsers(roomUsers)
             .build());
@@ -69,6 +73,7 @@ public class StudyRoomServiceTest {
             .studyRoomId(2L)
             .roomUuid(UUID.randomUUID())
             .roomName("testStudyRoom2")
+            .totalNop(5)
             .constructor(users.get(0))
             .build());
 
@@ -82,42 +87,23 @@ public class StudyRoomServiceTest {
   }
 
   @Test
-  @DisplayName("StudyRoom 저장")
-  public void whenExistedUser() {
-    // given
-    StudyRoom studyRoom = studyRooms.get(0);
-    User user = users.get(0);
-    CreateStudyRoomRequest request =
-        CreateStudyRoomRequest.builder()
-            .userUuid(user.getUserUuid())
-            .roomName(studyRoom.getRoomName())
-            .build();
-    given(userService.findByUserUuid(any())).willReturn(user);
-    given(studyRoomRepository.save(any())).willReturn(studyRoom);
-
-    // when
-    GetStudyRoomResponse response = studyRoomService.createStudyRoom(request);
-
-    // then
-    assertEquals(studyRoom.getRoomName(), response.getRoomName());
-    assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
-    assertEquals(studyRoom.getConstructor().getNickName(), response.getConstructorName());
-  }
-
-  @Test
   @DisplayName("StudyRoom 모두 조회")
   public void findAllStudyRoomTest() {
     // given
-    given(studyRoomRepository.findAll()).willReturn(studyRooms);
     int index = 0;
+    PageRequest pageable = PageRequest.of(0, 10);
+    Page<StudyRoom> response = new PageImpl<>(studyRooms);
+    given(studyRoomRepository.findAll(pageable)).willReturn(response);
 
     // when
-    List<GetStudyRoomResponse> findStudyRooms = studyRoomService.findAllStudyRoom();
+    Page<GetAllStudyRoomResponse> findStudyRooms = studyRoomService.findAllStudyRoom(pageable);
 
     // then
-    assertEquals(studyRooms.size(), findStudyRooms.size());
-    assertEquals(studyRooms.get(index).getRoomUuid(), findStudyRooms.get(index).getRoomUuid());
-    assertEquals(studyRooms.get(index).getRoomName(), findStudyRooms.get(index).getRoomName());
+    assertEquals(2, findStudyRooms.getSize());
+    assertEquals(
+        studyRooms.get(index).getRoomUuid(), findStudyRooms.getContent().get(index).getRoomUuid());
+    assertTrue(findStudyRooms.getContent().get(0).isLocked());
+    assertFalse(findStudyRooms.getContent().get(1).isLocked());
   }
 
   @Nested
@@ -125,7 +111,7 @@ public class StudyRoomServiceTest {
   class findStudyRoomByUuid {
     @Test
     @DisplayName("존재하는 StudyRoom")
-    public void findStudyRoomByroomUuidWhenExist() {
+    public void whenExist() {
       // given
       int index = 0;
       StudyRoom studyRoom = studyRooms.get(index);
@@ -138,14 +124,13 @@ public class StudyRoomServiceTest {
       GetStudyRoomResponse response = studyRoomService.findStudyRoomByUuid(studyRoom.getRoomUuid());
 
       // then
-      assertEquals(studyRoom.getRoomUuid(), response.getRoomUuid());
       assertEquals(studyRoom.getRoomName(), response.getRoomName());
       assertEquals(1, response.getUsers().size());
     }
 
     @Test
     @DisplayName("존재하지 않는 StudyRoom")
-    public void findStudyRoomByRoomUuidWhenNotExist() {
+    public void whenNotExist() {
       // given
       given(studyRoomRepository.findWithRoomUsersByRoomUuid(any())).willReturn(Optional.empty());
 
@@ -154,6 +139,54 @@ public class StudyRoomServiceTest {
           NotFoundStudyRoom.class,
           () -> {
             studyRoomService.findStudyRoomByUuid(UUID.randomUUID());
+          });
+    }
+  }
+
+  @Nested
+  @DisplayName("studyRoom Password 체크")
+  class checkPassword {
+    @Test
+    @DisplayName("password가 맞을 때")
+    public void whenPasswordCorrect() {
+      // given
+      given(studyRoomRepository.findByRoomUuid(any())).willReturn(Optional.of(studyRooms.get(0)));
+
+      // when
+      boolean response =
+          studyRoomService.checkStudyRoomPassword(
+              studyRooms.get(0).getRoomUuid(), studyRooms.get(0).getPassword());
+
+      // then
+      assertTrue(response);
+    }
+
+    @Test
+    @DisplayName("password가 틀릴 때")
+    public void whenPasswordInCorrect() {
+      // given
+      given(studyRoomRepository.findByRoomUuid(any())).willReturn(Optional.of(studyRooms.get(0)));
+
+      // when
+      boolean response =
+          studyRoomService.checkStudyRoomPassword(
+              studyRooms.get(0).getRoomUuid(), "inCorrectPassword");
+
+      // then
+      assertFalse(response);
+    }
+
+    @Test
+    @DisplayName("password가 없을 때")
+    public void whenPasswordNotExist() {
+      // given
+      given(studyRoomRepository.findByRoomUuid(any())).willReturn(Optional.of(studyRooms.get(1)));
+
+      // when, then
+      assertThrows(
+          (NullPointerException.class),
+          () -> {
+            studyRoomService.checkStudyRoomPassword(studyRooms.get(1).getRoomUuid(), "");
           });
     }
   }

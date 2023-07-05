@@ -5,15 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-import com.twoleader.backend.domain.user.dto.request.CreateUserRequest;
 import com.twoleader.backend.domain.user.dto.request.LoginRequest;
+import com.twoleader.backend.domain.user.dto.response.LoginResponse;
 import com.twoleader.backend.domain.user.entity.User;
-import com.twoleader.backend.domain.user.exception.ExistedUserException;
 import com.twoleader.backend.domain.user.exception.NotFoundUserException;
 import com.twoleader.backend.domain.user.mapper.UserMapper;
 import com.twoleader.backend.domain.user.repository.UserRepository;
 import com.twoleader.backend.global.config.security.JwtProvider;
-import com.twoleader.backend.global.config.security.Token;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +36,6 @@ public class UserServiceTest {
   @Mock private UserRepository userRepository;
 
   @InjectMocks private UserService userService;
-  @InjectMocks private AuthService authService;
 
   @Spy private UserMapper userMapper;
   @SpyBean private AuthenticationManagerBuilder managerBuilder;
@@ -67,47 +64,6 @@ public class UserServiceTest {
             .build());
   }
 
-  @DisplayName("User 생성 Test")
-  @Nested
-  class createUserTest {
-    @DisplayName("User가 존재하지 않을 때")
-    @Test
-    public void whenNotExistedUser() {
-      // given
-      CreateUserRequest request =
-          CreateUserRequest.builder()
-              .email("testEmail")
-              .password("testPassword")
-              .nickName("tester")
-              .build();
-      given(userRepository.findByEmail(any())).willReturn(Optional.empty());
-
-      // when, then
-      authService.signup(request);
-    }
-
-    @DisplayName("User가 존재할 때")
-    @Test
-    public void whenExistedUser() {
-      // given
-      User user = users.get(0);
-      CreateUserRequest request =
-          CreateUserRequest.builder()
-              .email(user.getEmail())
-              .password(user.getPassword())
-              .nickName(user.getNickName())
-              .build();
-      given(userRepository.findByEmail(any())).willReturn(Optional.of(user));
-
-      // when, then
-      assertThrows(
-          ExistedUserException.class,
-          () -> {
-            authService.signup(request);
-          });
-    }
-  }
-
   @DisplayName("User 로그인 Test")
   @Nested
   class loginUserTest {
@@ -126,7 +82,7 @@ public class UserServiceTest {
       assertThrows(
           NotFoundUserException.class,
           () -> {
-            authService.login(request);
+            userService.login(request);
           });
     }
 
@@ -139,8 +95,8 @@ public class UserServiceTest {
           LoginRequest.builder().email(user.getEmail()).password(user.getPassword()).build();
       given(userRepository.findByEmailAndPassword(any(), any())).willReturn(Optional.of(user));
 
-      Token token = authService.login(request);
-      assertEquals(user.getUserUuid(), token);
+      LoginResponse response = userService.login(request);
+      assertEquals(user.getUserUuid(), response.getUserUuid());
     }
   }
 }

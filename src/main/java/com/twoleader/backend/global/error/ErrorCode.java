@@ -16,10 +16,13 @@ public enum ErrorCode {
 
   // RoomUser
   API_ERROR_ROOM_USER_NOT_FOUND(400, "RU001", "유저 없음"),
+  API_ERROR_ROOM_USER_FULL(400, "RU002", "인원 다참."),
+  API_ERROR_ROOM_USER_ALREADY_REGISTRATION(400, "RU003", "이미 등록된 계정"),
 
   // User
   API_ERROR_EXISTED_USER(400, "U001", "이미 존재하는 유저"),
   API_ERROR_USER_NOT_FOUND(400, "U002", "유저 없음"),
+  API_ERROR_USER_ALREADY_REGISTRATION(400, "U003", "이미 등록된 계정"),
   ;
   private final int status;
   private final String code;

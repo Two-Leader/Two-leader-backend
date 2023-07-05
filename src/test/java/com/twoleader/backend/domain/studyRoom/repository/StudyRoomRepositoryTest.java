@@ -52,10 +52,28 @@ public class StudyRoomRepositoryTest {
                 .build()));
     studyRooms.add(
         studyRoomRepository.save(
-            StudyRoom.builder().roomName("TestStudyRoom1").constructor(users.get(0)).build()));
+            StudyRoom.builder()
+                .roomName("TestStudyRoom1")
+                .information("testRoomInformation")
+                .password("testPassword")
+                .totalNop(5)
+                .constructor(users.get(0))
+                .build()));
     studyRooms.add(
         studyRoomRepository.save(
-            StudyRoom.builder().roomName("TestStudyRoom2").constructor(users.get(0)).build()));
+            StudyRoom.builder()
+                .roomName("TestStudyRoom2")
+                .information("testRoomInformation")
+                .totalNop(5)
+                .constructor(users.get(0))
+                .build()));
+    studyRooms.add(
+        studyRoomRepository.save(
+            StudyRoom.builder()
+                .roomName("TestStudyRoom2")
+                .totalNop(5)
+                .constructor(users.get(0))
+                .build()));
   }
 
   @Test
@@ -63,15 +81,16 @@ public class StudyRoomRepositoryTest {
   public void findAllStudyRoomTest() {
     // given
     int index = 0;
-    StudyRoom studyRoom1 = studyRooms.get(index);
+    StudyRoom studyRoom = studyRooms.get(index);
 
     // when
     List<StudyRoom> findStudyRooms = studyRoomRepository.findAll();
 
     // then
     assertEquals(studyRooms.size(), findStudyRooms.size());
-    assertEquals(studyRoom1.getStudyRoomId(), findStudyRooms.get(index).getStudyRoomId());
-    assertEquals(studyRoom1.getRoomUuid(), findStudyRooms.get(index).getRoomUuid());
+    assertEquals(studyRoom.getStudyRoomId(), findStudyRooms.get(index).getStudyRoomId());
+    assertNull(findStudyRooms.get(1).getPassword());
+    assertNull(findStudyRooms.get(2).getInformation());
   }
 
   @Test
@@ -115,5 +134,34 @@ public class StudyRoomRepositoryTest {
     for (RoomUser roomUser : findStudyRoom.getRoomUsers()) {
       System.out.println(roomUser.getUser().getUserUuid());
     }
+  }
+
+  @Test
+  @DisplayName("cascade Test")
+  public void cascadeTest() {
+    // given
+    roomUserRepository.save(
+        RoomUser.builder()
+            .roomUserName("tester")
+            .studyRoom(studyRooms.get(0))
+            .user(users.get(0))
+            .build());
+    roomUserRepository.save(
+        RoomUser.builder()
+            .roomUserName("tester1")
+            .studyRoom(studyRooms.get(0))
+            .user(users.get(1))
+            .build());
+    em.flush();
+    em.clear();
+    StudyRoom studyRoom =
+        studyRoomRepository.findById(studyRooms.get(0).getStudyRoomId()).orElseThrow();
+
+    // when
+    studyRoomRepository.delete(studyRoom);
+
+    // then
+    List<RoomUser> roomUsers = roomUserRepository.findAll();
+    assertEquals(0, roomUsers.size());
   }
 }

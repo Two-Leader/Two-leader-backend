@@ -15,7 +15,7 @@ import lombok.*;
 @Builder
 @Getter
 @ToString(
-    of = {"studyRoomId", "roomUuid", "roomName"},
+    of = {"studyRoomId", "roomUuid", "roomName", "information", "password", "tnop"},
     callSuper = true)
 @Table(name = "study_rooms")
 public class StudyRoom extends BaseEntity {
@@ -31,10 +31,32 @@ public class StudyRoom extends BaseEntity {
   @Column(nullable = false)
   private String roomName;
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "user_id") // nullable을 false로 해야 INNER JOIN함. => 성능 향상
+  @Column private String information;
+
+  @Column private String password;
+
+  @Column(nullable = false)
+  private int totalNop;
+
+  @Column(nullable = false)
+  private int nowTotalNop;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
   private User constructor;
 
-  @OneToMany(mappedBy = "studyRoom", fetch = FetchType.LAZY, orphanRemoval = true)
+  @OneToMany(
+      cascade = CascadeType.ALL,
+      mappedBy = "studyRoom",
+      fetch = FetchType.LAZY,
+      orphanRemoval = true)
   private List<RoomUser> roomUsers = new ArrayList<>();
+
+  public void addRoomUser() {
+    this.nowTotalNop++;
+  }
+
+  public void deleteRoomUser() {
+    this.nowTotalNop--;
+  }
 }
