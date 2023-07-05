@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -52,10 +53,12 @@ public class StudyRoomController {
   })
   @GetMapping("")
   public ResponseEntity getAllStudyRoom(
-      @PageableDefault(size = 10, sort = "createAt") Pageable pageable) {
-    Page<GetAllStudyRoomResponse> responsePage = studyRoomService.findAllStudyRoom(pageable);
+          @RequestParam(value = "page",defaultValue = "0") int page,
+          @RequestParam(value = "size",required = false,defaultValue = "20") int size) {
+
+    Page<GetAllStudyRoomResponse> responsePage = studyRoomService.findAllStudyRoom(PageRequest.of(page,size));
     return ResponseEntity.ok(
-        studyRoomMapper.toModel(API_SUCCESS_STUDY_ROOM_GET_ALL, responsePage, pageable));
+        studyRoomMapper.toModel(API_SUCCESS_STUDY_ROOM_GET_ALL, responsePage, page,size));
   }
 
   @Operation(summary = "Study Room 개별 조회", description = "StudyRoom을 uuid로 개별 조회합니다.")

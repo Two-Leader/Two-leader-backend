@@ -1,6 +1,5 @@
 package com.twoleader.backend.domain.studyRoom.mapper;
 
-import static com.twoleader.backend.global.result.api.ResultCode.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
@@ -100,7 +98,7 @@ public class StudyRoomMapper {
   }
 
   public EntityModel toModel(
-      ResultCode code, Page<GetAllStudyRoomResponse> responses, Pageable request) {
+      ResultCode code, Page<GetAllStudyRoomResponse> responses, int page, int size) {
     List<EntityModel<GetAllStudyRoomResponse>> response =
         responses
             .get()
@@ -113,9 +111,12 @@ public class StudyRoomMapper {
                                     .getStudyRoomByUuid(studyRoom.getRoomUuid()))
                             .withSelfRel()))
             .collect(Collectors.toList());
-    return EntityModel.of(
+
+    EntityModel<ResultResponse<Object>> entity =  EntityModel.of(
         new ResultResponse<>(code, response),
-        linkTo(methodOn(StudyRoomController.class).getAllStudyRoom(request)).withSelfRel(),
-        linkTo(methodOn(StudyRoomController.class).getAllStudyRoom(request)).withRel("next"));
+        linkTo(methodOn(StudyRoomController.class).getAllStudyRoom(page,size)).withSelfRel());
+    if(responses.hasNext()) entity.add(linkTo(methodOn(StudyRoomController.class).getAllStudyRoom(page+1,size)).withRel("next"));
+
+   return entity;
   }
 }
