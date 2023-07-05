@@ -13,7 +13,6 @@ import com.twoleader.backend.domain.studyRoom.dto.request.CheckStudyRoomPassword
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetAllStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
-import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +26,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -95,10 +92,11 @@ public class StudyRoomControllerTest {
         .perform(
             get("/api/v1/studies").accept(MediaType.APPLICATION_JSON).characterEncoding("utf-8"))
         .andExpect(status().isOk())
-//        .andExpect(jsonPath("$.data").isArray())
-//        .andExpect(jsonPath("$.data[0].roomUuid").value(response.get(0).getRoomUuid().toString()))
-//        .andExpect(jsonPath("$.data[0].roomName").value(response.get(0).getRoomName()))
-//        .andExpect(jsonPath("$._links.self").exists())
+        //        .andExpect(jsonPath("$.data").isArray())
+        //
+        // .andExpect(jsonPath("$.data[0].roomUuid").value(response.get(0).getRoomUuid().toString()))
+        //        .andExpect(jsonPath("$.data[0].roomName").value(response.get(0).getRoomName()))
+        //        .andExpect(jsonPath("$._links.self").exists())
         .andDo(print());
   }
 

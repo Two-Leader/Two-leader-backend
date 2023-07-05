@@ -13,7 +13,6 @@ import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.service.UserService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -92,7 +91,7 @@ public class StudyRoomServiceTest {
   public void findAllStudyRoomTest() {
     // given
     int index = 0;
-    PageRequest pageable = PageRequest.of(0,10);
+    PageRequest pageable = PageRequest.of(0, 10);
     Page<StudyRoom> response = new PageImpl<>(studyRooms);
     given(studyRoomRepository.findAll(pageable)).willReturn(response);
 
@@ -100,8 +99,9 @@ public class StudyRoomServiceTest {
     Page<GetAllStudyRoomResponse> findStudyRooms = studyRoomService.findAllStudyRoom(pageable);
 
     // then
-    assertEquals(2,findStudyRooms.getSize());
-    assertEquals(studyRooms.get(index).getRoomUuid(),findStudyRooms.getContent().get(index).getRoomUuid());
+    assertEquals(2, findStudyRooms.getSize());
+    assertEquals(
+        studyRooms.get(index).getRoomUuid(), findStudyRooms.getContent().get(index).getRoomUuid());
     assertTrue(findStudyRooms.getContent().get(0).isLocked());
     assertFalse(findStudyRooms.getContent().get(1).isLocked());
   }

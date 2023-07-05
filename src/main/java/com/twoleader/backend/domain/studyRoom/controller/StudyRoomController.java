@@ -1,7 +1,6 @@
 package com.twoleader.backend.domain.studyRoom.controller;
 
 import static com.twoleader.backend.global.result.api.ResultCode.*;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 import com.twoleader.backend.domain.studyRoom.dto.request.CheckStudyRoomPasswordRequest;
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
@@ -12,7 +11,6 @@ import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
 import java.util.UUID;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,11 +38,10 @@ public class StudyRoomController {
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @PostMapping("")
-  public ResponseEntity createStudyRoom(
-      @Valid @RequestBody CreateStudyRoomRequest request) {
+  public ResponseEntity createStudyRoom(@Valid @RequestBody CreateStudyRoomRequest request) {
     studyRoomService.createStudyRoom(request);
     return ResponseEntity.status(HttpStatus.CREATED)
-        .body(studyRoomMapper.toModel(API_SUCCESS_STUDY_ROOM_REGISTRATION,null,request));
+        .body(studyRoomMapper.toModel(API_SUCCESS_STUDY_ROOM_REGISTRATION, null, request));
   }
 
   @Operation(summary = "Study Room 모두 조회 요청", description = "모든 Study Room을 조회합니다.")
@@ -54,9 +51,11 @@ public class StudyRoomController {
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @GetMapping("")
-  public ResponseEntity getAllStudyRoom(@PageableDefault(size = 10,sort = "createAt") Pageable pageable) {
+  public ResponseEntity getAllStudyRoom(
+      @PageableDefault(size = 10, sort = "createAt") Pageable pageable) {
     Page<GetAllStudyRoomResponse> responsePage = studyRoomService.findAllStudyRoom(pageable);
-    return ResponseEntity.ok(studyRoomMapper.toModel(API_SUCCESS_STUDY_ROOM_GET_ALL,responsePage,pageable));
+    return ResponseEntity.ok(
+        studyRoomMapper.toModel(API_SUCCESS_STUDY_ROOM_GET_ALL, responsePage, pageable));
   }
 
   @Operation(summary = "Study Room 개별 조회", description = "StudyRoom을 uuid로 개별 조회합니다.")
@@ -66,10 +65,10 @@ public class StudyRoomController {
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @GetMapping("/{roomUuid}")
-  public ResponseEntity getStudyRoomByUuid(
-      @PathVariable("roomUuid") UUID roomUuid) {
+  public ResponseEntity getStudyRoomByUuid(@PathVariable("roomUuid") UUID roomUuid) {
     GetStudyRoomResponse response = studyRoomService.findStudyRoomByUuid(roomUuid);
-    return ResponseEntity.ok(studyRoomMapper.toModel(API_SUCCESS_STUDY_ROOM_GET,response,roomUuid));
+    return ResponseEntity.ok(
+        studyRoomMapper.toModel(API_SUCCESS_STUDY_ROOM_GET, response, roomUuid));
   }
 
   @Operation(summary = "Study Room 비밀번호 확인", description = "StudyRoom의 비밀번호를 확인합니다.")
@@ -83,7 +82,9 @@ public class StudyRoomController {
       @PathVariable("roomUuid") UUID roomUuid,
       @Valid @RequestBody CheckStudyRoomPasswordRequest request) {
     boolean response = studyRoomService.checkStudyRoomPassword(roomUuid, request.getPassword());
-    return ResponseEntity.ok(studyRoomMapper.toModel(API_SUCCESS_STUDY_ROOM_CHECK_PASSWORD,response,roomUuid,request));
+    return ResponseEntity.ok(
+        studyRoomMapper.toModel(
+            API_SUCCESS_STUDY_ROOM_CHECK_PASSWORD, response, roomUuid, request));
   }
 
   @Operation(summary = "Study Room 삭제", description = "StudyRoom을 삭제합니다.")
@@ -93,11 +94,9 @@ public class StudyRoomController {
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR(서버 오류)"),
   })
   @DeleteMapping("/{roomUuid}")
-
-  public ResponseEntity deleteStudyRoom(
-          @PathVariable("roomUuid") UUID roomUuid) {
+  public ResponseEntity deleteStudyRoom(@PathVariable("roomUuid") UUID roomUuid) {
     studyRoomService.deleteStudyRoom(roomUuid);
-    return ResponseEntity.ok(studyRoomMapper.toModel(API_SUCCESS_STUDY_ROOM_DELETE,null,roomUuid));
+    return ResponseEntity.ok(
+        studyRoomMapper.toModel(API_SUCCESS_STUDY_ROOM_DELETE, null, roomUuid));
   }
-
 }
