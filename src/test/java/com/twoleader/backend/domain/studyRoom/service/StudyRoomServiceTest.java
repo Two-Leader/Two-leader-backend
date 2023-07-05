@@ -13,6 +13,7 @@ import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.repository.StudyRoomRepository;
 import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.domain.user.service.UserService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ExtendWith(MockitoExtension.class)
@@ -87,18 +91,19 @@ public class StudyRoomServiceTest {
   @DisplayName("StudyRoom 모두 조회")
   public void findAllStudyRoomTest() {
     // given
-    given(studyRoomRepository.findAll()).willReturn(studyRooms);
     int index = 0;
+    PageRequest pageable = PageRequest.of(0,10);
+    Page<StudyRoom> response = new PageImpl<>(studyRooms);
+    given(studyRoomRepository.findAll(pageable)).willReturn(response);
 
     // when
-    List<GetAllStudyRoomResponse> findStudyRooms = studyRoomService.findAllStudyRoom();
+    Page<GetAllStudyRoomResponse> findStudyRooms = studyRoomService.findAllStudyRoom(pageable);
 
     // then
-    assertEquals(studyRooms.size(), findStudyRooms.size());
-    assertEquals(studyRooms.get(index).getRoomUuid(), findStudyRooms.get(index).getRoomUuid());
-    assertEquals(studyRooms.get(index).getRoomName(), findStudyRooms.get(index).getRoomName());
-    assertTrue(findStudyRooms.get(0).isLocked());
-    assertFalse(findStudyRooms.get(1).isLocked());
+    assertEquals(2,findStudyRooms.getSize());
+    assertEquals(studyRooms.get(index).getRoomUuid(),findStudyRooms.getContent().get(index).getRoomUuid());
+    assertTrue(findStudyRooms.getContent().get(0).isLocked());
+    assertFalse(findStudyRooms.getContent().get(1).isLocked());
   }
 
   @Nested

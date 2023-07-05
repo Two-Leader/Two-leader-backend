@@ -2,14 +2,27 @@ package com.twoleader.backend.domain.studyRoom.mapper;
 
 import com.twoleader.backend.domain.roomUser.dto.response.GetRoomUserResponse;
 import com.twoleader.backend.domain.roomUser.entity.RoomUser;
+import com.twoleader.backend.domain.studyRoom.controller.StudyRoomController;
+import com.twoleader.backend.domain.studyRoom.dto.request.CheckStudyRoomPasswordRequest;
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetAllStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.entity.StudyRoom;
 import com.twoleader.backend.domain.user.entity.User;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
+import com.twoleader.backend.global.result.api.ResultCode;
+import com.twoleader.backend.global.result.api.ResultResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
+
+import static com.twoleader.backend.global.result.api.ResultCode.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class StudyRoomMapper {
@@ -24,8 +37,8 @@ public class StudyRoomMapper {
         .build();
   }
 
-  public List<GetAllStudyRoomResponse> toDto(List<StudyRoom> studyRooms) {
-    return studyRooms.stream().map(this::toDto).collect(Collectors.toList());
+  public Page<GetAllStudyRoomResponse> toDto(Page<StudyRoom> studyRooms) {
+    return studyRooms.map(this::toDto);
   }
 
   public GetAllStudyRoomResponse toDto(StudyRoom studyRoom) {
@@ -54,5 +67,43 @@ public class StudyRoomMapper {
         .userName(user.getRoomUserName())
         .userUuid(user.getUser().getUserUuid())
         .build();
+  }
+
+  public EntityModel toModel(ResultCode code,Object response,Object... request){
+    switch (code) {
+      case API_SUCCESS_STUDY_ROOM_GET:
+        return EntityModel.of(new ResultResponse<>(code,response),linkTo(methodOn(StudyRoomController.class).getStudyRoomByUuid((UUID)request[0])).withSelfRel());
+      case API_SUCCESS_STUDY_ROOM_REGISTRATION:
+        return EntityModel.of(
+                new ResultResponse<>(code),
+                linkTo(methodOn(StudyRoomController.class).createStudyRoom((CreateStudyRoomRequest) request[0]))
+                        .withSelfRel());
+      case API_SUCCESS_STUDY_ROOM_DELETE:
+        return EntityModel.of(
+                new ResultResponse<>(code),
+                linkTo(methodOn(StudyRoomController.class).deleteStudyRoom((UUID) request[0]))
+                        .withSelfRel());
+      case API_SUCCESS_STUDY_ROOM_CHECK_PASSWORD:
+        return EntityModel.of(
+                new ResultResponse<>(code, response),
+                linkTo(methodOn(StudyRoomController.class).checkStudyRoomPassword((UUID) request[0], (CheckStudyRoomPasswordRequest) request[1]))
+                        .withSelfRel());
+    }
+    return EntityModel.of(new ResultResponse<>(code));
+  }
+
+  public EntityModel toModel(ResultCode code,Page<GetAllStudyRoomResponse> responses,Pageable request){
+    List<EntityModel<GetAllStudyRoomResponse>> response = responses.get().map(
+            studyRoom ->
+                    EntityModel.of(
+                            studyRoom,
+                            linkTo(
+                                    methodOn(StudyRoomController.class)
+                                            .getStudyRoomByUuid(studyRoom.getRoomUuid()))
+                                    .withSelfRel())).collect(Collectors.toList());
+    return EntityModel.of(
+            new ResultResponse<>(code, response),
+            linkTo(methodOn(StudyRoomController.class).getAllStudyRoom(request)).withSelfRel(),
+            linkTo(methodOn(StudyRoomController.class).getAllStudyRoom(request)).withRel("next"));
   }
 }

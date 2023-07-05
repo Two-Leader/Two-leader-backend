@@ -1,6 +1,5 @@
 package com.twoleader.backend.domain.studyRoom.service;
 
-import com.twoleader.backend.domain.roomUser.dto.request.CreateRoomUserRequest;
 import com.twoleader.backend.domain.roomUser.service.RoomUserService;
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetAllStudyRoomResponse;
@@ -14,6 +13,8 @@ import com.twoleader.backend.domain.user.service.UserService;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -33,8 +34,8 @@ public class StudyRoomService {
     return studyRoom.getRoomUuid();
   }
 
-  public List<GetAllStudyRoomResponse> findAllStudyRoom() {
-    List<StudyRoom> studyRooms = studyRoomRepository.findAll();
+  public Page<GetAllStudyRoomResponse> findAllStudyRoom(Pageable pageable) {
+    Page<StudyRoom> studyRooms = studyRoomRepository.findAll(pageable);
     return studyRoomMapper.toDto(studyRooms);
   }
 
