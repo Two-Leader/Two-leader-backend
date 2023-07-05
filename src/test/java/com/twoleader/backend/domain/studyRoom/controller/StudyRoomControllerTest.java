@@ -13,6 +13,7 @@ import com.twoleader.backend.domain.studyRoom.dto.request.CheckStudyRoomPassword
 import com.twoleader.backend.domain.studyRoom.dto.request.CreateStudyRoomRequest;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetAllStudyRoomResponse;
 import com.twoleader.backend.domain.studyRoom.dto.response.GetStudyRoomResponse;
+import com.twoleader.backend.domain.studyRoom.mapper.StudyRoomMapper;
 import com.twoleader.backend.domain.studyRoom.service.StudyRoomService;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,13 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
@@ -41,6 +45,7 @@ public class StudyRoomControllerTest {
   @Autowired private ObjectMapper objectMapper;
 
   @MockBean private StudyRoomService studyRoomService;
+  @SpyBean private StudyRoomMapper studyRoomMapper;
 
   private static final List<GetRoomUserResponse> users = new ArrayList<>();
 
