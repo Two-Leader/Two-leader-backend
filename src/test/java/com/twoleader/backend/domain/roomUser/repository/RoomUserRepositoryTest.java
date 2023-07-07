@@ -24,7 +24,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles("test")
-@ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class RoomUserRepositoryTest {
 
@@ -82,7 +81,6 @@ public class RoomUserRepositoryTest {
 
       // when
       Optional<RoomUser> findUser = roomUserRepository.findById(expectUser.getRoomUserId());
-
       assertTrue(findUser.isPresent());
       // then
       assertEquals(expectUser.getRoomUserId(), findUser.get().getRoomUserId());

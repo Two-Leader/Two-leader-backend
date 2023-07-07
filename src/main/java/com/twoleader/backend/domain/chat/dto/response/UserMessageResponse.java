@@ -1,4 +1,4 @@
-package com.twoleader.backend.domain.webRTC.dto.response;
+package com.twoleader.backend.domain.chat.dto.response;
 
 import java.util.UUID;
 import lombok.Builder;

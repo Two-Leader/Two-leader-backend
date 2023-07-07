@@ -1,10 +1,9 @@
-package com.twoleader.backend.domain.webRTC.controller;
+package com.twoleader.backend.domain.chat.controller;
 
 import static com.twoleader.backend.global.result.WebSocket.OutputMessageCode.WEBSOCKET_SUCCESS_CHAT;
 
-import com.twoleader.backend.domain.roomUser.service.RoomUserService;
-import com.twoleader.backend.domain.webRTC.dto.request.ChatMessageRequest;
-import com.twoleader.backend.domain.webRTC.service.SendMessagingService;
+import com.twoleader.backend.domain.chat.service.ChatService;
+import com.twoleader.backend.domain.chat.dto.request.ChatRequest;
 import com.twoleader.backend.global.result.WebSocket.OutputMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,33 +11,39 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
+import java.util.UUID;
 
 @Slf4j
-@Controller
+@RequestMapping("/api/v1/chat")
+@RestController
 @RequiredArgsConstructor
 public class WebSocketController {
-  private final SendMessagingService stompMessagingService;
-  private final RoomUserService roomUserService;
-
+  private final ChatService chatService;
+  private final SimpMessagingTemplate simpMessagingTemplate;
   @MessageMapping("/join/{userId}")
   public void addUser(
-      @DestinationVariable String userId, SimpMessageHeaderAccessor headerAccessor) {
+      @DestinationVariable Long userId, SimpMessageHeaderAccessor headerAccessor) {
     log.info("[ws] join User : {}", userId);
     // Add username in web socket session
-    headerAccessor.getSessionAttributes().put("userId", userId);
+    Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("userId", userId);
   }
 
   @MessageMapping("/chat/{roomUuid}")
   public void chatMessage(
-      @Payload ChatMessageRequest message, @DestinationVariable("roomUuid") String roomUuid) {
+          @DestinationVariable("roomUuid") UUID roomUuid,@Payload ChatRequest request) {
     log.info(
-        "[ws] chatMessage : roomUuid {}, message {}, sender {}",
+        "[ws] chatMessage : roomUuid {}, sender {}, message {}",
         roomUuid,
-        message.getUserName(),
-        message.getUserName());
-    stompMessagingService.sendToUser(
-        roomUuid, new OutputMessage<>(WEBSOCKET_SUCCESS_CHAT, message));
+        request.getUserId(),
+        request.getMessage());
+    chatService.saveChat(roomUuid,request);
+    simpMessagingTemplate.convertAndSend("/topic/" + roomUuid, new OutputMessage<>(WEBSOCKET_SUCCESS_CHAT,request));
   }
 
   //  @EventListener

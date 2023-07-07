@@ -17,6 +17,19 @@ spring:
         format_sql: true
         use_sql_comments: true;
         show_sql: true
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      username: twoLeader
+      password: tl
+      database: twoLeader
+      authentication-database: admin
+
+  redis:
+    host: localhost
+    port: 6379
+
 
 springdoc:
   default-consumes-media-type: application/json
