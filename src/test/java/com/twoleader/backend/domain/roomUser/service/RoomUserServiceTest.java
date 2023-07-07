@@ -133,4 +133,34 @@ public class RoomUserServiceTest {
           });
     }
   }
+
+  @Nested
+  @DisplayName("Online/offline 변경 Test")
+  class changeOnline{
+    @Test
+    @DisplayName("Online으로 변경")
+    public void changeOnline(){
+      //given
+      given(roomUserRepository.findById(any())).willReturn(Optional.of(roomUser));
+
+      //when
+      RoomUser changedUser = roomUserService.changeOnline(roomUser.getRoomUserId());
+
+      //then
+      assertTrue(changedUser.getOnline());
+    }
+
+    @Test
+    @DisplayName("Offline으로 변경")
+    public void changeOffline(){
+      //given
+      given(roomUserRepository.findById(any())).willReturn(Optional.of(roomUser));
+
+      //when
+      RoomUser changedUser = roomUserService.changeOffline(roomUser.getRoomUserId());
+
+      //then
+      assertFalse(changedUser.getOnline());
+    }
+  }
 }
