@@ -7,5 +7,4 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Configuration
 @EnableMongoRepositories("com.twoleader.backend.domain.chat.repository")
 @EnableMongoAuditing
-public class MongoAuditingConfig {
-}
+public class MongoAuditingConfig {}
