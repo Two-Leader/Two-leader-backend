@@ -5,7 +5,6 @@ import com.twoleader.backend.domain.user.entity.User;
 import com.twoleader.backend.global.common.BaseEntity;
 import javax.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @ToString(
@@ -42,11 +41,11 @@ public class RoomUser extends BaseEntity {
   @JoinColumn(name = "users_id", nullable = false) // INNER JOIN을 하기위해 nullable을 false로 설정
   private User user;
 
-  public void changeOnline(){
+  public void changeOnline() {
     this.online = true;
   }
 
-  public void changeOffline(){
+  public void changeOffline() {
     this.online = false;
   }
 }

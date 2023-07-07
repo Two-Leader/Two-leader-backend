@@ -52,13 +52,13 @@ public class RoomUserService {
     user.getStudyRoom().deleteRoomUser();
   }
 
-  public RoomUser changeOnline(long userId){
+  public RoomUser changeOnline(long userId) {
     RoomUser user = roomUserRepository.findById(userId).orElseThrow(NotFoundRoomUserException::new);
     user.changeOnline();
     return user;
   }
 
-  public RoomUser changeOffline(long userId){
+  public RoomUser changeOffline(long userId) {
     RoomUser user = roomUserRepository.findById(userId).orElseThrow(NotFoundRoomUserException::new);
     user.changeOffline();
     return user;

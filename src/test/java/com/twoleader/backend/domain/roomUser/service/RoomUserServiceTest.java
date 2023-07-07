@@ -136,30 +136,30 @@ public class RoomUserServiceTest {
 
   @Nested
   @DisplayName("Online/offline 변경 Test")
-  class changeOnline{
+  class changeOnline {
     @Test
     @DisplayName("Online으로 변경")
-    public void changeOnline(){
-      //given
+    public void changeOnline() {
+      // given
       given(roomUserRepository.findById(any())).willReturn(Optional.of(roomUser));
 
-      //when
+      // when
       RoomUser changedUser = roomUserService.changeOnline(roomUser.getRoomUserId());
 
-      //then
+      // then
       assertTrue(changedUser.getOnline());
     }
 
     @Test
     @DisplayName("Offline으로 변경")
-    public void changeOffline(){
-      //given
+    public void changeOffline() {
+      // given
       given(roomUserRepository.findById(any())).willReturn(Optional.of(roomUser));
 
-      //when
+      // when
       RoomUser changedUser = roomUserService.changeOffline(roomUser.getRoomUserId());
 
-      //then
+      // then
       assertFalse(changedUser.getOnline());
     }
   }
