@@ -30,8 +30,9 @@ public class RoomUser extends BaseEntity {
   @Column(nullable = false)
   private String roomUserName;
 
+  @Builder.Default
   @Column(nullable = false)
-  private Boolean online;
+  private Boolean online = false;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "study_rooms_id", nullable = false) // INNER JOIN을 하기위해 nullable을 false로 설정
