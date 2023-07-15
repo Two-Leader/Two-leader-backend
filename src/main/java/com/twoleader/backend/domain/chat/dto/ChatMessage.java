@@ -1,9 +1,8 @@
 package com.twoleader.backend.domain.chat.dto;
 
-import lombok.*;
-
 import java.io.Serializable;
 import java.util.UUID;
+import lombok.*;
 
 @ToString
 @AllArgsConstructor
