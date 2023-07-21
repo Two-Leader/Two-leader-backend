@@ -23,7 +23,10 @@ public enum ResultCode {
 
   // user
   API_SUCCESS_USER_LOGIN("U001", "로그인을 정상적으로 했습니다."),
-  API_SUCCESS_USER_REGISTRATION("U002", "유저가 정상적으로 등록되었습니다.");
+  API_SUCCESS_USER_REGISTRATION("U002", "유저가 정상적으로 등록되었습니다."),
+
+  //chat
+  API_SUCCESS_CHAT_GET_ALL("C001","채팅을 정상적으로 불러왔습니다.");
 
   private final String code;
   private final String message;

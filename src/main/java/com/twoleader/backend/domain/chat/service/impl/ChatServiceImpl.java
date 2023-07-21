@@ -1,16 +1,23 @@
 package com.twoleader.backend.domain.chat.service.impl;
 
+import com.twoleader.backend.domain.chat.document.Chat;
 import com.twoleader.backend.domain.chat.dto.ChatMessage;
+import com.twoleader.backend.domain.chat.dto.response.GetChatResponse;
 import com.twoleader.backend.domain.chat.mapper.ChatMapper;
 import com.twoleader.backend.domain.chat.repository.ChatRepository;
 import com.twoleader.backend.domain.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
+
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -27,23 +34,11 @@ public class ChatServiceImpl implements ChatService {
   }
 
   public void sendChatMessage(String topic, ChatMessage chatMessage) {
-    ListenableFuture<SendResult<String, ChatMessage>> future =
-        kafkaTemplate.send(topic, chatMessage);
-    future.addCallback(
-        new ListenableFutureCallback<SendResult<String, ChatMessage>>() {
-          @Override
-          public void onFailure(Throwable ex) {
-            log.error("메세지 전송 실패={}", ex.getMessage());
-          }
+    ListenableFuture<SendResult<String, ChatMessage>> future = kafkaTemplate.send(topic, chatMessage);
+  }
 
-          @Override
-          public void onSuccess(SendResult<String, ChatMessage> result) {
-            log.info(
-                "메세지 전송 성공 topic={}, offset={}, partition={}",
-                topic,
-                result.getRecordMetadata().offset(),
-                result.getRecordMetadata().partition());
-          }
-        });
+  public Page<GetChatResponse> getChat(UUID roomUuid, Pageable pageable){
+    Page<Chat> chats = chatRepository.findAllByRoomUuid(roomUuid,pageable);
+    return chatMapper.toDto(chats);
   }
 }
