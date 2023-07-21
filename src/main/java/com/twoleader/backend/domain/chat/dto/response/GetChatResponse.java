@@ -1,16 +1,15 @@
 package com.twoleader.backend.domain.chat.dto.response;
 
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
 
 @Builder
 @Getter
 @ToString
 public class GetChatResponse {
-    private Long userId;
-    private String message;
-    private LocalDateTime time;
+  private Long userId;
+  private String message;
+  private LocalDateTime time;
 }

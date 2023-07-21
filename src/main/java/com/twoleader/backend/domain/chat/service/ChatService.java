@@ -2,11 +2,9 @@ package com.twoleader.backend.domain.chat.service;
 
 import com.twoleader.backend.domain.chat.dto.ChatMessage;
 import com.twoleader.backend.domain.chat.dto.response.GetChatResponse;
+import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
-import java.util.UUID;
 
 public interface ChatService {
   void saveChat(ChatMessage request);

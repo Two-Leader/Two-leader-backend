@@ -56,14 +56,14 @@ public class ChatRepositoryTest {
       Page<Chat> chats = chatRepository.findAllByRoomUuid(roomUuid1, PageRequest.of(0, 10));
       assertEquals(10, chats.getSize());
       assertTrue(chats.hasNext());
-      assertEquals(2,chats.getTotalPages());
+      assertEquals(2, chats.getTotalPages());
     }
 
     @DisplayName("페이지 초과시")
     @Test
-    public void findAllByRoomUuidWithPaginationTestWhenOverPage(){
+    public void findAllByRoomUuidWithPaginationTestWhenOverPage() {
       Page<Chat> chats = chatRepository.findAllByRoomUuid(roomUuid1, PageRequest.of(2, 10));
-      assertEquals(0,chats.get().count());
+      assertEquals(0, chats.get().count());
     }
   }
 }
