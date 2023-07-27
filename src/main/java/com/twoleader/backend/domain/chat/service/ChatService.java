@@ -1,6 +1,6 @@
 package com.twoleader.backend.domain.chat.service;
 
-import com.twoleader.backend.domain.chat.dto.ChatMessage;
+import com.twoleader.backend.domain.chat.dto.response.ChatMessage;
 import com.twoleader.backend.domain.chat.dto.response.GetChatResponse;
 import java.util.UUID;
 import org.springframework.data.domain.Page;

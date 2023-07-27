@@ -3,7 +3,7 @@ package com.twoleader.backend.domain.chat.controller;
 import static com.twoleader.backend.global.result.WebSocket.OutputMessageCode.WEBSOCKET_SUCCESS_CHAT;
 import static com.twoleader.backend.global.result.api.ResultCode.API_SUCCESS_CHAT_GET_ALL;
 
-import com.twoleader.backend.domain.chat.dto.ChatMessage;
+import com.twoleader.backend.domain.chat.dto.response.ChatMessage;
 import com.twoleader.backend.domain.chat.dto.response.GetChatResponse;
 import com.twoleader.backend.domain.chat.mapper.ChatMapper;
 import com.twoleader.backend.domain.chat.service.ChatService;

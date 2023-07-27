@@ -2,7 +2,7 @@ package com.twoleader.backend.domain.chat.controll;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.twoleader.backend.domain.chat.dto.ChatMessage;
+import com.twoleader.backend.domain.chat.dto.response.ChatMessage;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;

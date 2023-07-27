@@ -1,7 +1,7 @@
 package com.twoleader.backend.domain.chat.service.impl;
 
 import com.twoleader.backend.domain.chat.document.Chat;
-import com.twoleader.backend.domain.chat.dto.ChatMessage;
+import com.twoleader.backend.domain.chat.dto.response.ChatMessage;
 import com.twoleader.backend.domain.chat.dto.response.GetChatResponse;
 import com.twoleader.backend.domain.chat.mapper.ChatMapper;
 import com.twoleader.backend.domain.chat.repository.ChatRepository;

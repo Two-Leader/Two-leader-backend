@@ -5,7 +5,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.twoleader.backend.domain.chat.controller.WebSocketController;
 import com.twoleader.backend.domain.chat.document.Chat;
-import com.twoleader.backend.domain.chat.dto.ChatMessage;
+import com.twoleader.backend.domain.chat.dto.response.ChatMessage;
 import com.twoleader.backend.domain.chat.dto.response.GetChatResponse;
 import com.twoleader.backend.global.result.api.ResultCode;
 import com.twoleader.backend.global.result.api.ResultResponse;

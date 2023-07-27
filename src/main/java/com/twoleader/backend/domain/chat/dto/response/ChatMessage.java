@@ -1,4 +1,4 @@
-package com.twoleader.backend.domain.chat.dto;
+package com.twoleader.backend.domain.chat.dto.response;
 
 import java.io.Serializable;
 import java.util.UUID;
