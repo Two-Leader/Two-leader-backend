@@ -3,7 +3,6 @@ package com.twoleader.backend.global.config.kafka;
 import com.twoleader.backend.domain.chat.dto.response.ChatMessage;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
