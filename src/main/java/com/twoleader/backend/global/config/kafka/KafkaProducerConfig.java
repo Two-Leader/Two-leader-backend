@@ -3,6 +3,8 @@ package com.twoleader.backend.global.config.kafka;
 import com.twoleader.backend.domain.chat.dto.response.ChatMessage;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +23,7 @@ public class KafkaProducerConfig {
   private String bootstrapServer;
 
   @Bean
-  public KafkaTemplate<String, ChatMessage> kafkaTemplate() {
+  public KafkaTemplate<String, ChatMessage> kafkaProducerTemplate() {
     return new KafkaTemplate<>(producerFactory());
   }
 
@@ -31,14 +33,9 @@ public class KafkaProducerConfig {
 
   public Map<String, Object> producerConfigurations() {
     HashMap<String, Object> configurations = new HashMap<>();
-    configurations.put(
-        org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
-    configurations.put(
-        org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-        StringSerializer.class);
-    configurations.put(
-        org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-        JsonSerializer.class);
+    configurations.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
+    configurations.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+    configurations.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
     return configurations;
   }
 }

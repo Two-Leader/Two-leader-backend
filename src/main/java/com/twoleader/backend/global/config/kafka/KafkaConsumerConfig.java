@@ -3,6 +3,8 @@ package com.twoleader.backend.global.config.kafka;
 import com.twoleader.backend.domain.chat.dto.response.ChatMessage;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -46,17 +48,11 @@ public class KafkaConsumerConfig {
   private <T> Map<String, Object> setConfig(String groupId, JsonDeserializer<T> deserializer) {
     Map<String, Object> configurations = new HashMap<>();
 
-    configurations.put(
-        org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
-    configurations.put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, groupId);
-    configurations.put(
-        org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-        StringDeserializer.class);
-    configurations.put(
-        org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-        deserializer);
-    configurations.put(
-        org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+    configurations.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
+    configurations.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+    configurations.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    configurations.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer);
+    configurations.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
 
     return configurations;
   }

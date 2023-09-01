@@ -32,7 +32,7 @@ public class KafkaTopicConfig {
 
   @PostConstruct
   public void init() {
-    kafkaAdmin.createOrModifyTopics(generateTopic(TOPIC_USER_ADD_CHAT_REQUEST, 5, 3));
+    kafkaAdmin.createOrModifyTopics(generateTopic(TOPIC_USER_ADD_REQUEST, 5, 3));
     kafkaAdmin.createOrModifyTopics(generateTopic(TOPIC_USER_ADD_CHAT_REQUEST, 2, 3));
   }
 }
